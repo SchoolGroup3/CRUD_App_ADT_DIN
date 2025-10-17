@@ -13,7 +13,7 @@
     <children>
         <PasswordField layoutX="196.0" layoutY="213.0" prefHeight="30.0" prefWidth="204.0" promptText="Password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
         <TextField layoutX="196.0" layoutY="138.0" prefHeight="30.0" prefWidth="204.0" promptText="Username" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
-        <Button layoutX="198.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="204.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #101416;" text="Log In" />
+        <Button layoutX="198.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="204.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #101416;" text="Log In" textFill="WHITE" />
         <Label layoutX="129.0" layoutY="37.0" prefHeight="70.0" prefWidth="342.0" text="Welcome Back!">
             <font>
                 <Font name="Bell MT Bold" size="48.0" />
@@ -27,7 +27,7 @@
             <Image url="@assets/img/user.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="373.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="373.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/img/key.png" />
          </image>
