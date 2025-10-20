@@ -53,7 +53,7 @@
          </font>
       </Label>
       <TextField fx:id="txtFieldPassword" layoutX="404.0" layoutY="233.0" prefHeight="34.0" prefWidth="150.0" promptText="Example" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
-      <Button fx:id="btnChangePassword" layoutX="593.0" layoutY="230.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Change Password" />
+      <Button fx:id="btnChangePassword" layoutX="593.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleButtonActionChangePassword" prefHeight="34.0" prefWidth="150.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Change Password" />
       <Label layoutX="231.0" layoutY="292.0" text="Phone Number" textFill="#212529">
          <font>
             <Font size="18.0" />
@@ -66,12 +66,22 @@
          </font>
       </Label>
       <TextField fx:id="txtFieldCardNumber" layoutX="223.0" layoutY="401.0" prefHeight="34.0" prefWidth="533.0" promptText="XXX-XXX-XXX-XXX" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
-      <Label layoutX="600.0" layoutY="290.0" text="Gender" textFill="#212529">
+      <Label layoutX="600.0" layoutY="296.0" text="Gender" textFill="#212529">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboGender" layoutX="593.0" layoutY="317.0" prefHeight="34.0" prefWidth="150.0" promptText="Other" style="-fx-background-radius: 50; -fx-border-radius: 50;" />
-      <Button fx:id="btnSave" layoutX="224.0" layoutY="458.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="534.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #212529;" text="Save" textFill="#f2f0ef" />
+      <ComboBox fx:id="comboGender" layoutX="593.0" layoutY="323.0" prefHeight="34.0" prefWidth="150.0" promptText="Other" style="-fx-background-radius: 50; -fx-border-radius: 50;" />
+      <Button fx:id="btnSave" layoutX="224.0" layoutY="458.0" mnemonicParsing="false" onAction="#handleButtonActionSave" prefHeight="34.0" prefWidth="534.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #212529;" text="Save" textFill="#f2f0ef" />
+      <Label fx:id="lblPasswordMessage" layoutX="600.0" layoutY="267.0" prefHeight="6.0" prefWidth="150.0" textFill="RED">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSavedMessage" layoutX="355.0" layoutY="505.0" prefHeight="16.0" prefWidth="268.0" textFill="RED">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

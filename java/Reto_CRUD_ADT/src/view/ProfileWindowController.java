@@ -10,7 +10,10 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import model.Profile;
 
 /**
  *
@@ -19,13 +22,67 @@ import javafx.scene.control.Label;
 public class ProfileWindowController implements Initializable {
     
     @FXML
-    private Label label;
+    private Label lblPasswordMessage;
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private TextField txtFieldName;
+    
+    @FXML
+    private TextField txtFieldSurname;
+    
+    @FXML
+    private TextField txtFieldEmail;
+    
+    @FXML
+    private TextField txtFieldUsername;
+    
+    @FXML
+    private TextField txtFieldPassword;
+     
+    @FXML
+    private TextField txtFieldPhoneNumber;
+    
+    @FXML
+    private Button btnChangePassword;
+    
+    @FXML
+    private Button btnSave;
+    
+    @FXML
+    private TextField txtFieldCardNumber;
+    
+    private Profile logedProfile;
+    
+    @FXML
+    private void handleButtonActionChangePassword(ActionEvent event) {
+       String password = txtFieldPassword.getText();
+       
+       if(password.length()<8){
+            lblPasswordMessage.setText("Error password too short. Min 8 characters.");
+       }else{
+           //metodo para moficar contraseña
+       }
     }
+    
+    @FXML
+    private void handleButtonActionSave(ActionEvent event) {
+        String name;
+        String surname;
+        String email;
+        String username;
+        String password;
+        int phoneNumber;
+        String cardNumber;
+        
+            
+        
+       
+    }
+    
+    public void setProfile(Profile profile){
+        this.logedProfile = profile;
+    }
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
