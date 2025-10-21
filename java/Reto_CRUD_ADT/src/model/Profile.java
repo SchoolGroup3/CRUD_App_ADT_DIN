@@ -18,6 +18,9 @@ public abstract class Profile {
     private String name;
     private String surname;
 
+    public Profile() {
+    }
+
     public Profile(int profile_code, String email, String user_name, String pssw, int telephone, String name, String surname) {
         this.profile_code = profile_code;
         this.email = email;
