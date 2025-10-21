@@ -5,10 +5,29 @@
  */
 package controller;
 
+import model.Admin;
+import model.ImplementsBD;
+import model.Profile;
+import model.User;
+import model.UserDAO;
+
 /**
  *
  * @author 2dami
  */
 public class Controller {
+    UserDAO dao = new ImplementsBD();
+    
+    public boolean modifyProfile(Profile profile){
+        return dao.modifyProfile(profile);
+    }
+    
+    public boolean modifyUser(User user){
+        return dao.modifyProfile(user);
+    }
+    
+    public boolean modifyADmin(Admin admin){
+        return dao.modifyProfile(admin);
+    }
     
 }
