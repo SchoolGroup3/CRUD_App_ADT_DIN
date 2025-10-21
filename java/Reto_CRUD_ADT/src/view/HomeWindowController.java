@@ -9,8 +9,11 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.User;
 
 public class HomeWindowController implements Initializable {
+
+    private User user;
 
     @FXML
     private Label time;
