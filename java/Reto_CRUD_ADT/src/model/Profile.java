@@ -26,6 +26,14 @@ public abstract class Profile {
         this.name = name;
         this.surname = surname;
     }
+    
+     public Profile(String email, String user_name, int telephone, String name, String surname) {
+        this.email = email;
+        this.user_name = user_name;
+        this.telephone = telephone;
+        this.name = name;
+        this.surname = surname;
+    }
 
     public int getProfile_code() {
         return profile_code;

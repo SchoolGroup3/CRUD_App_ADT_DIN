@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.Profile;
+import model.User;
 
 /**
  *
@@ -94,8 +95,10 @@ public class ProfileWindowController implements Initializable {
            username = txtFieldUsername.getText();
            phoneNumber = parseInt(txtFieldPhoneNumber.getText());
            
+          
            
-           Profile newProfile = new Profile(email, username, passw, surname, email, username, phoneNumber);
+           
+           
             
            //if the fills are empty or different
            cont.modifyProfile(logedProfile);
@@ -109,7 +112,7 @@ public class ProfileWindowController implements Initializable {
         this.logedProfile = profile;
     }
 
-    public void loadDatos() {
+    public void loadData() {
 
         //fill the combobox with options
         comboGender.getItems().addAll(
