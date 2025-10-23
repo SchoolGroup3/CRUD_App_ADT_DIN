@@ -164,5 +164,33 @@ public class ImplementsBD implements UserDAO {
         }
         return valid;
     }
+    
+     //@Override
+    public Profile insertUser(Profile profile) {
+        Profile foundProfile = null; // Inicializamos como null
+        this.openConnection(); // Abrimos la conexión a la base de datos
+
+        try {
+            // Preparamos la consulta SQL
+            stmt = con.prepareStatement(SQLLOGING);
+            stmt.setString(1, profile.getEmail()); // Establecemos el nombre de usuario
+            stmt.setString(2, profile.getPssw());
+            stmt.setString(3, profile.getPssw());
+            
+           
+            ResultSet resultado = stmt.executeQuery(); 
+
+            
+            
+        
+
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error al verificar credenciales: " + e.getMessage());
+        }
+        return foundProfile;
+
+    }
 
 }
