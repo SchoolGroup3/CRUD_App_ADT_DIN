@@ -10,7 +10,7 @@ import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class LogOutPopUpController implements Initializable {
+public class DeleteAccountPopUpController implements Initializable {
 
     @FXML
     private Button comfirm;
@@ -25,6 +25,8 @@ public class LogOutPopUpController implements Initializable {
 
     @FXML
     private void confirmed(ActionEvent event) {
+        //Delete stuff here
+
         Stage stage = new Stage();
         Parent root;
         try {
@@ -37,7 +39,6 @@ public class LogOutPopUpController implements Initializable {
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
-            
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -47,4 +48,5 @@ public class LogOutPopUpController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
     }
+
 }
