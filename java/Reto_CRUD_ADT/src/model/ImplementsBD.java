@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.sql.Connection;
@@ -63,8 +58,13 @@ public class ImplementsBD implements UserDAO {
             stmt.setString(2, profile.getPssw()); // Establecemos la contraseña
             ResultSet resultado = stmt.executeQuery(); // Ejecutamos la consulta
 
+            //HAY QUE COPIAR LOS DATOS DEPENDIENDO DE SI ES ADMIN O USER, PARA MIKEL 
             // Si hay un resultado, el usuario existe
             if (resultado.next()) {
+                // Obtenemos los datos del usuario de la base de datos	
+                String dni = resultado.getString("DNI");
+                int edad = resultado.getInt("EDAD");
+                String email = resultado.getString("EMAIL");
 
                 if (resultado instanceof Admin) { 
                    int profile_code = resultado.getInt("PROFILE_CODE");
