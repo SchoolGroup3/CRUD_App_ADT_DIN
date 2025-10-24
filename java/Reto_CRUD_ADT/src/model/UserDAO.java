@@ -31,4 +31,5 @@ public interface UserDAO {
     public boolean modifyProfile (Profile profile);
     public boolean modifyUser (User user);
     public boolean modifyAdmin (Admin admin);
+    public boolean modifyPassword(User user, String passwd);
 }

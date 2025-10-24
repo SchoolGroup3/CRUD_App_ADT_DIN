@@ -16,7 +16,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.Profile;
 import model.User;
 
 /**
@@ -27,6 +26,9 @@ public class ProfileWindowController implements Initializable {
 
     @FXML
     private Label lblPasswordMessage;
+
+    @FXML
+    private Label lblSavedMessage;
 
     @FXML
     private TextField txtFieldName;
@@ -58,20 +60,10 @@ public class ProfileWindowController implements Initializable {
     @FXML
     private ComboBox comboGender;
 
-    private Profile logedProfile;
-    
+    private User logedProfile;
+
     private Controller cont = new Controller();
 
-    @FXML
-    private void handleButtonActionChangePassword(ActionEvent event) {
-        String password = txtFieldPassword.getText();
-
-        if (password.length() < 8) {
-            lblPasswordMessage.setText("Error password too short. Min 8 characters.");
-        } else {
-            //metodo para moficar contraseña
-        }
-    }
 
     @FXML
     private void handleButtonActionSave(ActionEvent event) {
@@ -82,33 +74,41 @@ public class ProfileWindowController implements Initializable {
         String password;
         int phoneNumber;
         String cardNumber;
-        
-        if(txtFieldName.getText()!=null | !txtFieldName.getText().equalsIgnoreCase(logedProfile.getName()) | 
-           txtFieldSurname.getText()!=null | !txtFieldSurname.getText().equalsIgnoreCase(logedProfile.getName()) |
-           txtFieldEmail.getText()!=null | !txtFieldEmail.getText().equalsIgnoreCase(logedProfile.getEmail()) |
-           txtFieldUsername.getText()!=null | !txtFieldUsername.getText().equalsIgnoreCase(logedProfile.getUser_name()) |    
-           txtFieldPhoneNumber.getText()!=null | !txtFieldPhoneNumber.getText().equalsIgnoreCase(String.valueOf(logedProfile.getTelephone())) ) {
-            
-           name = txtFieldName.getText();
-           surname = txtFieldSurname.getText();
-           email = txtFieldEmail.getText();
-           username = txtFieldUsername.getText();
-           phoneNumber = parseInt(txtFieldPhoneNumber.getText());
-           
-          
-           
-           
-           
-            
-           //if the fills are empty or different
-           cont.modifyProfile(logedProfile);
+        String card_no;
+        String gender;
 
-                
+        if (txtFieldName.getText() != null || !txtFieldName.getText().equalsIgnoreCase(logedProfile.getName())
+                || txtFieldSurname.getText() != null || !txtFieldSurname.getText().equalsIgnoreCase(logedProfile.getName())
+                || txtFieldEmail.getText() != null || !txtFieldEmail.getText().equalsIgnoreCase(logedProfile.getEmail())
+                || txtFieldUsername.getText() != null || !txtFieldUsername.getText().equalsIgnoreCase(logedProfile.getUser_name())
+                || txtFieldPhoneNumber.getText() != null || !txtFieldPhoneNumber.getText().equalsIgnoreCase(String.valueOf(logedProfile.getTelephone()))
+                || txtFieldCardNumber.getText() != null || !txtFieldCardNumber.getText().equalsIgnoreCase(String.valueOf(logedProfile.getCard_no()))) {
+
+            name = txtFieldName.getText();
+            surname = txtFieldSurname.getText();
+            email = txtFieldEmail.getText();
+            username = txtFieldUsername.getText();
+            phoneNumber = parseInt(txtFieldPhoneNumber.getText());
+            card_no = txtFieldCardNumber.getText();
+            gender = comboGender.getSelectionModel().getSelectedItem().toString();
+
+            logedProfile.setName(name);
+            logedProfile.setSurname(surname);
+            logedProfile.setEmail(email);
+            logedProfile.setUser_name(username);
+            logedProfile.setTelephone(phoneNumber);
+            logedProfile.setCard_no(card_no);
+
+            //if the fills are empty or different
+            cont.modifyProfile(logedProfile);
+            cont.modifyUser(logedProfile);
+        } else {
+            lblSavedMessage.setText("You have to complete all the fields");
         }
 
     }
 
-    public void setProfile(Profile profile) {
+    public void setProfile(User profile) {
         this.logedProfile = profile;
     }
 
@@ -119,9 +119,8 @@ public class ProfileWindowController implements Initializable {
                 "Hombre",
                 "Mujer",
                 "Otro"
-                
         );
-        
+
         comboGender.setEditable(false);
 
         //loads the texfields
@@ -130,6 +129,10 @@ public class ProfileWindowController implements Initializable {
         txtFieldEmail.setText(logedProfile.getEmail());
         txtFieldUsername.setText(logedProfile.getUser_name());
         txtFieldPhoneNumber.setText(String.valueOf(logedProfile.getTelephone()));
+        
+        txtFieldCardNumber.setText(logedProfile.getCard_no());
+        comboGender.getSelectionModel().select(logedProfile.getGender());
+             
     }
 
     @Override

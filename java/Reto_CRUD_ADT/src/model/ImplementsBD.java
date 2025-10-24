@@ -29,9 +29,10 @@ public class ImplementsBD implements UserDAO {
 
     // Querys
     final String SQLLOGING = "SELECT * FROM usuario WHERE NOMBRE_USUARIO = ? AND CONTRASEÑA = ?";
-    final String SQLMODIFYPROFILE = "UPDATE PROFILE SET EMAIL = ?, USER_NAME = ?, PSWD = ?, TELEPHONE = ?, NAME_ = ?<, SURNAME = ? WHERE PROFILE_CODE = ?";
-    final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE PROFILE_CODE = ?";
-    final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE PROFILE_CODE = ?";
+    final String SQLMODIFYPROFILE = "UPDATE PROFILE SET EMAIL = ?, USER_NAME = ?, PSWD = ?, TELEPHONE = ?, NAME_ = ?<, SURNAME = ? WHERE USER_NAME  = ?";
+    final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE USER_NAME  = ?";
+    final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE USER_NAME  = ?";
+    final String SQLMODIFYPASSWD = "UPDATE PROFILE SET PSWD = ? WHERE USER_NAME  = ?";
 
     public ImplementsBD() {
         this.configFile = ResourceBundle.getBundle("configClase");
@@ -95,10 +96,11 @@ public class ImplementsBD implements UserDAO {
             stmt = con.prepareStatement(SQLMODIFYPROFILE);
             stmt.setString(1, profile.getEmail());
             stmt.setString(2, profile.getUser_name());
-            stmt.setString(2, profile.getPssw());
-            stmt.setInt(2, profile.getTelephone());
-            stmt.setString(2, profile.getName());
-            stmt.setString(2, profile.getSurname());
+            stmt.setString(3, profile.getPssw());
+            stmt.setInt(4, profile.getTelephone());
+            stmt.setString(5, profile.getName());
+            stmt.setString(6, profile.getSurname());
+            stmt.setString(7, profile.getUser_name());
             
             if (stmt.executeUpdate() > 0) {
                 valid = true;
@@ -138,7 +140,26 @@ public class ImplementsBD implements UserDAO {
         try {
             stmt = con.prepareStatement(SQLMODIFYUSER);
             stmt.setString(1,admin.getCurrent_account());       
-            stmt.setInt(3, admin.getProfile_code());    
+            stmt.setInt(3, admin.getProfile_code());    //Cambiar a username
+            if (stmt.executeUpdate() > 0) {
+                valid = true;
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("An error occurred.");
+        }
+        return valid;
+    }
+    
+    @Override
+    public boolean modifyPassword(User user, String passwd) {
+        boolean valid = false;
+        this.openConnection();
+        try {
+            stmt = con.prepareStatement(SQLMODIFYPASSWD);
+            stmt.setString(1,user.getGender());          
+            stmt.setInt(2, user.getProfile_code());    //cambiar a username
             if (stmt.executeUpdate() > 0) {
                 valid = true;
             }
