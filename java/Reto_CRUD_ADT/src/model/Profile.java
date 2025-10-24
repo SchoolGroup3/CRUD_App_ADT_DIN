@@ -30,6 +30,13 @@ public abstract class Profile {
         this.name = name;
         this.surname = surname;
     }
+    public Profile(String user_name, String pssw) {
+
+        this.user_name = user_name;
+        this.pssw = pssw;
+
+    }
+    
 
     public int getProfile_code() {
         return profile_code;

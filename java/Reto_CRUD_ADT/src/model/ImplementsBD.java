@@ -48,7 +48,7 @@ public class ImplementsBD implements UserDAO {
 
     @Override
     public Profile checkUser(Profile profile) {
-        User foundUser = null; // Inicializamos como null
+        Profile foundProfile = null; // Inicializamos como null
         this.openConnection(); // Abrimos la conexión a la base de datos
 
         try {
@@ -66,8 +66,31 @@ public class ImplementsBD implements UserDAO {
                 int edad = resultado.getInt("EDAD");
                 String email = resultado.getString("EMAIL");
 
-                //CREAR DEPENDIENDO DE SI ES ADMIN O USER, SE LO DEJO A MIKEL
-                //foundUser = new User(profile.getUser_name(), dni, edad, email);
+                if (resultado instanceof Admin) { 
+                   int profile_code = resultado.getInt("PROFILE_CODE");
+                   String email = resultado.getString("EMAIL");
+                   String username = resultado.getString("USER_NAME");
+                   String password = resultado.getString("PSWD");
+                   int telephone = resultado.getInt("TELEPHONE");
+                   String name = resultado.getString("NAME_");
+                   String surname = resultado.getString("SURNAME");
+                   String current_account = resultado.getString("CURRENT_ACCOUNT");
+                   foundProfile = new Admin(profile_code, email, username, password, telephone, name, surname, current_account);
+                    
+                }else if (resultado instanceof User){
+                    int profile_code = resultado.getInt("PROFILE_CODE");
+                   String email = resultado.getString("EMAIL");
+                   String username = resultado.getString("USER_NAME");
+                   String password = resultado.getString("PSWD");
+                   int telephone = resultado.getInt("TELEPHONE");
+                   String name = resultado.getString("NAME_");
+                   String surname = resultado.getString("SURNAME");
+                   String gender = resultado.getString("GENDER");
+                   String card_no= resultado.getString("CARD_NO");
+                   foundProfile = new User(profile_code,email, username, password, telephone, name,surname, gender, card_no);
+                }
+                
+
             }
 
             stmt.close();
@@ -75,7 +98,8 @@ public class ImplementsBD implements UserDAO {
         } catch (SQLException e) {
             System.out.println("Error al verificar credenciales: " + e.getMessage());
         }
-        return foundUser;
+        return foundProfile;
+
     }
 
     @Override
@@ -140,4 +164,33 @@ public class ImplementsBD implements UserDAO {
         }
         return valid;
     }
+    
+     //@Override
+    public Profile insertUser(Profile profile) {
+        Profile foundProfile = null; // Inicializamos como null
+        this.openConnection(); // Abrimos la conexión a la base de datos
+
+        try {
+            // Preparamos la consulta SQL
+            stmt = con.prepareStatement(SQLLOGING);
+            stmt.setString(1, profile.getEmail()); // Establecemos el nombre de usuario
+            stmt.setString(2, profile.getPssw());
+            stmt.setString(3, profile.getPssw());
+            
+           
+            ResultSet resultado = stmt.executeQuery(); 
+
+            
+            
+        
+
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("Error al verificar credenciales: " + e.getMessage());
+        }
+        return foundProfile;
+
+    }
+
 }
