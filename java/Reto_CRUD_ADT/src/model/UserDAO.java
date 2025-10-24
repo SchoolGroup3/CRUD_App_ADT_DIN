@@ -15,18 +15,6 @@ package model;
  * @author 2dami
  */
 public interface UserDAO {
-
-    /**
-     * Verifica si un usuario existe en el sistema.
-     * <p>
-     * Implementaciones concretas pueden buscar el usuario en una base de datos,
-     * un archivo u otro tipo de almacenamiento.
-     * </p>
-     * 
-     * @param user Objeto {@link User} con el nombre y contraseña a verificar.
-     * @return Un objeto {@link User} con todos los datos completos si el usuario existe.
-     *         En caso contrario, puede devolver {@code null} o un objeto sin datos.
-     */
     public Profile checkUser(Profile profile);
     public boolean modifyProfile (Profile profile);
     public boolean modifyUser (User user);

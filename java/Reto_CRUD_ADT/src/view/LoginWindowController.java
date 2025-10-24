@@ -31,7 +31,6 @@ public class LoginWindowController implements Initializable {
 
     ImplementsBD im = new ImplementsBD();
     ActionEvent event;
-    
 
     @FXML
     private TextField usernameTextField;
@@ -100,8 +99,8 @@ public class LoginWindowController implements Initializable {
                 break;
             case "signupButton":
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpWindow.fxml"));
-                Parent root =null;
-                root= loader.load();
+                Parent root = null;
+                root = loader.load();
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();
@@ -118,9 +117,8 @@ public class LoginWindowController implements Initializable {
             Logger.getLogger(LoginWindowController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-        // TODO
-    }
+
+    // TODO
 
     public void openWindow(Event event, User user) {
         // Add this to controller when merging

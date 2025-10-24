@@ -68,7 +68,7 @@ public class ImplementsBD implements UserDAO {
 
                 if (resultado instanceof Admin) { 
                    int profile_code = resultado.getInt("PROFILE_CODE");
-                   String email = resultado.getString("EMAIL");
+                   email = resultado.getString("EMAIL");
                    String username = resultado.getString("USER_NAME");
                    String password = resultado.getString("PSWD");
                    int telephone = resultado.getInt("TELEPHONE");
@@ -79,7 +79,7 @@ public class ImplementsBD implements UserDAO {
                     
                 }else if (resultado instanceof User){
                     int profile_code = resultado.getInt("PROFILE_CODE");
-                   String email = resultado.getString("EMAIL");
+                   email = resultado.getString("EMAIL");
                    String username = resultado.getString("USER_NAME");
                    String password = resultado.getString("PSWD");
                    int telephone = resultado.getInt("TELEPHONE");
