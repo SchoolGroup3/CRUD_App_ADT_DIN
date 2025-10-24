@@ -14,9 +14,9 @@
         <Label fx:id="label" layoutX="53.0" layoutY="80.0" minHeight="16" minWidth="38.0" prefHeight="18.0" prefWidth="38.0" text="Home" textFill="WHITE" />
       <Button layoutX="18.0" layoutY="13.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="78.0" text="LOGO" />
       <Label fx:id="settings" layoutX="50.0" layoutY="312.0" minHeight="16" minWidth="47.0" onMouseClicked="#settingsWindow" prefHeight="18.0" prefWidth="47.0" text="Settings" textFill="WHITE" />
-      <Label fx:id="time" alignment="TOP_CENTER" layoutX="106.0" layoutY="92.0" minHeight="16" minWidth="69" prefHeight="262.0" prefWidth="486.0" text="Good M/A/N User!">
+      <Label fx:id="time" alignment="TOP_CENTER" layoutX="106.0" layoutY="132.0" minHeight="16" minWidth="69" prefHeight="222.0" prefWidth="486.0" text="Good M/A/N User!">
          <font>
-            <Font name="Sans Serif Collection" size="36.0" />
+            <Font name="Tahoma Bold" size="36.0" />
          </font>
       </Label>
       <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="12.0" layoutY="73.0">
