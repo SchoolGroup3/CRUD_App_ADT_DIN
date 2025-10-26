@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class ImplementsBD implements UserDAO {
@@ -26,6 +27,7 @@ public class ImplementsBD implements UserDAO {
     final String SQLMODIFYPROFILE = "UPDATE PROFILE SET EMAIL = ?, USER_NAME = ?, PSWD = ?, TELEPHONE = ?, NAME_ = ?<, SURNAME = ? WHERE PROFILE_CODE = ?";
     final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE PROFILE_CODE = ?";
     final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE PROFILE_CODE = ?";
+    final String SQLGETUSERS = "SELECT * FROM PROFILE_ AS P, USER_ AS U WHERE P.PROFILE_CODE = U.PROFILE_CODE;";
 
     public ImplementsBD() {
         this.configFile = ResourceBundle.getBundle("configClase");
@@ -191,6 +193,43 @@ public class ImplementsBD implements UserDAO {
         }
         return foundProfile;
 
+    }
+    
+    @Override
+    public HashMap<Integer, User> getAllUsers() {
+        User user = null;
+        ResultSet rs = null;
+        HashMap<Integer, User> users = new HashMap<>();
+
+        this.openConnection();
+
+        try {
+            stmt = con.prepareStatement(SQLGETUSERS);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                user = new User();
+                user.setProfile_code(rs.getInt("PROFILE_CODE"));
+                user.setEmail(rs.getString("EMAIL"));
+                user.setUser_name(rs.getString("USER_NAME"));
+                user.setPssw(rs.getString("PSWD"));
+                user.setTelephone(rs.getInt("TELEPHONE"));
+                user.setName(rs.getString("NAME_"));
+                user.setSurname(rs.getString("SURNAME"));
+                user.setGender(rs.getString("GENDER"));
+                user.setCard_no(rs.getString("CARD_NO"));
+
+                users.put(user.getProfile_code(), user);
+            }
+            
+            rs.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("An error occurred: "+e);
+        }
+        
+        return users;
     }
 
 }

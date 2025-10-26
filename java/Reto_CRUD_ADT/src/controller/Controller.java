@@ -5,10 +5,18 @@
  */
 package controller;
 
+import java.util.HashMap;
+import model.ImplementsBD;
+import model.User;
+
 /**
  *
  * @author 2dami
  */
 public class Controller {
+    ImplementsBD dao = new ImplementsBD();
     
+    public HashMap<Integer, User> getAllUsers() {
+        return dao.getAllUsers();
+    }
 }

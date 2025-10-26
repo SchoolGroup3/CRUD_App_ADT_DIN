@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.HashMap;
+
 /**
  * Interfaz que define las operaciones básicas de acceso a datos de usuarios (DAO).
  * <p>
@@ -19,4 +21,5 @@ public interface UserDAO {
     public boolean modifyProfile (Profile profile);
     public boolean modifyUser (User user);
     public boolean modifyAdmin (Admin admin);
+    public HashMap<Integer, User> getAllUsers();
 }
