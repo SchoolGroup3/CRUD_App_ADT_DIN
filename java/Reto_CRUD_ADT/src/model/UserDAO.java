@@ -19,4 +19,5 @@ public interface UserDAO {
     public boolean modifyProfile (Profile profile);
     public boolean modifyUser (User user);
     public boolean modifyAdmin (Admin admin);
+    public Profile insertUser(Profile profile);
 }

@@ -17,26 +17,26 @@
             <Font name="Bell MT Bold" size="48.0" />
          </font>
       </Label>
-      <TextField layoutX="198.0" layoutY="145.0" prefHeight="30.0" prefWidth="204.0" promptText="Username" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
+      <TextField id= "username" layoutX="198.0" layoutY="145.0" prefHeight="30.0" prefWidth="204.0" promptText="Username" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
       <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="375.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/img/user.png" />
          </image>
       </ImageView>
-      <PasswordField layoutX="198.0" layoutY="200.0" prefHeight="30.0" prefWidth="204.0" promptText="Password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
+      <PasswordField id= "pswd1" layoutX="198.0" layoutY="200.0" prefHeight="30.0" prefWidth="204.0" promptText="Password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
       <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="375.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/img/key.png" />
          </image>
       </ImageView>
-      <PasswordField layoutX="198.0" layoutY="251.0" prefHeight="30.0" prefWidth="204.0" promptText="Confirm password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
+      <PasswordField  id= "pswd2" layoutX="198.0" layoutY="251.0" prefHeight="30.0" prefWidth="204.0" promptText="Confirm password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
       <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="375.0" layoutY="257.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/img/key.png" />
          </image>
       </ImageView>
-      <Button layoutX="198.0" layoutY="301.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="204.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #101416;" text="Sign Up" textFill="WHITE" />
+      <Button id="SignUpButton" layoutX="198.0" layoutY="301.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="204.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #101416;" text="Sign Up" textFill="WHITE" />
       <Label layoutX="198.0" layoutY="350.0" prefHeight="18.0" prefWidth="143.0" text="Already have an account?" />
-      <Button layoutX="335.0" layoutY="344.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="56.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 14px; -fx-underline: true; -fx-padding: 0; -fx-cursor: hand;" text="Log In" />
+      <Button id="LogInButton" layoutX="335.0" layoutY="344.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="56.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 14px; -fx-underline: true; -fx-padding: 0; -fx-cursor: hand;" text="Log In" />
    </children>
 </AnchorPane>

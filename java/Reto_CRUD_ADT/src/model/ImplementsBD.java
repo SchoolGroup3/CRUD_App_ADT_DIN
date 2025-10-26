@@ -26,6 +26,7 @@ public class ImplementsBD implements UserDAO {
     final String SQLMODIFYPROFILE = "UPDATE PROFILE SET EMAIL = ?, USER_NAME = ?, PSWD = ?, TELEPHONE = ?, NAME_ = ?<, SURNAME = ? WHERE PROFILE_CODE = ?";
     final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE PROFILE_CODE = ?";
     final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE PROFILE_CODE = ?";
+    final String SQLSIGNUP ="call RegistrarUsuario(?,?)";
 
     public ImplementsBD() {
         this.configFile = ResourceBundle.getBundle("configClase");
@@ -165,32 +166,28 @@ public class ImplementsBD implements UserDAO {
         return valid;
     }
     
-     //@Override
+     @Override
     public Profile insertUser(Profile profile) {
-        Profile foundProfile = null; // Inicializamos como null
-        this.openConnection(); // Abrimos la conexión a la base de datos
-
-        try {
-            // Preparamos la consulta SQL
-            stmt = con.prepareStatement(SQLLOGING);
-            stmt.setString(1, profile.getEmail()); // Establecemos el nombre de usuario
-            stmt.setString(2, profile.getPssw());
-            stmt.setString(3, profile.getPssw());
-            
-           
-            ResultSet resultado = stmt.executeQuery(); 
-
-            
-            
+        User foundProfile = null;
+        this.openConnection(); 
         
-
+        try {
+           stmt = con.prepareStatement(SQLSIGNUP);
+            stmt.setString(1, profile.getUser_name());
+            stmt.setString(2, profile.getPssw());
+            ResultSet resultado = stmt.executeQuery(); 
+             if (resultado.next()) {
+            foundProfile = new User();
+            foundProfile.setProfile_code(resultado.getInt("PROFILE_CODE"));
+            foundProfile.setUser_name(resultado.getString("USER_NAME"));
+            foundProfile.setPssw(resultado.getString("PSWD"));
+        }
             stmt.close();
             con.close();
         } catch (SQLException e) {
             System.out.println("Error al verificar credenciales: " + e.getMessage());
         }
         return foundProfile;
-
     }
 
 }
