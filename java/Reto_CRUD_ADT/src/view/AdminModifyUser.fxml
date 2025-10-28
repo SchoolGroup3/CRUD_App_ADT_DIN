@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="494.0" prefWidth="561.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AdminModifyUserController">
+   <children>
+      <Circle fill="#dee7ef" layoutX="90.0" layoutY="88.0" radius="68.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="22.0" layoutY="191.0" text="Username" textFill="#212529">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtFieldUsername" layoutX="14.0" layoutY="220.0" prefHeight="34.0" prefWidth="334.0" promptText="Example" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <Label layoutX="210.0" layoutY="33.0" text="Name" textFill="#212529">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="375.0" layoutY="33.0" text="Surname" textFill="#212529">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtFieldName" layoutX="195.0" layoutY="71.0" prefHeight="34.0" prefWidth="150.0" promptText="Jhon" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <TextField fx:id="txtFieldSurname" layoutX="371.0" layoutY="71.0" prefHeight="34.0" prefWidth="150.0" promptText="Example" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <Label layoutX="210.0" layoutY="111.0" text="Email" textFill="#212529">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtFieldEmail" layoutX="195.0" layoutY="139.0" prefHeight="34.0" prefWidth="325.0" promptText="example@gmail.com" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <Button fx:id="btnChangePassword" layoutX="384.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleButtonActionChangePassword" prefHeight="34.0" prefWidth="150.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" text="Change Password" />
+      <Label layoutX="22.0" layoutY="279.0" text="Phone Number" textFill="#212529">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtFieldPhoneNumber" layoutX="14.0" layoutY="308.0" prefHeight="34.0" prefWidth="333.0" promptText="000-000-000" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <Label layoutX="22.0" layoutY="359.0" text="Card Number" textFill="#212529">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtFieldCardNumber" layoutX="14.0" layoutY="388.0" prefHeight="34.0" prefWidth="533.0" promptText="XXX-XXX-XXX-XXX" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <Label layoutX="391.0" layoutY="283.0" text="Gender" textFill="#212529">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="comboGender" layoutX="384.0" layoutY="310.0" prefHeight="34.0" prefWidth="150.0" promptText="Other" style="-fx-background-radius: 50; -fx-border-radius: 50;" />
+      <Button fx:id="btnSave" layoutX="15.0" layoutY="445.0" mnemonicParsing="false" onAction="#handleButtonActionSave" prefHeight="34.0" prefWidth="534.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #212529;" text="Save" textFill="#f2f0ef" />
+      <Label fx:id="lblPasswordMessage" layoutX="391.0" layoutY="254.0" prefHeight="6.0" prefWidth="150.0" textFill="RED">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSavedMessage" alignment="CENTER" layoutX="146.0" layoutY="492.0" prefHeight="16.0" prefWidth="268.0" textFill="RED">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
