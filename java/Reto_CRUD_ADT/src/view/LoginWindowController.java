@@ -123,4 +123,5 @@ public class LoginWindowController implements Initializable {
             Logger.getLogger(LoginWindowController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

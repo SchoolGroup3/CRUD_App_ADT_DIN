@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * @author USUARIO
+ */
 public class ImplementsBD implements UserDAO {
 
     // Atributos
@@ -24,16 +28,14 @@ public class ImplementsBD implements UserDAO {
 
     // Querys
     final String SQLLOGING = "SELECT * FROM usuario WHERE NOMBRE_USUARIO = ? AND CONTRASEÑA = ?";
-<<<<<<< HEAD
     final String SQLMODIFYUSER = "UPDATE USER_ U JOIN PROFILE_ P ON U.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, U.GENDER = ?, U.CARD_NO = ? WHERE P.PROFILE_CODE = ?";
     final String SQLMODIFYPASSWD = "UPDATE PROFILE_ SET PSWD = ? WHERE PROFILE_CODE  = ?";
     final String SQLDELETEUSER = "DELETE U, P FROM USER_ U JOIN PROFILE_ P ON P.PROFILE_CODE = U.PROFILE_CODE WHERE U.PROFILE_CODE = ?";
     final String SQLGETUSERS = "SELECT * FROM PROFILE_ AS P, USER_ AS U WHERE P.PROFILE_CODE = U.PROFILE_CODE;";
-=======
     final String SQLMODIFYPROFILE = "UPDATE PROFILE SET EMAIL = ?, USER_NAME = ?, PSWD = ?, TELEPHONE = ?, NAME_ = ?<, SURNAME = ? WHERE PROFILE_CODE = ?";
-    final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE PROFILE_CODE = ?";
+    //final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE PROFILE_CODE = ?";
     final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE PROFILE_CODE = ?";
->>>>>>> 19a8692059d20a389538726895ed9572b8077e13
+
     final String SQLSIGNUP ="call RegistrarUsuario(?,?)";
 
     public ImplementsBD() {
@@ -187,7 +189,6 @@ public class ImplementsBD implements UserDAO {
             System.out.println("Error al verificar credenciales: " + e.getMessage());
         }
         return foundProfile;
-<<<<<<< HEAD
     }
     
     @Override
@@ -225,8 +226,11 @@ public class ImplementsBD implements UserDAO {
         }
         
         return users;
-=======
->>>>>>> 19a8692059d20a389538726895ed9572b8077e13
+    }
+
+    @Override
+    public boolean modifyAdmin(Admin admin) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

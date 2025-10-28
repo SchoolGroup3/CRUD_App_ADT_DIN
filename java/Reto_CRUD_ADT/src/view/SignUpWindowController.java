@@ -108,4 +108,5 @@ public class SignUpWindowController implements Initializable {
         SignUpButton.setOnAction(e -> handleSignUp());
         LogInButton.setOnAction(e -> redirectToLogin());
     }
+    
 }

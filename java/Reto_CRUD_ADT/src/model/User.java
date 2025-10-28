@@ -15,20 +15,13 @@ public class User extends Profile {
         this.gender=gender;
         this.card_no=card_no;
     }
-<<<<<<< HEAD
+
      
     public User(){
     }
      public User(String username, String passwd){
          super(username, passwd);
     }
-=======
-    public User( String user_name, String pssw) {
-        super(user_name, pssw);
-
-    }
-
->>>>>>> 19a8692059d20a389538726895ed9572b8077e13
     public String getGender() {
         return gender;
     }

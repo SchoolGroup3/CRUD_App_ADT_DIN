@@ -40,4 +40,7 @@ public class Controller {
     public Profile checkUser(Profile profile){
         return dao.checkUser(profile);
     }
+    public Profile insertUser(Profile profile){
+        return dao.insertUser(profile);
+    }
 }

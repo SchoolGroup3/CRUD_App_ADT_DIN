@@ -19,12 +19,10 @@ import java.util.HashMap;
 public interface UserDAO {
     public Profile checkUser(Profile profile);
     public boolean modifyUser (User user);
-<<<<<<< HEAD
     public boolean modifyPassword(User user, String passwd);
     public boolean deleteUser(User user);
     public HashMap<Integer, User> getAllUsers();
-=======
     public boolean modifyAdmin (Admin admin);
->>>>>>> 19a8692059d20a389538726895ed9572b8077e13
+
     public Profile insertUser(Profile profile);
 }
