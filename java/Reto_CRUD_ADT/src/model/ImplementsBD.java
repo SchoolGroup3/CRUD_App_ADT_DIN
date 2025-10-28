@@ -24,9 +24,9 @@ public class ImplementsBD implements UserDAO {
 
     // Querys
     final String SQLLOGING = "SELECT * FROM usuario WHERE NOMBRE_USUARIO = ? AND CONTRASEÑA = ?";
-    final String SQLMODIFYPROFILE = "UPDATE PROFILE SET EMAIL = ?, USER_NAME = ?, PSWD = ?, TELEPHONE = ?, NAME_ = ?<, SURNAME = ? WHERE PROFILE_CODE = ?";
-    final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE PROFILE_CODE = ?";
-    final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE PROFILE_CODE = ?";
+    final String SQLMODIFYUSER = "UPDATE USER_ U JOIN PROFILE_ P ON U.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, U.GENDER = ?, U.CARD_NO = ? WHERE P.PROFILE_CODE = ?";
+    final String SQLMODIFYPASSWD = "UPDATE PROFILE_ SET PSWD = ? WHERE PROFILE_CODE  = ?";
+    final String SQLDELETEUSER = "DELETE U, P FROM USER_ U JOIN PROFILE_ P ON P.PROFILE_CODE = U.PROFILE_CODE WHERE U.PROFILE_CODE = ?";
     final String SQLGETUSERS = "SELECT * FROM PROFILE_ AS P, USER_ AS U WHERE P.PROFILE_CODE = U.PROFILE_CODE;";
 
     public ImplementsBD() {
@@ -105,7 +105,7 @@ public class ImplementsBD implements UserDAO {
     }
 
     @Override
-    public boolean modifyProfile(Profile profile) {
+    public boolean modifyUser(User user) {
         boolean valid = false;
         this.openConnection();
         try {
@@ -116,7 +116,26 @@ public class ImplementsBD implements UserDAO {
             stmt.setInt(2, profile.getTelephone());
             stmt.setString(2, profile.getName());
             stmt.setString(2, profile.getSurname());
-
+            
+            if (stmt.executeUpdate() > 0) {
+                valid = true;
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("An error occurred.");
+        }
+        return valid;
+    }
+    
+    @Override
+    public boolean modifyPassword(User user, String newPassword) {
+        boolean valid = false;
+        this.openConnection();
+        try {
+            stmt = con.prepareStatement(SQLMODIFYPASSWD);
+            stmt.setString(1, newPassword);          
+            stmt.setInt(2, user.getProfile_code());  
             if (stmt.executeUpdate() > 0) {
                 valid = true;
             }
@@ -129,33 +148,12 @@ public class ImplementsBD implements UserDAO {
     }
 
     @Override
-    public boolean modifyUser(User user) {
+    public boolean deleteUser(User user) {
         boolean valid = false;
         this.openConnection();
         try {
-            stmt = con.prepareStatement(SQLMODIFYUSER);
-            stmt.setString(1, user.getGender());
-            stmt.setString(2, user.getCard_no());
-            stmt.setInt(3, user.getProfile_code());
-            if (stmt.executeUpdate() > 0) {
-                valid = true;
-            }
-            stmt.close();
-            con.close();
-        } catch (SQLException e) {
-            System.out.println("An error occurred.");
-        }
-        return valid;
-    }
-
-    @Override
-    public boolean modifyAdmin(Admin admin) {
-        boolean valid = false;
-        this.openConnection();
-        try {
-            stmt = con.prepareStatement(SQLMODIFYUSER);
-            stmt.setString(1, admin.getCurrent_account());
-            stmt.setInt(3, admin.getProfile_code());
+            stmt = con.prepareStatement(SQLDELETEUSER);      
+            stmt.setInt(1, user.getProfile_code());  
             if (stmt.executeUpdate() > 0) {
                 valid = true;
             }
