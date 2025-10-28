@@ -163,7 +163,7 @@ public class ProfileWindowController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //fill the combobox
-        comboGender.getItems().addAll("Masculino", "Femenino", "Otro");
+        comboGender.getItems().addAll("Man", "Female", "Other");
         comboGender.setEditable(false);
 
         iconTrash.setOnMouseClicked(event -> {

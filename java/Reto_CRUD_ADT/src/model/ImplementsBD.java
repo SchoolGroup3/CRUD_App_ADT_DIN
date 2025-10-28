@@ -77,7 +77,7 @@ public class ImplementsBD implements UserDAO {
                    String name = resultado.getString("NAME_");
                    String surname = resultado.getString("SURNAME");
                    String current_account = resultado.getString("CURRENT_ACCOUNT");
-                   foundProfile = new Admin(profile_code, email, username, password, telephone, name, surname, current_account);
+               //  foundProfile = new Admin(profile_code, email, username, password, telephone, name, surname, current_account);
                     
                 }else if (resultado instanceof User){
                     int profile_code = resultado.getInt("PROFILE_CODE");
@@ -109,13 +109,15 @@ public class ImplementsBD implements UserDAO {
         boolean valid = false;
         this.openConnection();
         try {
-            stmt = con.prepareStatement(SQLMODIFYPROFILE);
-            stmt.setString(1, profile.getEmail());
-            stmt.setString(2, profile.getUser_name());
-            stmt.setString(2, profile.getPssw());
-            stmt.setInt(2, profile.getTelephone());
-            stmt.setString(2, profile.getName());
-            stmt.setString(2, profile.getSurname());
+            stmt = con.prepareStatement(SQLMODIFYUSER);
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getUser_name());
+            stmt.setInt(3, user.getTelephone());
+            stmt.setString(4, user.getName());
+            stmt.setString(5, user.getSurname());
+            stmt.setString(6,user.getGender());
+            stmt.setString(7, user.getCard_no());           
+            stmt.setInt(8, user.getProfile_code());   
             
             if (stmt.executeUpdate() > 0) {
                 valid = true;
