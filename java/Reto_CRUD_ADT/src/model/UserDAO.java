@@ -22,4 +22,5 @@ public interface UserDAO {
     public boolean modifyPassword(User user, String passwd);
     public boolean deleteUser(User user);
     public HashMap<Integer, User> getAllUsers();
+    public Profile insertUser(Profile profile);
 }

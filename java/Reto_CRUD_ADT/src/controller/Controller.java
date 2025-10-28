@@ -37,4 +37,7 @@ public class Controller {
     public HashMap<Integer, User> getAllUsers() {
         return dao.getAllUsers();
     }
+    public Profile checkUser(Profile profile){
+        return dao.checkUser(profile);
+    }
 }

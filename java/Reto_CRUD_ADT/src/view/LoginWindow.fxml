@@ -11,8 +11,8 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginWindowController">
     <children>
-        <PasswordField layoutX="196.0" layoutY="213.0" prefHeight="30.0" prefWidth="204.0" promptText="Password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
-        <TextField layoutX="196.0" layoutY="138.0" prefHeight="30.0" prefWidth="204.0" promptText="Username" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
+        <PasswordField id="passwordTextField" layoutX="196.0" layoutY="213.0" prefHeight="30.0" prefWidth="204.0" promptText="Password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
+        <TextField id="usernameTextField" layoutX="196.0" layoutY="138.0" prefHeight="30.0" prefWidth="204.0" promptText="Username" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
         <Button id="loginButton" layoutX="198.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="204.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #101416;" text="Log In" textFill="WHITE" />
         <Label layoutX="129.0" layoutY="37.0" prefHeight="70.0" prefWidth="342.0" text="Welcome Back!">
             <font>

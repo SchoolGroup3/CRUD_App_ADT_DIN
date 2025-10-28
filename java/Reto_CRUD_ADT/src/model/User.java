@@ -18,7 +18,9 @@ public class User extends Profile {
      
     public User(){
     }
-
+     public User(String username, String passwd){
+         super(username, passwd);
+    }
     public String getGender() {
         return gender;
     }

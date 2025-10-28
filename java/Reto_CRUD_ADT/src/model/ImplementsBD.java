@@ -28,6 +28,7 @@ public class ImplementsBD implements UserDAO {
     final String SQLMODIFYPASSWD = "UPDATE PROFILE_ SET PSWD = ? WHERE PROFILE_CODE  = ?";
     final String SQLDELETEUSER = "DELETE U, P FROM USER_ U JOIN PROFILE_ P ON P.PROFILE_CODE = U.PROFILE_CODE WHERE U.PROFILE_CODE = ?";
     final String SQLGETUSERS = "SELECT * FROM PROFILE_ AS P, USER_ AS U WHERE P.PROFILE_CODE = U.PROFILE_CODE;";
+    final String SQLSIGNUP ="call RegistrarUsuario(?,?)";
 
     public ImplementsBD() {
         this.configFile = ResourceBundle.getBundle("configClase");
@@ -48,7 +49,7 @@ public class ImplementsBD implements UserDAO {
         }
     }
 
-    @Override
+     @Override
     public Profile checkUser(Profile profile) {
         Profile foundProfile = null; // Inicializamos como null
         this.openConnection(); // Abrimos la conexión a la base de datos
@@ -56,32 +57,25 @@ public class ImplementsBD implements UserDAO {
         try {
             // Preparamos la consulta SQL
             stmt = con.prepareStatement(SQLLOGING);
-            stmt.setString(1, profile.getEmail()); // Establecemos el nombre de usuario
-            stmt.setString(2, profile.getPssw()); // Establecemos la contraseña
-            ResultSet resultado = stmt.executeQuery(); // Ejecutamos la consulta
+            stmt.setString(1, profile.getSurname()); 
+            stmt.setString(2, profile.getPssw());
+            ResultSet resultado = stmt.executeQuery();
 
-            //HAY QUE COPIAR LOS DATOS DEPENDIENDO DE SI ES ADMIN O USER, PARA MIKEL 
-            // Si hay un resultado, el usuario existe
             if (resultado.next()) {
-                // Obtenemos los datos del usuario de la base de datos	
-                String dni = resultado.getString("DNI");
-                int edad = resultado.getInt("EDAD");
-                String email = resultado.getString("EMAIL");
-
                 if (resultado instanceof Admin) { 
                    int profile_code = resultado.getInt("PROFILE_CODE");
-                   email = resultado.getString("EMAIL");
+                   String email = resultado.getString("EMAIL");
                    String username = resultado.getString("USER_NAME");
                    String password = resultado.getString("PSWD");
                    int telephone = resultado.getInt("TELEPHONE");
                    String name = resultado.getString("NAME_");
                    String surname = resultado.getString("SURNAME");
                    String current_account = resultado.getString("CURRENT_ACCOUNT");
-               //  foundProfile = new Admin(profile_code, email, username, password, telephone, name, surname, current_account);
+                   foundProfile = new Admin(email, username, password, telephone, name, surname, current_account);
                     
                 }else if (resultado instanceof User){
                     int profile_code = resultado.getInt("PROFILE_CODE");
-                   email = resultado.getString("EMAIL");
+                   String email = resultado.getString("EMAIL");
                    String username = resultado.getString("USER_NAME");
                    String password = resultado.getString("PSWD");
                    int telephone = resultado.getInt("TELEPHONE");
@@ -92,9 +86,7 @@ public class ImplementsBD implements UserDAO {
                    foundProfile = new User(profile_code,email, username, password, telephone, name,surname, gender, card_no);
                 }
                 
-
             }
-
             stmt.close();
             con.close();
         } catch (SQLException e) {
@@ -169,30 +161,26 @@ public class ImplementsBD implements UserDAO {
     
      //@Override
     public Profile insertUser(Profile profile) {
-        Profile foundProfile = null; // Inicializamos como null
-        this.openConnection(); // Abrimos la conexión a la base de datos
-
-        try {
-            // Preparamos la consulta SQL
-            stmt = con.prepareStatement(SQLLOGING);
-            stmt.setString(1, profile.getEmail()); // Establecemos el nombre de usuario
-            stmt.setString(2, profile.getPssw());
-            stmt.setString(3, profile.getPssw());
-            
-           
-            ResultSet resultado = stmt.executeQuery(); 
-
-            
-            
+        User foundProfile = null;
+        this.openConnection(); 
         
-
+        try {
+           stmt = con.prepareStatement(SQLSIGNUP);
+            stmt.setString(1, profile.getUser_name());
+            stmt.setString(2, profile.getPssw());
+            ResultSet resultado = stmt.executeQuery(); 
+             if (resultado.next()) {
+            foundProfile = new User();
+            foundProfile.setProfile_code(resultado.getInt("PROFILE_CODE"));
+            foundProfile.setUser_name(resultado.getString("USER_NAME"));
+            foundProfile.setPssw(resultado.getString("PSWD"));
+        }
             stmt.close();
             con.close();
         } catch (SQLException e) {
             System.out.println("Error al verificar credenciales: " + e.getMessage());
         }
         return foundProfile;
-
     }
     
     @Override

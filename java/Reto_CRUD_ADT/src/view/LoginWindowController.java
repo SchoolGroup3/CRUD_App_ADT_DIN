@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.event.Event;
@@ -45,12 +46,12 @@ public class LoginWindowController implements Initializable {
 
     @FXML
     private void handleLogin() {
-        String username = usernameTextField.getText();
-        String password = passwordTextField.getText();
+        String username = usernameTextField.getText().trim();
+        String password = passwordTextField.getText().trim();
         Profile profile = new Profile(username, password) {
             @Override
             public void mostrar() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
 
@@ -63,6 +64,8 @@ public class LoginWindowController implements Initializable {
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
+                    Stage currentStage = (Stage) loginButton.getScene().getWindow();
+                    currentStage.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -73,6 +76,9 @@ public class LoginWindowController implements Initializable {
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
+                    Stage currentStage = (Stage) loginButton.getScene().getWindow();
+                    currentStage.close();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -115,30 +121,6 @@ public class LoginWindowController implements Initializable {
             manejarBotones(event);
         } catch (IOException ex) {
             Logger.getLogger(LoginWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    // TODO
-
-    public void openWindow(Event event, User user) {
-        // Add this to controller when merging
-        Stage stage = new Stage();
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-            root = loader.load();
-
-            HomeWindowController contInfo = loader.getController();
-            contInfo.setUser(user);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 }
