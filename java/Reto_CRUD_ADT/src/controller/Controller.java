@@ -17,17 +17,17 @@ import model.UserDAO;
  */
 public class Controller {
     UserDAO dao = new ImplementsBD();
-    
-    public boolean modifyProfile(Profile profile){
-        return dao.modifyProfile(profile);
-    }
-    
+      
     public boolean modifyUser(User user){
-        return dao.modifyProfile(user);
+        return dao.modifyUser(user);
     }
     
-    public boolean modifyADmin(Admin admin){
-        return dao.modifyProfile(admin);
+    public boolean modifyPassword(User user, String passwd){
+        return dao.modifyPassword(user, passwd);
+    }
+    
+    public boolean deleteUser(User user){
+        return dao.deleteUser(user);
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.Controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import model.User;
 
 /**
  * FXML Controller class
@@ -31,6 +33,12 @@ public class ChangePasswdPopupController implements Initializable {
     private PasswordField txtFieldNewPsswdConfirm;
     @FXML
     private Label lblNewPasswdMessage;
+    @FXML
+    private Label lblIncorrectPassword;
+
+    private User user;
+
+    private Controller cont = new Controller();
 
     /**
      * Initializes the controller class.
@@ -38,23 +46,55 @@ public class ChangePasswdPopupController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void passwordButton(ActionEvent event) {
+        String userPassword = user.getPssw();
         String currentPasswd;
         String newPasswd;
         String newPasswdConfirm;
+        boolean hasErrors = false;
+        
+        lblIncorrectPassword.setText("");
+        lblNewPasswdMessage.setText("");
+        lblNewPasswdMessage.setText("");
         
         currentPasswd = txtFieldCurrentPsswd.getText();
         newPasswd = txtFieldNewPsswd.getText();
         newPasswdConfirm = txtFieldNewPsswdConfirm.getText();
-        
-        if (newPasswd != newPasswdConfirm) {
-            lblNewPasswdMessage.setText("The password are different");
-        } else {
-            //metodo para moficar contraseña
+
+        if (!currentPasswd.equals(userPassword)) {
+            lblIncorrectPassword.setText("That is not your actual password");
+            hasErrors = true;
+        }
+
+        if (newPasswd.length() < 8) {
+            lblNewPasswdMessage.setText("New password is too short");
+            hasErrors = true;
+        }
+
+        if (currentPasswd.equals(newPasswd)) {
+            lblNewPasswdMessage.setText("Password used before");
+            hasErrors = true;
+        }
+
+        if (!newPasswd.equals(newPasswdConfirm)) {
+            lblNewPasswdMessage.setText("The passwords are different");
+            hasErrors = true;
+        }
+
+        if (!hasErrors) {
+            if (cont.modifyPassword(user, newPasswd)) {
+                lblNewPasswdMessage.setText("Password mofified correctly");
+                lblNewPasswdMessage.setStyle("-fx-text-fill: green;");
+            } else {
+                lblNewPasswdMessage.setText("Error mofifiying the password");
+            }
         }
     }
-    
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

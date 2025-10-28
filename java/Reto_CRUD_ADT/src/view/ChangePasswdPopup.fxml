@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="359.0" prefWidth="317.0" style="-fx-background-color: #212529; -fx-background-radius: 25;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="view.ChangePasswdPopupController">
+<AnchorPane id="AnchorPane" prefHeight="359.0" prefWidth="317.0" style="-fx-background-color: #212529; -fx-background-radius: 25;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ChangePasswdPopupController">
    <children>
       <Label layoutX="54.0" layoutY="29.0" prefHeight="36.0" prefWidth="207.0" text=" Change Password" textFill="#fcfbfb">
          <font>
@@ -19,7 +18,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="36.0" layoutY="148.0" prefHeight="18.0" prefWidth="135.0" text="New Password " textFill="WHITE">
+      <Label layoutX="36.0" layoutY="150.0" prefHeight="18.0" prefWidth="135.0" text="New Password " textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>
@@ -31,8 +30,9 @@
       </Label>
       <Button fx:id="btnConfirm" layoutX="33.0" layoutY="306.0" mnemonicParsing="false" onAction="#passwordButton" prefHeight="26.0" prefWidth="252.0" style="-fx-background-radius: 50;" text="Confirm" />
       <PasswordField fx:id="txtFieldCurrentPsswd" layoutX="33.0" layoutY="105.0" prefHeight="26.0" prefWidth="252.0" style="-fx-background-radius: 50;" />
-      <PasswordField fx:id="txtFieldNewPsswd" layoutX="33.0" layoutY="174.0" prefHeight="26.0" prefWidth="252.0" style="-fx-background-radius: 50;" />
+      <PasswordField fx:id="txtFieldNewPsswd" layoutX="33.0" layoutY="176.0" prefHeight="26.0" prefWidth="252.0" style="-fx-background-radius: 50;" />
       <PasswordField fx:id="txtFieldNewPsswdConfirm" layoutX="33.0" layoutY="245.0" prefHeight="26.0" prefWidth="252.0" style="-fx-background-radius: 50;" />
       <Label fx:id="lblNewPasswdMessage" layoutX="40.0" layoutY="271.0" prefHeight="18.0" prefWidth="179.0" textFill="RED" />
+      <Label fx:id="lblIncorrectPassword" layoutX="42.0" layoutY="132.0" prefHeight="18.0" prefWidth="179.0" textFill="RED" />
    </children>
 </AnchorPane>

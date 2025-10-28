@@ -28,8 +28,7 @@ public interface UserDAO {
      *         En caso contrario, puede devolver {@code null} o un objeto sin datos.
      */
     public Profile checkUser(Profile profile);
-    public boolean modifyProfile (Profile profile);
     public boolean modifyUser (User user);
-    public boolean modifyAdmin (Admin admin);
     public boolean modifyPassword(User user, String passwd);
+    public boolean deleteUser(User user);
 }

@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
@@ -20,12 +21,20 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
+        User user = new User (2, "aaa@gmail.com", "ee", "1234", 123456789, "ee", "ee","Femenino", "E23457927813");
+        System.out.println(user);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileWindow.fxml"));
+            Parent root = loader.load();
+            
+            ProfileWindowController cont = loader.getController();
+            
+            if(cont != null){
+                cont.setUser(user);
+                System.out.println("enviado");
+            }
+            stage.setScene(new Scene(root));
+            stage.setTitle("Profile Window");
+            stage.show();
     }
 
     /**
