@@ -16,7 +16,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root);
         
-        //BasicDataSource ds = new BasicDataSource();
+        BasicDataSource ds = new BasicDataSource();
 
         stage.setScene(scene);
         stage.show();
