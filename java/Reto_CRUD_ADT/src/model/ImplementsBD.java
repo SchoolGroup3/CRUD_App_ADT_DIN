@@ -35,7 +35,6 @@ public class ImplementsBD implements UserDAO {
     final String SQLMODIFYPROFILE = "UPDATE PROFILE SET EMAIL = ?, USER_NAME = ?, PSWD = ?, TELEPHONE = ?, NAME_ = ?<, SURNAME = ? WHERE PROFILE_CODE = ?";
     //final String SQLMODIFYUSER = "UPDATE USER SET GENDER = ?, CARD_NO = ? WHERE PROFILE_CODE = ?";
     final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE PROFILE_CODE = ?";
-
     final String SQLSIGNUP ="call RegistrarUsuario(?,?)";
 
     public ImplementsBD() {

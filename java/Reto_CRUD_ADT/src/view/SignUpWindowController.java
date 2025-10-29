@@ -102,11 +102,29 @@ public class SignUpWindowController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
+   public static void openSignUpWindow() {
+        try {
+            FXMLLoader loader = new FXMLLoader(SignUpWindowController.class.getResource("SignUpWindow.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Registro de Usuario");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }   
+        private void openNewSignUpWindow() {
+        openSignUpWindow();
+        Stage currentStage = (Stage) SignUpButton.getScene().getWindow();
+        currentStage.close();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         SignUpButton.setOnAction(e -> handleSignUp());
         LogInButton.setOnAction(e -> redirectToLogin());
     }
+    
     
 }
