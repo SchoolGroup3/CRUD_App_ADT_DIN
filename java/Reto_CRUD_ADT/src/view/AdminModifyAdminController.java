@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,11 +17,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.Profile;
+import model.Admin;
 import model.User;
 
-public class ProfileWindowController implements Initializable {
+public class AdminModifyAdminController implements Initializable {
 
     @FXML
     private Label lblPasswordMessage;
@@ -43,15 +45,17 @@ public class ProfileWindowController implements Initializable {
     @FXML
     private Button btnSave;
     @FXML
-    private TextField txtFieldCardNumber;
+    private TextField txtFieldAccountNumber;
+    @FXML
+    private TextField txtFieldProfileCode;
     @FXML
     private ImageView iconTrash;
     @FXML
     private ImageView iconHome;
     @FXML
-    private ComboBox comboGender;
+    private Label lblHome;
 
-    private User user;
+    private Admin user;
 
     private Controller cont = new Controller();
 
@@ -63,9 +67,7 @@ public class ProfileWindowController implements Initializable {
         String username;
         String password;
         int phoneNumber;
-        String cardNumber;
-        String card_no;
-        String gender;
+        String account_no;
 
         //Verifies if there are no fills empty and there are changes
         if (!isAnyFieldEmpty() && hasUserDataChanged()) {
@@ -75,18 +77,16 @@ public class ProfileWindowController implements Initializable {
             email = txtFieldEmail.getText();
             username = txtFieldUsername.getText();
             phoneNumber = parseInt(txtFieldPhoneNumber.getText());
-            card_no = txtFieldCardNumber.getText();
-            gender = comboGender.getSelectionModel().getSelectedItem().toString();
+            account_no = txtFieldAccountNumber.getText();
 
             user.setName(name);
             user.setSurname(surname);
             user.setEmail(email);
             user.setUser_name(username);
             user.setTelephone(phoneNumber);
-            user.setCard_no(card_no);
-            user.setGender(gender);
+            user.setCurrent_account(account_no);
 
-            cont.modifyUser(user);
+            cont.modifyAdmin(user);
             lblSavedMessage.setText("Correctly modified");
             lblSavedMessage.setStyle("-fx-text-fill: green;");
 
@@ -107,7 +107,7 @@ public class ProfileWindowController implements Initializable {
             //passing the user as a parameterS
             ChangePasswdPopupController controller = loader.getController();
             if (controller != null) {
-                controller.setUser((Profile) user);
+                controller.setUser(user);
             }
 
             Stage stage = new Stage();
@@ -120,25 +120,40 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
-    public void setUser(User user) {
+    public void setUser(Admin user) {
         this.user = user;
         if (txtFieldName != null) {
             loadData();
         }
     }
 
-    public void loadData() {
+    public void openHomeWindow(MouseEvent event) {
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
+            root = loader.load();
 
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void loadData() {
         //loads the texfields
         txtFieldName.setText(user.getName());
         txtFieldSurname.setText(user.getSurname());
         txtFieldEmail.setText(user.getEmail());
         txtFieldUsername.setText(user.getUser_name());
         txtFieldPhoneNumber.setText(String.valueOf(user.getTelephone()));
-
-        txtFieldCardNumber.setText(user.getCard_no());
-        comboGender.getSelectionModel().select(user.getGender());
-
+        txtFieldProfileCode.setText(String.valueOf(user.getProfile_code()));
+        txtFieldAccountNumber.setText(user.getCurrent_account());
     }
 
     private boolean isAnyFieldEmpty() {
@@ -147,8 +162,7 @@ public class ProfileWindowController implements Initializable {
                 || txtFieldEmail.getText().isEmpty()
                 || txtFieldUsername.getText().isEmpty()
                 || txtFieldPhoneNumber.getText().isEmpty()
-                || txtFieldCardNumber.getText().isEmpty()
-                || comboGender.getSelectionModel().getSelectedItem() == null;
+                || txtFieldAccountNumber.getText().isEmpty();
     }
 
     private boolean hasUserDataChanged() {
@@ -157,41 +171,31 @@ public class ProfileWindowController implements Initializable {
                 || !txtFieldEmail.getText().equals(user.getEmail())
                 || !txtFieldUsername.getText().equals(user.getUser_name())
                 || !txtFieldPhoneNumber.getText().equals(String.valueOf(user.getTelephone()))
-                || !txtFieldCardNumber.getText().equals(user.getCard_no())
-                || !comboGender.getSelectionModel().getSelectedItem().equals(user.getGender());
+                || !txtFieldAccountNumber.getText().equals(user.getCurrent_account());
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //fill the combobox
-        comboGender.getItems().addAll("Man", "Female", "Other");
-        comboGender.setEditable(false);
-
         iconTrash.setOnMouseClicked(event -> {
-            //abrir pop up delete account
-
-        });
-
-        iconHome.setOnMouseClicked(event -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
                 Parent root = loader.load();
-
-                /*
-            ChangePasswdPopupController controller = loader.getController();
-            if (controller != null) {
-                controller.setUser(user); 
-            }*/
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
-                stage.setTitle("Home Window");
                 stage.show();
 
-            } catch (IOException e) {
-                throw new RuntimeException("Error creating main window", e);
+            } catch (IOException ex) {
+                throw new RuntimeException("Error creating main window", ex);
             }
         });
 
+        iconHome.setOnMouseClicked(event -> {
+            openHomeWindow(event);
+        });
+
+        lblHome.setOnMouseClicked(event -> {
+            openHomeWindow(event);
+        });
     }
 
 }

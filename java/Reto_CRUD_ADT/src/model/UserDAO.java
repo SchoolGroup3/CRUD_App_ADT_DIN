@@ -19,7 +19,8 @@ import java.util.HashMap;
 public interface UserDAO {
     public Profile checkUser(Profile profile);
     public boolean modifyUser (User user);
-    public boolean modifyPassword(User user, String passwd);
+    public boolean modifyAdmin (Admin user);
+    public boolean modifyPassword(Profile user, String passwd);
     public boolean deleteUser(User user);
     public HashMap<Integer, User> getAllUsers();
 }

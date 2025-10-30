@@ -26,7 +26,11 @@ public class Controller {
         return dao.modifyUser(user);
     }
     
-    public boolean modifyPassword(User user, String passwd){
+    public boolean modifyAdmin(Admin user){
+        return dao.modifyAdmin(user);
+    }
+    
+    public boolean modifyPassword(Profile user, String passwd){
         return dao.modifyPassword(user, passwd);
     }
     
