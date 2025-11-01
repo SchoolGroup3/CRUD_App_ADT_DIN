@@ -37,10 +37,10 @@ public class Controller {
     public HashMap<Integer, User> getAllUsers() {
         return dao.getAllUsers();
     }
-    public Profile checkUser(Profile profile){
-        return dao.checkUser(profile);
+    public Profile checkUser(String username, String password){
+        return dao.checkUser(username, password);
     }
-    public Profile insertUser(Profile profile){
-        return dao.insertUser(profile);
+    public Profile insertUser(String username, String password){
+        return dao.insertUser(username, password);
     }
 }

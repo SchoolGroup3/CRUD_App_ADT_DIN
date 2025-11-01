@@ -20,6 +20,7 @@ import model.User;
 public class SignUpWindowController implements Initializable {
 
     ImplementsBD im = new ImplementsBD();
+    private User user;
 
     @FXML
     private TextField username;
@@ -41,7 +42,6 @@ public class SignUpWindowController implements Initializable {
         String user_name = username.getText().trim();
         String password1 = pswd1.getText().trim();
         String password2 = pswd2.getText().trim();
-
         if (user_name.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
             showAlert("Campos vacíos", "Por favor, completa todos los campos.");
             return;
@@ -50,12 +50,11 @@ public class SignUpWindowController implements Initializable {
             showAlert("Contraseñas no coinciden", "Las contraseñas deben ser iguales.");
             return;
         }
-        Profile newUser = new User(user_name, password1);
-        Profile creado = im.insertUser(newUser);
+        Profile creado = im.insertUser(user_name, password1);
 
         if (creado != null) {
             showAlert("Registro exitoso", "Usuario creado correctamente.");
-            redirectToMain();
+            redirectToMain(creado);
         } else {
             showAlert("Error", "No se pudo crear el usuario. Intenta con otro nombre.");
         }
@@ -64,14 +63,14 @@ public class SignUpWindowController implements Initializable {
     @FXML
     private void redirectToLogin() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
 
-            Stage currentStage = (Stage) SignUpButton.getScene().getWindow();
-            currentStage.close();
+            Stage actualStage = (Stage) pswd1.getScene().getWindow();
+            actualStage.close();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "No se pudo abrir la ventana de login.");
@@ -79,16 +78,20 @@ public class SignUpWindowController implements Initializable {
     }
 
     @FXML
-    private void redirectToMain() {
+    private void redirectToMain(Profile user) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("HomeWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
             Parent root = loader.load();
+            
+            HomeWindowController controller = loader.getController();
+            //controller.SetUser(user);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
 
-            Stage currentStage = (Stage) SignUpButton.getScene().getWindow();
-            currentStage.close();
+            Stage actualStage = (Stage) pswd1.getScene().getWindow();
+            actualStage.close();
+
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "No se pudo abrir la ventana de Home.");
@@ -102,29 +105,12 @@ public class SignUpWindowController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-   public static void openSignUpWindow() {
-        try {
-            FXMLLoader loader = new FXMLLoader(SignUpWindowController.class.getResource("SignUpWindow.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Registro de Usuario");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }   
-        private void openNewSignUpWindow() {
-        openSignUpWindow();
-        Stage currentStage = (Stage) SignUpButton.getScene().getWindow();
-        currentStage.close();
-    }
+       
+        
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        SignUpButton.setOnAction(e -> handleSignUp());
-        LogInButton.setOnAction(e -> redirectToLogin());
+
     }
-    
-    
+
 }
