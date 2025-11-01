@@ -104,10 +104,10 @@ public class ProfileWindowController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ChangePasswdPopup.fxml"));
             Parent root = loader.load();
 
-            //passing the user as a parameterS
+            //passing the user as a parameter
             ChangePasswdPopupController controller = loader.getController();
             if (controller != null) {
-                controller.setUser((Profile) user);
+                controller.setUser(user);
             }
 
             Stage stage = new Stage();
@@ -120,8 +120,8 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Profile user) {
+        this.user = (User)user;
         if (txtFieldName != null) {
             loadData();
         }

@@ -107,7 +107,7 @@ public class AdminModifyAdminController implements Initializable {
             //passing the user as a parameterS
             ChangePasswdPopupController controller = loader.getController();
             if (controller != null) {
-                controller.setUser(user);
+                //controller.setUser(user);
             }
 
             Stage stage = new Stage();

@@ -37,7 +37,7 @@ public class ImplementsBD implements UserDAO {
     }
 
     @Override
-    public Profile checkUser(Profile profile) {
+    public Profile checkUser(String username, String passwd) {
         Profile foundProfile = null; // Inicializamos como null
         Connection con = null;
         PreparedStatement stmt = null;
@@ -146,7 +146,8 @@ public class ImplementsBD implements UserDAO {
     @Override
     public boolean modifyAdmin(Admin user) {
         boolean valid = false;
-        this.openConnection();
+        Connection con = null;
+        PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(SQLMODIFYADMIN);
             stmt.setString(1, user.getEmail());
@@ -164,14 +165,30 @@ public class ImplementsBD implements UserDAO {
             con.close();
         } catch (SQLException e) {
             System.out.println("An error occurred." + e);
+        }finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close(); // To always return de connection to the pool
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
         return valid;
     }
 
     @Override
-    public boolean modifyPassword(User user, String newPassword) {
+    public boolean modifyPassword(Profile user, String newPassword) {
         boolean valid = false;
-        this.openConnection();
+        Connection con = null;
+        PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(SQLMODIFYPASSWD);
             stmt.setString(1, newPassword);
@@ -183,6 +200,21 @@ public class ImplementsBD implements UserDAO {
             con.close();
         } catch (SQLException e) {
             System.out.println("An error occurred.");
+        }finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close(); // To always return de connection to the pool
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
         return valid;
     }
@@ -202,6 +234,21 @@ public class ImplementsBD implements UserDAO {
             con.close();
         } catch (SQLException e) {
             System.out.println("An error occurred.");
+        }finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close(); // To always return de connection to the pool
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
         return valid;
     }
@@ -209,7 +256,8 @@ public class ImplementsBD implements UserDAO {
     @Override
     public Profile insertUser(String username, String password) {
         User foundProfile = null;
-        this.openConnection();
+        Connection con = null;
+        PreparedStatement stmt = null;
 
         try {
             stmt = con.prepareStatement(SQLSIGNUP);
