@@ -12,14 +12,15 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         //Estaba puesto para login window y no funcionaba, igual prueba las cosas antes de pushearlas
         //Esto ha pasado en varios proyecto ya, PRUEBA ANTES DE PUSHEAR
-        Parent root = FXMLLoader.load(getClass().getResource("/view/HomeAdminWindow.fxml"));
-
-        Scene scene = new Scene(root);
-        
-        BasicDataSource ds = new BasicDataSource();
-
-        stage.setScene(scene);
-        stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileWindow.fxml"));
+            Parent root = loader.load();
+            
+          
+            stage.setScene(new Scene(root));
+            stage.setTitle("Login");
+            stage.setResizable(false);
+            
+           
     }
 
     public static void main(String[] args) {

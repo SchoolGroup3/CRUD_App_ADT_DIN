@@ -43,22 +43,26 @@ INSERT INTO ADMIN_ (PROFILE_CODE, CURRENT_ACCOUNT) VALUES
 (4, 'ES12-3456-7890-1234-5678'),
 (5, 'ES98-7654-3210-9876-5432');
 
+SELECT * FROM PROFILE_ AS P, USER_ AS U WHERE P.PROFILE_CODE = U.PROFILE_CODE;
+SELECT * FROM PROFILE_ AS P, USER_ AS U WHERE P.PROFILE_CODE = U.PROFILE_CODE;
+
 
 DELIMITER //
-
-CREATE PROCEDURE RegistrarUsuario(IN p_username VARCHAR(30),IN p_pswd VARCHAR(30))
+CREATE PROCEDURE RegistrarUsuario( IN p_username VARCHAR(30), IN p_pswd VARCHAR(30))
 BEGIN
-    DECLARE nuevo_profile_code INT;
+    DECLARE  nuevo_profile_code INT;
     
     INSERT INTO PROFILE_ (EMAIL, USER_NAME, PSWD, TELEPHONE, NAME_, SURNAME)
-    VALUES (p_pswd, p_surname);
-    
+    VALUES (null, p_username, p_pswd, null, null, null);
+
     SET nuevo_profile_code = LAST_INSERT_ID();
-    
+
     INSERT INTO USER_ (PROFILE_CODE, GENDER, CARD_NO)
-    VALUES (nuevo_profile_code);
+    VALUES (nuevo_profile_code, null, null);
+    
+    SELECT * FROM PROFILE_ WHERE PROFILE_CODE= nuevo_profile_code;
 
-    SELECT TRUE AS exito;
-END //
 
-DELIMITER ;
+ END //
+
+DELIMITER ; 

@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.util.ResourceBundle;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DatabaseConnection {
@@ -23,9 +25,8 @@ public class DatabaseConnection {
             dataSource.setMaxTotal(4);       // Máximo de conexiones
             dataSource.setMaxIdle(4);        // Máximo de conexiones inactivas
             dataSource.setMinIdle(1);        // Mínimo de conexiones inactivas
-            dataSource.setMaxWaitMillis(30000); // 30 segundos de espera
+                                        // 30 segundos de espera
             dataSource.setRemoveAbandonedOnBorrow(true);
-            dataSource.setRemoveAbandonedTimeout(30);
             dataSource.setLogAbandoned(true);
         } catch (Exception e) {
             throw new RuntimeException("Error al configurar el pool de conexiones", e);
