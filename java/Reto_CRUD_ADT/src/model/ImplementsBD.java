@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
  *
@@ -14,17 +17,8 @@ import java.util.ResourceBundle;
  */
 public class ImplementsBD implements UserDAO {
 
-    // Atributos
-    private Connection con; //PASAR POR PARAMENTRO LA CONEXION
-    private PreparedStatement stmt;
-
-    // Los siguientes atributos se utilizan para recoger los valores del fichero de
-    // configuración
-    private ResourceBundle configFile;
-    private String driverBD;
-    private String urlBD;
-    private String userBD;
-    private String passwordBD;
+    // El pool
+    private BasicDataSource dataSource;
 
     // Querys
     final String SQLLOGINGUSER = "SELECT p.PROFILE_CODE, USER_NAME, PSWD, GENDER, CARD_NO FROM PROFILE_ p JOIN USER_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
@@ -39,28 +33,15 @@ public class ImplementsBD implements UserDAO {
     final String SQLSIGNUP = "call RegistrarUsuario(?,?)";
 
     public ImplementsBD() {
-        this.configFile = ResourceBundle.getBundle("configClase");
-        this.driverBD = this.configFile.getString("Driver");
-        this.urlBD = this.configFile.getString("Conn");
-        this.userBD = this.configFile.getString("DBUser");
-        this.passwordBD = this.configFile.getString("DBPass");
-    }
-
-    private void openConnection() {
-        try {
-            con = DriverManager.getConnection(urlBD, this.userBD, this.passwordBD);
-        } catch (SQLException e) {
-            System.out.println("Error al intentar abrir la BD");
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.dataSource = DatabaseConnection.getDataSource();
     }
 
     @Override
-    public Profile checkUser(String username, String passwd) {
-        Profile foundProfile = null;
-        this.openConnection();
+    public Profile checkUser(Profile profile) {
+        Profile foundProfile = null; // Inicializamos como null
+        Connection con = null;
+        PreparedStatement stmt = null;
+
         try {
             stmt = con.prepareStatement(SQLLOGINGUSER);
             stmt.setString(1, username);
@@ -98,6 +79,21 @@ public class ImplementsBD implements UserDAO {
             }
         } catch (SQLException e) {
             System.out.println("Error al verificar credenciales: " + e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close(); // To always return de connection to the pool
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
 
         foundProfile.toString(); //debug
@@ -107,8 +103,11 @@ public class ImplementsBD implements UserDAO {
     @Override
     public boolean modifyUser(User user) {
         boolean valid = false;
-        this.openConnection();
+        Connection con = null;
+        PreparedStatement stmt = null;
+
         try {
+            con = dataSource.getConnection();
             stmt = con.prepareStatement(SQLMODIFYUSER);
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getUser_name());
@@ -122,13 +121,27 @@ public class ImplementsBD implements UserDAO {
             if (stmt.executeUpdate() > 0) {
                 valid = true;
             }
-            stmt.close();
-            con.close();
         } catch (SQLException e) {
             System.out.println("An error occurred.");
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close(); // To always return de connection to the pool
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
         return valid;
     }
+
 
     @Override
     public boolean modifyAdmin(Admin user) {
@@ -154,9 +167,9 @@ public class ImplementsBD implements UserDAO {
         }
         return valid;
     }
-    
+
     @Override
-    public boolean modifyPassword(Profile user, String newPassword) {
+    public boolean modifyPassword(User user, String newPassword) {
         boolean valid = false;
         this.openConnection();
         try {
@@ -177,7 +190,8 @@ public class ImplementsBD implements UserDAO {
     @Override
     public boolean deleteUser(User user) {
         boolean valid = false;
-        this.openConnection();
+        Connection con = null;
+        PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement(SQLDELETEUSER);
             stmt.setInt(1, user.getProfile_code());
@@ -212,9 +226,25 @@ public class ImplementsBD implements UserDAO {
             con.close();
         } catch (SQLException e) {
             System.out.println("Error al verificar credenciales: " + e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close(); // To always return de connection to the pool
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
         }
         return foundProfile;
     }
+
 
     @Override
     public HashMap<Integer, User> getAllUsers() {
@@ -222,7 +252,8 @@ public class ImplementsBD implements UserDAO {
         ResultSet rs = null;
         HashMap<Integer, User> users = new HashMap<>();
 
-        this.openConnection();
+        Connection con = null;
+        PreparedStatement stmt = null;
 
         try {
             stmt = con.prepareStatement(SQLGETUSERS);
@@ -248,6 +279,28 @@ public class ImplementsBD implements UserDAO {
             con.close();
         } catch (SQLException e) {
             System.out.println("An error occurred: " + e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing ResultSet: " + e.getMessage());
+            }
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing Statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing Connection: " + e.getMessage());
+            }
         }
 
         return users;
