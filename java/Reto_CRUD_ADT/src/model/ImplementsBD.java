@@ -30,6 +30,7 @@ public class ImplementsBD implements UserDAO {
     final String SQLLOGINGUSER = "SELECT p.PROFILE_CODE, USER_NAME, PSWD, GENDER, CARD_NO FROM PROFILE_ p JOIN USER_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
     final String SQLLOGINADMIN = "SELECT p.PROFILE_CODE, USER_NAME, PSWD,CURRENT_ACCOUNT FROM PROFILE_ p JOIN ADMIN_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
     final String SQLMODIFYUSER = "UPDATE USER_ U JOIN PROFILE_ P ON U.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, U.GENDER = ?, U.CARD_NO = ? WHERE P.PROFILE_CODE = ?";
+    final String SQLMODIFYADMIN = "UPDATE ADMIN_ A JOIN PROFILE_ P ON A.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, A.CURRENT_ACCOUNT = ? WHERE P.PROFILE_CODE = ?";
     final String SQLMODIFYPASSWD = "UPDATE PROFILE_ SET PSWD = ? WHERE PROFILE_CODE  = ?";
     final String SQLDELETEUSER = "DELETE U, P FROM USER_ U JOIN PROFILE_ P ON P.PROFILE_CODE = U.PROFILE_CODE WHERE U.PROFILE_CODE = ?";
     final String SQLGETUSERS = "SELECT * FROM PROFILE_ AS P, USER_ AS U WHERE P.PROFILE_CODE = U.PROFILE_CODE;";
@@ -130,7 +131,32 @@ public class ImplementsBD implements UserDAO {
     }
 
     @Override
-    public boolean modifyPassword(User user, String newPassword) {
+    public boolean modifyAdmin(Admin user) {
+        boolean valid = false;
+        this.openConnection();
+        try {
+            stmt = con.prepareStatement(SQLMODIFYADMIN);
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getUser_name());
+            stmt.setInt(3, user.getTelephone());
+            stmt.setString(4, user.getName());
+            stmt.setString(5, user.getSurname());
+            stmt.setString(6, user.getCurrent_account());           
+            stmt.setInt(7, user.getProfile_code());
+            
+            if (stmt.executeUpdate() > 0) {
+                valid = true;
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            System.out.println("An error occurred." + e);
+        }
+        return valid;
+    }
+    
+    @Override
+    public boolean modifyPassword(Profile user, String newPassword) {
         boolean valid = false;
         this.openConnection();
         try {
@@ -227,9 +253,9 @@ public class ImplementsBD implements UserDAO {
         return users;
     }
 
-    @Override
+   /* @Override
     public boolean modifyAdmin(Admin admin) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }*/
 
 }

@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import model.Profile;
 import model.User;
 
 /**
@@ -36,7 +37,7 @@ public class ChangePasswdPopupController implements Initializable {
     @FXML
     private Label lblIncorrectPassword;
 
-    private User user;
+    private Profile user;
 
     private Controller cont = new Controller();
 
@@ -94,7 +95,7 @@ public class ChangePasswdPopupController implements Initializable {
         }
     }
 
-    public void setUser(User user) {
+    public void setUser(Profile user) {
         this.user = user;
     }
 }
