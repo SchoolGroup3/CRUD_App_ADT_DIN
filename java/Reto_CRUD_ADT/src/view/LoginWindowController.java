@@ -7,10 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,12 +16,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import model.Admin;
 import model.ImplementsBD;
 import model.Profile;
-import model.User;
-import view.*;
 import javafx.stage.Stage;
 import model.User;
 
@@ -45,34 +40,42 @@ public class LoginWindowController implements Initializable {
 
     @FXML
     private void handleLogin() {
-        String username = usernameTextField.getText();
-        String password = passwordTextField.getText();
-        Profile profile = new Profile(username, password) {
-            @Override
-            public void mostrar() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
+        
+        /*if (usernameTextField.isEmpty || passwordTextField.isEmpty()) {
+            showAlert("Campos vacíos", "Por favor, completa todos los campos.");
+            return;
+        }*/
+        String username = usernameTextField.getText().trim();
+        String password = passwordTextField.getText().trim();
+        Profile y = im.checkUser(username, password);
+        System.out.println(y); //debug
+        
+         
 
-        if (im.checkUser(profile) != null) {
+        if (y != null) {
             showAlert("Login correcto", "Bienvenido, " + username);
-            if (profile instanceof Admin) {
+            if (y instanceof Admin) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("HomeAdminWindow.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeAdminWindow.fxml"));
                     Parent root = loader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
+                    Stage currentStage = (Stage) loginButton.getScene().getWindow();
+                    currentStage.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if (profile instanceof User) {
+            } else if (y instanceof User) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("HomeWindow.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
                     Parent root = loader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
+                    Stage currentStage = (Stage) loginButton.getScene().getWindow();
+                    currentStage.close();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -91,54 +94,22 @@ public class LoginWindowController implements Initializable {
     }
 
     @FXML
-    private void manejarBotones(ActionEvent event) throws IOException {
-        Button source = (Button) event.getSource();
-        switch (source.getId()) {
-            case "loginButton":
-                handleLogin();
-                break;
-            case "signupButton":
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpWindow.fxml"));
-                Parent root = null;
-                root = loader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-                break;
-        }
+    private void openSignup() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpWindow.fxml"));
+        Parent root = null;
+        root = loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        Stage actualStage = (Stage) usernameTextField.getScene().getWindow();
+        actualStage.close();
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            // TODO
-            manejarBotones(event);
-        } catch (IOException ex) {
-            Logger.getLogger(LoginWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
 
-    // TODO
-
-    public void openWindow(Event event, User user) {
-        // Add this to controller when merging
-        Stage stage = new Stage();
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-            root = loader.load();
-
-            HomeWindowController contInfo = loader.getController();
-            contInfo.setUser(user);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
