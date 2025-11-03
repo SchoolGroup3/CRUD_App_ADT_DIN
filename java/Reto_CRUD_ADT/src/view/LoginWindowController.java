@@ -53,7 +53,7 @@ public class LoginWindowController implements Initializable {
          
 
         if (y != null) {
-            showAlert("Login correcto", "Bienvenido, " + username);
+            showAlert("Login successful", "Welcome, " + username);
             if (y instanceof Admin) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeAdminWindow.fxml"));
@@ -81,7 +81,7 @@ public class LoginWindowController implements Initializable {
                 }
             }
         } else {
-            showAlert("Login fallido", "Usuario o contraseña incorrectos");
+            showAlert("Login failed", "Incorrect username or password");
         }
     }
 

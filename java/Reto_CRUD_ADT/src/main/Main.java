@@ -28,7 +28,6 @@ public class Main extends Application {
         
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
         Parent root = loader.load();
-
         stage.setScene(new Scene(root));
         stage.show();
     }

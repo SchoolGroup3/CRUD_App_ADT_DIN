@@ -41,24 +41,26 @@ public class ImplementsBD implements UserDAO {
         Profile foundProfile = null; // Inicializamos como null
         Connection con = null;
         PreparedStatement stmt = null;
+        PreparedStatement stm = null;
 
         try {
+            con = dataSource.getConnection();
             stmt = con.prepareStatement(SQLLOGINGUSER);
             stmt.setString(1, username);
             stmt.setString(2, passwd);
             ResultSet result = stmt.executeQuery();
             if (!result.next()) {
-                stmt = con.prepareStatement(SQLLOGINGUSER);
-                stmt.setString(1, username);
-                stmt.setString(2, passwd);
-                ResultSet result1 = stmt.executeQuery();
+                stm = con.prepareStatement(SQLLOGINADMIN);
+                stm.setString(1, username);
+                stm.setString(2, passwd);
+                ResultSet result1 = stm.executeQuery();
                 if (result1.next()) {
                     int profile_code = result1.getInt("PROFILE_CODE");
                     String username1 = result1.getString("USER_NAME");
                     String password = result1.getString("PSWD");
                     foundProfile = new Admin(profile_code, null, username1, password, 000000000, null, null, null);
                     foundProfile.toString(); //debug
-                    stmt.close();
+                    stm.close();
                     con.close();
                     return foundProfile;
                 } else {
@@ -260,6 +262,7 @@ public class ImplementsBD implements UserDAO {
         PreparedStatement stmt = null;
 
         try {
+            con = dataSource.getConnection();
             stmt = con.prepareStatement(SQLSIGNUP);
             stmt.setString(1, username);
             stmt.setString(2, password);

@@ -43,20 +43,20 @@ public class SignUpWindowController implements Initializable {
         String password1 = pswd1.getText().trim();
         String password2 = pswd2.getText().trim();
         if (user_name.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
-            showAlert("Campos vacíos", "Por favor, completa todos los campos.");
+            showAlert("Empty fields", "Please complete all fields.");
             return;
         }
         if (!password1.equals(password2)) {
-            showAlert("Contraseñas no coinciden", "Las contraseñas deben ser iguales.");
+            showAlert("Passwords do not match", "Passwords must be the same.");
             return;
         }
         Profile creado = im.insertUser(user_name, password1);
 
         if (creado != null) {
-            showAlert("Registro exitoso", "Usuario creado correctamente.");
+            showAlert("Successful registration", "User created successfully.");
             redirectToMain(creado);
         } else {
-            showAlert("Error", "No se pudo crear el usuario. Intenta con otro nombre.");
+            showAlert("Error", "The user could not be created. Please try another name.");
         }
     }
 
@@ -73,7 +73,7 @@ public class SignUpWindowController implements Initializable {
             actualStage.close();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "No se pudo abrir la ventana de login.");
+            showAlert("Error", "The login window could not be opened.");
         }
     }
 
@@ -94,7 +94,7 @@ public class SignUpWindowController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "No se pudo abrir la ventana de Home.");
+            showAlert("Error", "The Home window could not be opened.");
         }
     }
 
