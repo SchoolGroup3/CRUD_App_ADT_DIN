@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" prefHeight="358.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.HomeAdminWindowController">
+<AnchorPane id="AnchorPane" prefHeight="358.0" prefWidth="596.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AdminHomeWindowController">
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#212529" height="360.0" layoutX="-7.0" layoutY="-2.0" stroke="BLACK" strokeType="INSIDE" width="113.0" />
         <Label fx:id="label" layoutX="47.0" layoutY="80.0" minHeight="16" minWidth="69" text="Home" textFill="WHITE" />
-      <Button fx:id="button" layoutX="19.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="36.0" prefWidth="78.0" text="LOGO" />
-      <Label fx:id="label1" layoutX="50.0" layoutY="312.0" minHeight="16" minWidth="47.0" prefHeight="18.0" prefWidth="47.0" text="Settings" textFill="WHITE" />
+      <Button fx:id="button" layoutX="19.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="78.0" text="LOGO" />
+      <Label fx:id="label1" layoutX="50.0" layoutY="312.0" minHeight="16" minWidth="47.0" onMouseClicked="#settingsWindow" prefHeight="18.0" prefWidth="47.0" text="Settings" textFill="WHITE" />
       <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="13.0" layoutY="71.0">
          <image>
             <Image url="@assets/img/Home.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="11.0" layoutY="305.0">
+      <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="11.0" layoutY="305.0" onMouseClicked="#settingsWindow">
          <image>
             <Image url="@assets/img/Settings.png" />
          </image>
@@ -34,7 +34,7 @@
         <columns>
           <TableColumn id="user_name" fx:id="user_name" minWidth="133.33" prefWidth="75.0" text="User" />
           <TableColumn id="card_no" fx:id="card_no" minWidth="135.0" prefWidth="75.0" text="Account Number" />
-            <TableColumn id="email" fx:id="email" minWidth="119.73336791992188" prefWidth="130.39999389648438" />
+            <TableColumn id="email" fx:id="buttons" minWidth="119.73336791992188" prefWidth="130.39999389648438" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -17,13 +17,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.Profile;
 import model.User;
 
-public class ProfileWindowController implements Initializable {
+public class AdminModifyUserController implements Initializable {
 
-    @FXML
-    private Label lblPasswordMessage;
     @FXML
     private Label lblSavedMessage;
     @FXML
@@ -35,25 +32,21 @@ public class ProfileWindowController implements Initializable {
     @FXML
     private TextField txtFieldUsername;
     @FXML
-    private TextField txtFieldPassword;
-    @FXML
     private TextField txtFieldPhoneNumber;
     @FXML
-    private Button btnChangePassword;
-    @FXML
-    private Button btnSave;
-    @FXML
     private TextField txtFieldCardNumber;
-    @FXML
-    private ImageView iconTrash;
-    @FXML
-    private ImageView iconHome;
     @FXML
     private ComboBox comboGender;
 
     private User user;
 
     private Controller cont = new Controller();
+    @FXML
+    private Button btnChangePassword;
+    @FXML
+    private Button btnSave;
+    @FXML
+    private Label lblPasswordMessage;
 
     @FXML
     private void handleButtonActionSave(ActionEvent event) {
@@ -104,7 +97,7 @@ public class ProfileWindowController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ChangePasswdPopup.fxml"));
             Parent root = loader.load();
 
-            //passing the user as a parameter
+            //passing the user as a parameterS
             ChangePasswdPopupController controller = loader.getController();
             if (controller != null) {
                 controller.setUser(user);
@@ -120,8 +113,8 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
-    public void setUser(Profile user) {
-        this.user = (User)user;
+    public void setUser(User user) {
+        this.user = user;
         if (txtFieldName != null) {
             loadData();
         }
@@ -166,32 +159,6 @@ public class ProfileWindowController implements Initializable {
         //fill the combobox
         comboGender.getItems().addAll("Man", "Female", "Other");
         comboGender.setEditable(false);
-
-        iconTrash.setOnMouseClicked(event -> {
-            //abrir pop up delete account
-
-        });
-
-        iconHome.setOnMouseClicked(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-                Parent root = loader.load();
-
-                /*
-            ChangePasswdPopupController controller = loader.getController();
-            if (controller != null) {
-                controller.setUser(user); 
-            }*/
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Home Window");
-                stage.show();
-
-            } catch (IOException e) {
-                throw new RuntimeException("Error creating main window", e);
-            }
-        });
-
     }
 
 }

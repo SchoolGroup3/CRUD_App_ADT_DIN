@@ -17,9 +17,11 @@ import java.util.HashMap;
  * @author 2dami
  */
 public interface UserDAO {
-    public Profile checkUser(Profile profile);
-    public boolean modifyProfile (Profile profile);
+    public Profile checkUser(String username, String password);
     public boolean modifyUser (User user);
-    public boolean modifyAdmin (Admin admin);
+    public boolean modifyAdmin (Admin user);
+    public boolean modifyPassword(Profile user, String passwd);
+    public boolean deleteUser(User user);
     public HashMap<Integer, User> getAllUsers();
+    public Profile insertUser(String username, String password);
 }

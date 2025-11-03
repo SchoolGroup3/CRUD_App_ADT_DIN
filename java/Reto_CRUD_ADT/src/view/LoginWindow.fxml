@@ -9,25 +9,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginWindowController">
+<AnchorPane id="AnchorPane" prefHeight="369.0" prefWidth="508.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginWindowController">
     <children>
-        <PasswordField layoutX="196.0" layoutY="213.0" prefHeight="30.0" prefWidth="204.0" promptText="Password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
-        <TextField layoutX="196.0" layoutY="138.0" prefHeight="30.0" prefWidth="204.0" promptText="Username" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
-        <Button id="loginButton" layoutX="198.0" layoutY="285.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="204.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #101416;" text="Log In" textFill="WHITE" />
-        <Label layoutX="129.0" layoutY="37.0" prefHeight="70.0" prefWidth="342.0" text="Welcome Back!">
+        <PasswordField fx:id="passwordTextField" layoutX="74.0" layoutY="195.0" prefHeight="30.0" prefWidth="347.0" promptText="Password" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
+        <TextField fx:id="usernameTextField" layoutX="74.0" layoutY="138.0" prefHeight="30.0" prefWidth="347.0" promptText="Username" style="-fx-border-radius: 50px; -fx-background-radius: 50px;" />
+        <Button id="loginButton" layoutX="74.0" layoutY="248.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="30.0" prefWidth="347.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #101416;" text="Log In" textFill="WHITE" />
+        <Label layoutX="67.0" layoutY="36.0" prefHeight="70.0" prefWidth="373.0" text="Welcome Back!">
             <font>
-                <Font name="Bell MT Bold" size="48.0" />
+                <Font name="System Bold" size="48.0" />
             </font>
         </Label>
-        <Label layoutX="201.0" layoutY="331.0" prefHeight="18.0" prefWidth="143.0" text="Don't have an account?" />
-        <Button id="signupButton" layoutX="343.0" layoutY="325.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="56.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 14px; -fx-underline: true; -fx-padding: 0; -fx-cursor: hand;" text="Sign Up">
-        </Button>
-      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="373.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+        <Label layoutX="81.0" layoutY="294.0" prefHeight="27.0" prefWidth="211.0" text="Don't have an account?">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+        <Button id="signupButton" layoutX="292.0" layoutY="291.0" mnemonicParsing="false" onAction="#openSignup" prefHeight="33.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 20px; -fx-underline: true; -fx-padding: 0; -fx-cursor: hand;" text="Sign Up">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <ImageView fitHeight="18.0" fitWidth="18.0" layoutX="398.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/img/user.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="373.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="18.0" fitWidth="22.0" layoutX="398.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@assets/img/key.png" />
          </image>
