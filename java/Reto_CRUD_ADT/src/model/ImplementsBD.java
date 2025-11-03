@@ -66,33 +66,31 @@ public class ImplementsBD implements UserDAO {
                 // Obtenemos los datos del usuario de la base de datos	
                 String dni = resultado.getString("DNI");
                 int edad = resultado.getInt("EDAD");
-                String email = resultado.getString("EMAIL");
+                String email;
 
-                if (resultado instanceof Admin) { 
-                   int profile_code = resultado.getInt("PROFILE_CODE");
-                   email = resultado.getString("EMAIL");
-                   String username = resultado.getString("USER_NAME");
-                   String password = resultado.getString("PSWD");
-                   int telephone = resultado.getInt("TELEPHONE");
-                   String name = resultado.getString("NAME_");
-                   String surname = resultado.getString("SURNAME");
-                   String current_account = resultado.getString("CURRENT_ACCOUNT");
-                   foundProfile = new Admin(profile_code, email, username, password, telephone, name, surname, current_account);
-                    
-                }else if (resultado instanceof User){
+                if (resultado instanceof Admin) {
                     int profile_code = resultado.getInt("PROFILE_CODE");
-                   email = resultado.getString("EMAIL");
-                   String username = resultado.getString("USER_NAME");
-                   String password = resultado.getString("PSWD");
-                   int telephone = resultado.getInt("TELEPHONE");
-                   String name = resultado.getString("NAME_");
-                   String surname = resultado.getString("SURNAME");
-                   String gender = resultado.getString("GENDER");
-                   String card_no= resultado.getString("CARD_NO");
-                   foundProfile = new User(profile_code,email, username, password, telephone, name,surname, gender, card_no);
-                }
-                
+                    email = resultado.getString("EMAIL");
+                    String username = resultado.getString("USER_NAME");
+                    String password = resultado.getString("PSWD");
+                    int telephone = resultado.getInt("TELEPHONE");
+                    String name = resultado.getString("NAME_");
+                    String surname = resultado.getString("SURNAME");
+                    String current_account = resultado.getString("CURRENT_ACCOUNT");
+                    foundProfile = new Admin(profile_code, email, username, password, telephone, name, surname, current_account);
 
+                } else if (resultado instanceof User) {
+                    int profile_code = resultado.getInt("PROFILE_CODE");
+                    email = resultado.getString("EMAIL");
+                    String username = resultado.getString("USER_NAME");
+                    String password = resultado.getString("PSWD");
+                    int telephone = resultado.getInt("TELEPHONE");
+                    String name = resultado.getString("NAME_");
+                    String surname = resultado.getString("SURNAME");
+                    String gender = resultado.getString("GENDER");
+                    String card_no = resultado.getString("CARD_NO");
+                    foundProfile = new User(profile_code, email, username, password, telephone, name, surname, gender, card_no);
+                }
             }
 
             stmt.close();
@@ -166,8 +164,8 @@ public class ImplementsBD implements UserDAO {
         }
         return valid;
     }
-    
-     //@Override
+
+    //@Override
     public Profile insertUser(Profile profile) {
         Profile foundProfile = null; // Inicializamos como null
         this.openConnection(); // Abrimos la conexión a la base de datos
@@ -178,13 +176,8 @@ public class ImplementsBD implements UserDAO {
             stmt.setString(1, profile.getEmail()); // Establecemos el nombre de usuario
             stmt.setString(2, profile.getPssw());
             stmt.setString(3, profile.getPssw());
-            
-           
-            ResultSet resultado = stmt.executeQuery(); 
 
-            
-            
-        
+            ResultSet resultado = stmt.executeQuery();
 
             stmt.close();
             con.close();
@@ -194,7 +187,7 @@ public class ImplementsBD implements UserDAO {
         return foundProfile;
 
     }
-    
+
     @Override
     public HashMap<Integer, User> getAllUsers() {
         User user = null;
@@ -206,7 +199,7 @@ public class ImplementsBD implements UserDAO {
         try {
             stmt = con.prepareStatement(SQLGETUSERS);
             rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 user = new User();
                 user.setProfile_code(rs.getInt("PROFILE_CODE"));
@@ -221,14 +214,14 @@ public class ImplementsBD implements UserDAO {
 
                 users.put(user.getProfile_code(), user);
             }
-            
+
             rs.close();
             stmt.close();
             con.close();
         } catch (SQLException e) {
-            System.out.println("An error occurred: "+e);
+            System.out.println("An error occurred: " + e);
         }
-        
+
         return users;
     }
 
