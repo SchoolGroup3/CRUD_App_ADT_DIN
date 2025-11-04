@@ -67,7 +67,6 @@ public class LoginWindowController implements Initializable {
             } else if (y instanceof User) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-                    // Change to Singleton pattern
                     HomeWindowController controller = new HomeWindowController();
                     controller.setUser((User)y);
                     loader.setController(controller);

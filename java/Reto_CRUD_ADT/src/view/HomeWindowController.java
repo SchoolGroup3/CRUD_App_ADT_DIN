@@ -15,10 +15,6 @@ public class HomeWindowController implements Initializable {
 
     private User user;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @FXML
     private Label time;
 
@@ -27,6 +23,10 @@ public class HomeWindowController implements Initializable {
 
     @FXML
     private Button logOut;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     private String timeCheck() {
         String message;
@@ -74,7 +74,6 @@ public class HomeWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         time.setText(timeCheck());
     }
 }

@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import model.Profile;
-import model.User;
 
 /**
  * FXML Controller class
@@ -46,7 +45,7 @@ public class ChangePasswdPopupController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     @FXML

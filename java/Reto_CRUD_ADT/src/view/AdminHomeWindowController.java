@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,7 +39,7 @@ public class AdminHomeWindowController implements Initializable {
     private TableColumn buttons;
 
     private Controller cont = new Controller();
-    private Profile admin = new Admin(4, "ana.martinez@email.com", "anam", "1234", 644556677, "Ana", "Martínez", "ES12-3456-7890-1234-5678");
+    private Profile admin;
     private HashMap<Integer, User> users = cont.getAllUsers();
 
     @FXML
@@ -50,9 +49,9 @@ public class AdminHomeWindowController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminModifyAdmin.fxml"));
             root = loader.load();
-            
+
             AdminModifyAdminController controller = loader.getController();
-            controller.setUser((Admin) admin);
+            controller.setAdmin((Admin) admin);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -132,5 +131,9 @@ public class AdminHomeWindowController implements Initializable {
         });
 
         adminTable.setItems(initialData());
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 }
