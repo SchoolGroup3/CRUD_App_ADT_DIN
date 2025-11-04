@@ -40,7 +40,7 @@ public class LoginWindowController implements Initializable {
 
     @FXML
     private void handleLogin() {
-        
+
         /*if (usernameTextField.isEmpty || passwordTextField.isEmpty()) {
             showAlert("Campos vacíos", "Por favor, completa todos los campos.");
             return;
@@ -49,8 +49,6 @@ public class LoginWindowController implements Initializable {
         String password = passwordTextField.getText().trim();
         Profile y = im.checkUser(username, password);
         System.out.println(y); //debug
-        
-         
 
         if (y != null) {
             showAlert("Login successful", "Welcome, " + username);
@@ -69,6 +67,10 @@ public class LoginWindowController implements Initializable {
             } else if (y instanceof User) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+                    // Change to Singleton pattern
+                    HomeWindowController controller = new HomeWindowController();
+                    controller.setUser((User)y);
+                    loader.setController(controller);
                     Parent root = loader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
