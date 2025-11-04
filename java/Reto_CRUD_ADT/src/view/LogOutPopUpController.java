@@ -16,6 +16,12 @@ public class LogOutPopUpController implements Initializable {
 
     @FXML
     private Button cancel;
+    
+    private Stage parent;
+    
+    public void getStage(Stage parent) {
+        this.parent = parent;
+    }
 
     @FXML
     private void canceled(ActionEvent event) {
@@ -28,6 +34,8 @@ public class LogOutPopUpController implements Initializable {
         Stage stage = new Stage();
         Parent root;
         try {
+            parent.close();
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
             root = loader.load();
 

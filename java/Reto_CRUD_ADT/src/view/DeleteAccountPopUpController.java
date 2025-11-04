@@ -22,6 +22,18 @@ public class DeleteAccountPopUpController implements Initializable {
     @FXML
     private Button cancel;
 
+    private Stage parent;
+
+    private boolean admin;
+
+    public void fromAdminWindow(boolean admin) {
+        this.admin = admin;
+    }
+
+    public void getStage(Stage parent) {
+        this.parent = parent;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -45,6 +57,10 @@ public class DeleteAccountPopUpController implements Initializable {
             Stage stage = new Stage();
             Parent root;
             try {
+                if (!admin) {
+                    parent.close();
+                }
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
                 root = loader.load();
 

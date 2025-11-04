@@ -61,9 +61,7 @@ public class ProfileWindowController implements Initializable {
         String surname;
         String email;
         String username;
-        String password;
         int phoneNumber;
-        String cardNumber;
         String card_no;
         String gender;
 
@@ -112,11 +110,10 @@ public class ProfileWindowController implements Initializable {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Change Password Window");
             stage.show();
 
         } catch (IOException e) {
-            throw new RuntimeException("Error creating main window", e);
+            throw new RuntimeException("Error creating password popup", e);
         }
     }
 
@@ -168,10 +165,20 @@ public class ProfileWindowController implements Initializable {
         comboGender.setEditable(false);
 
         iconTrash.setOnMouseClicked(event -> {
-            /* Para añadir al metodo
-            DeleteAccountPopUpController controller = new DeleteAccountPopUpController();
-            controller.setUser(user);
-            loader.setController(controller);*/
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+                DeleteAccountPopUpController controller = new DeleteAccountPopUpController();
+                controller.setUser(user);
+                controller.fromAdminWindow(false);
+                loader.setController(controller);
+                Parent root = loader.load();
+
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException("Error creating delete account popup", e);
+            }
         });
 
         iconHome.setOnMouseClicked(event -> {
@@ -182,14 +189,8 @@ public class ProfileWindowController implements Initializable {
                 loader.setController(controller);
                 Parent root = loader.load();
 
-                /*
-            ChangePasswdPopupController controller = loader.getController();
-            if (controller != null) {
-                controller.setUser(user); 
-            }*/
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
-                stage.setTitle("Home Window");
                 stage.show();
 
             } catch (IOException e) {

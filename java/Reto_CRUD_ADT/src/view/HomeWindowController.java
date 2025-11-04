@@ -47,7 +47,13 @@ public class HomeWindowController implements Initializable {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LogOutPopUp.fxml"));
+            LogOutPopUpController controller = new LogOutPopUpController();
+            controller.getStage((Stage) settings.getScene().getWindow());
             root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
