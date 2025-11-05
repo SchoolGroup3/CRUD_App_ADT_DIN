@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.User;
 
@@ -19,13 +20,17 @@ public class HomeWindowController implements Initializable {
     private Label time;
 
     @FXML
-    private Button settings;
-
+    private Label settings;
+    
     @FXML
-    private Button logOut;
+    private ImageView settingsIcon;
+    
+    @FXML
+    private ImageView logOut;
 
     public void setUser(User user) {
-        this.user = user;
+        Stage stage = (Stage) logOut.getScene().getWindow();
+        user = (User)stage.getUserData();
     }
 
     private String timeCheck() {

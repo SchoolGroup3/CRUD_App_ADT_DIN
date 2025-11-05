@@ -75,7 +75,6 @@ public class SignUpWindowController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
             HomeWindowController controller = loader.getController();
             controller.setUser((User) user);
-            loader.setController(controller);
             Parent root = loader.load();
 
             Stage stage = new Stage();

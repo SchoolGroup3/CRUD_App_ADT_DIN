@@ -164,7 +164,6 @@ public class ProfileWindowController implements Initializable {
                 DeleteAccountPopUpController controller = new DeleteAccountPopUpController();
                 controller.setUser(user);
                 controller.fromAdminWindow(false);
-                loader.setController(controller);
                 Parent root = loader.load();
 
                 Stage stage = new Stage();
@@ -180,7 +179,6 @@ public class ProfileWindowController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
                 HomeWindowController controller = new HomeWindowController();
                 controller.setUser(user);
-                loader.setController(controller);
                 Parent root = loader.load();
 
                 Stage stage = new Stage();

@@ -124,7 +124,6 @@ public class AdminHomeWindowController implements Initializable {
                         DeleteAccountPopUpController controller = new DeleteAccountPopUpController();
                         controller.setUser(user);
                         controller.fromAdminWindow(true);
-                        loader.setController(controller);
                         Parent root = loader.load();
                         Stage stage = new Stage();
                         stage.setScene(new Scene(root));

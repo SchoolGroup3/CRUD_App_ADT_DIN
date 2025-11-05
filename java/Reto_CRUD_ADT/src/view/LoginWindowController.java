@@ -33,13 +33,14 @@ public class LoginWindowController implements Initializable {
         String username = usernameTextField.getText().trim();
         String password = passwordTextField.getText().trim();
         Profile y = im.checkUser(username, password);
-        System.out.println(y); //debug
 
         if (y != null) {
             showAlert("Login successful", "Welcome, " + username);
             if (y instanceof Admin) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeAdminWindow.fxml"));
+                    AdminHomeWindowController controller = new AdminHomeWindowController();
+                    controller.setAdmin(((Admin) y));
                     Parent root = loader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
@@ -53,8 +54,7 @@ public class LoginWindowController implements Initializable {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
                     HomeWindowController controller = new HomeWindowController();
-                    controller.setUser((User) y);
-                    loader.setController(controller);
+                    controller.setUser(((User) y));
                     Parent root = loader.load();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
