@@ -3,24 +3,14 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import model.Admin;
-import model.ImplementsBD;
-import model.Profile;
-import javafx.stage.Stage;
-import model.User;
+import javafx.scene.control.*;
+import model.*;
 
 public class LoginWindowController implements Initializable {
 
@@ -40,11 +30,6 @@ public class LoginWindowController implements Initializable {
 
     @FXML
     private void handleLogin() {
-
-        /*if (usernameTextField.isEmpty || passwordTextField.isEmpty()) {
-            showAlert("Campos vacíos", "Por favor, completa todos los campos.");
-            return;
-        }*/
         String username = usernameTextField.getText().trim();
         String password = passwordTextField.getText().trim();
         Profile y = im.checkUser(username, password);
@@ -68,7 +53,7 @@ public class LoginWindowController implements Initializable {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
                     HomeWindowController controller = new HomeWindowController();
-                    controller.setUser((User)y);
+                    controller.setUser((User) y);
                     loader.setController(controller);
                     Parent root = loader.load();
                     Stage stage = new Stage();
@@ -97,7 +82,7 @@ public class LoginWindowController implements Initializable {
     @FXML
     private void openSignup() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpWindow.fxml"));
-        Parent root = null;
+        Parent root;
         root = loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -112,5 +97,4 @@ public class LoginWindowController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }

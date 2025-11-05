@@ -3,19 +3,11 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.ImplementsBD;
-import model.Profile;
-import model.User;
+import model.*;
 
 public class SignUpWindowController implements Initializable {
 
@@ -111,5 +103,4 @@ public class SignUpWindowController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }

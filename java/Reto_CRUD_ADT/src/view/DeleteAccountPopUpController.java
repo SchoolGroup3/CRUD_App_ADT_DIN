@@ -7,8 +7,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
@@ -80,5 +79,4 @@ public class DeleteAccountPopUpController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }

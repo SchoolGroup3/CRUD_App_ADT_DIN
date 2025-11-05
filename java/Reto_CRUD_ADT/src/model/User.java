@@ -1,27 +1,29 @@
 package model;
 
 public class User extends Profile {
+
     private String gender;
     private String card_no;
 
     public User(String email, String user_name, String pssw, int telephone, String name, String surname, String gender, String card_no) {
         super(email, user_name, pssw, telephone, name, surname);
-        this.gender=gender;
-        this.card_no=card_no;
-    }
-    
-    public User(int profile_code, String email, String user_name, String pssw, int telephone, String name, String surname, String gender, String card_no) {
-        super(profile_code, email, user_name, pssw, telephone, name, surname);
-        this.gender=gender;
-        this.card_no=card_no;
+        this.gender = gender;
+        this.card_no = card_no;
     }
 
-     
-    public User(){
+    public User(int profile_code, String email, String user_name, String pssw, int telephone, String name, String surname, String gender, String card_no) {
+        super(profile_code, email, user_name, pssw, telephone, name, surname);
+        this.gender = gender;
+        this.card_no = card_no;
     }
-     public User(String username, String passwd){
-         super(username, passwd);
+
+    public User() {
     }
+
+    public User(String username, String passwd) {
+        super(username, passwd);
+    }
+
     public String getGender() {
         return gender;
     }
@@ -42,8 +44,4 @@ public class User extends Profile {
     public void mostrar() {
         System.out.println(super.toString() + "Gender: " + this.gender + "Card number: " + this.card_no);
     }
-
-   
-    
-    
 }

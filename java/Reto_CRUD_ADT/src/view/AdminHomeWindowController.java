@@ -3,28 +3,16 @@ package view;
 import controller.Controller;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.*;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.Admin;
-import model.Profile;
-import model.User;
+import model.*;
 
 public class AdminHomeWindowController implements Initializable {
 
@@ -42,8 +30,14 @@ public class AdminHomeWindowController implements Initializable {
     private Button logOut;
 
     private Controller cont = new Controller();
-    private Profile admin;
+
     private HashMap<Integer, User> users = cont.getAllUsers();
+
+    private Profile admin;
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
 
     @FXML
     private void settingsWindow(MouseEvent event) {
@@ -66,14 +60,14 @@ public class AdminHomeWindowController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+
     @FXML
     private void logOutPopup(ActionEvent event) {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LogOutPopUp.fxml"));
             LogOutPopUpController controller = new LogOutPopUpController();
-            controller.getStage((Stage)logOut.getScene().getWindow());
+            controller.getStage((Stage) logOut.getScene().getWindow());
             root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -155,9 +149,5 @@ public class AdminHomeWindowController implements Initializable {
         });
 
         adminTable.setItems(initialData());
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
 }
