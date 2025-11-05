@@ -81,10 +81,11 @@ public class SignUpWindowController implements Initializable {
     private void redirectToMain(Profile user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-            Parent root = loader.load();
-            
             HomeWindowController controller = loader.getController();
-            //controller.SetUser(user);
+            controller.setUser((User) user);
+            loader.setController(controller);
+            Parent root = loader.load();
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -105,8 +106,6 @@ public class SignUpWindowController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-       
-        
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

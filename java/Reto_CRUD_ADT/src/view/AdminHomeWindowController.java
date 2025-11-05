@@ -38,9 +38,11 @@ public class AdminHomeWindowController implements Initializable {
     private TableColumn<User, String> card_no;
     @FXML
     private TableColumn buttons;
+    @FXML
+    private Button logOut;
 
     private Controller cont = new Controller();
-    private Profile admin = new Admin(4, "ana.martinez@email.com", "anam", "1234", 644556677, "Ana", "Martínez", "ES12-3456-7890-1234-5678");
+    private Profile admin;
     private HashMap<Integer, User> users = cont.getAllUsers();
 
     @FXML
@@ -50,9 +52,9 @@ public class AdminHomeWindowController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminModifyAdmin.fxml"));
             root = loader.load();
-            
+
             AdminModifyAdminController controller = loader.getController();
-            controller.setUser((Admin) admin);
+            controller.setAdmin((Admin) admin);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -60,6 +62,23 @@ public class AdminHomeWindowController implements Initializable {
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void logOutPopup(ActionEvent event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LogOutPopUp.fxml"));
+            LogOutPopUpController controller = new LogOutPopUpController();
+            controller.getStage((Stage)logOut.getScene().getWindow());
+            root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -98,7 +117,7 @@ public class AdminHomeWindowController implements Initializable {
                         stage.show();
 
                     } catch (IOException ex) {
-                        throw new RuntimeException("Error creating main window", ex);
+                        throw new RuntimeException("Error creating modify user window", ex);
                     }
                 });
 
@@ -108,13 +127,17 @@ public class AdminHomeWindowController implements Initializable {
 
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+                        DeleteAccountPopUpController controller = new DeleteAccountPopUpController();
+                        controller.setUser(user);
+                        controller.fromAdminWindow(true);
+                        loader.setController(controller);
                         Parent root = loader.load();
                         Stage stage = new Stage();
                         stage.setScene(new Scene(root));
                         stage.show();
 
                     } catch (IOException ex) {
-                        throw new RuntimeException("Error creating main window", ex);
+                        throw new RuntimeException("Error creating delete popup", ex);
                     }
                 });
             }
@@ -132,5 +155,9 @@ public class AdminHomeWindowController implements Initializable {
         });
 
         adminTable.setItems(initialData());
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 }

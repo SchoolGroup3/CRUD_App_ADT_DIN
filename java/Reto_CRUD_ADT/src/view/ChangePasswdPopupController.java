@@ -14,8 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.stage.Stage;
 import model.Profile;
-import model.User;
 
 /**
  * FXML Controller class
@@ -46,7 +46,7 @@ public class ChangePasswdPopupController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     @FXML
@@ -89,6 +89,9 @@ public class ChangePasswdPopupController implements Initializable {
             if (cont.modifyPassword(user, newPasswd)) {
                 lblNewPasswdMessage.setText("Password mofified correctly");
                 lblNewPasswdMessage.setStyle("-fx-text-fill: green;");
+                Stage stage = (Stage)btnConfirm.getScene().getWindow();
+                stage.close();
+                
             } else {
                 lblNewPasswdMessage.setText("Error mofifiying the password");
             }
