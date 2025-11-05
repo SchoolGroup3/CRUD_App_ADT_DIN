@@ -63,7 +63,6 @@ public class ImplementsBD implements UserDAO {
                 String username1 = result.getString("USER_NAME");
                 String password = result.getString("PSWD");
                 foundProfile = new User(profile_code, null, username1, password, 000000000, null, null, null, null);
-                foundProfile.toString(); //debug
                 stmt.close();
                 con.close();
                 return foundProfile;
