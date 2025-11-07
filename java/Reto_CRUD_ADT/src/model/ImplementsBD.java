@@ -1,26 +1,15 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashMap;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-/**
- *
- * @author USUARIO
- */
 public class ImplementsBD implements UserDAO {
 
     // El pool
     private BasicDataSource dataSource;
 
-    // Querys
+    // Queries
     final String SQLLOGINGUSER = "SELECT p.PROFILE_CODE, USER_NAME, PSWD, GENDER, CARD_NO FROM PROFILE_ p JOIN USER_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
     final String SQLLOGINADMIN = "SELECT p.PROFILE_CODE, USER_NAME, PSWD,CURRENT_ACCOUNT FROM PROFILE_ p JOIN ADMIN_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
     final String SQLMODIFYUSER = "UPDATE USER_ U JOIN PROFILE_ P ON U.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, U.GENDER = ?, U.CARD_NO = ? WHERE P.PROFILE_CODE = ?";
@@ -41,6 +30,7 @@ public class ImplementsBD implements UserDAO {
         Profile foundProfile = null; // Inicializamos como null
         Connection con = null;
         PreparedStatement stmt = null;
+        PreparedStatement stm;
 
         try {
             con = dataSource.getConnection();
@@ -61,8 +51,7 @@ public class ImplementsBD implements UserDAO {
                     String username1 = result1.getString("USER_NAME");
                     String password = result1.getString("PSWD");
                     foundProfile = new Admin(profile_code, null, username1, password, 000000000, null, null, null);
-                    foundProfile.toString(); //debug
-                    stmt.close();
+                    stm.close();
                     con.close();
                     return foundProfile;
                 } else {
@@ -76,7 +65,6 @@ public class ImplementsBD implements UserDAO {
                 String username1 = result.getString("USER_NAME");
                 String password = result.getString("PSWD");
                 foundProfile = new User(profile_code, null, username1, password, 000000000, null, null, null, null);
-                foundProfile.toString(); //debug
                 stmt.close();
                 con.close();
                 
@@ -101,8 +89,6 @@ public class ImplementsBD implements UserDAO {
                 System.out.println("Error closing connection: " + e.getMessage());
             }
         }
-
-        //foundProfile.toString(); //debug
         return foundProfile;
     }
 
@@ -153,7 +139,6 @@ public class ImplementsBD implements UserDAO {
         return true;
     }
 
-
     @Override
     public boolean modifyAdmin(Admin user) {
         new Thread(()-> {
@@ -167,12 +152,9 @@ public class ImplementsBD implements UserDAO {
             stmt.setInt(3, user.getTelephone());
             stmt.setString(4, user.getName());
             stmt.setString(5, user.getSurname());
-            stmt.setString(6, user.getCurrent_account());           
-            stmt.setInt(7, user.getProfile_code());
-            
+            stmt.setString(6, user.getCurrent_account());
+            stmt.setInt(7, user.getProfile_code());            
             stmt.executeUpdate();
-
-            
         } catch (SQLException e) {
             System.out.println("An error occurred." + e);
             if(Thread.interrupted()){
@@ -314,10 +296,9 @@ public class ImplementsBD implements UserDAO {
         return foundProfile;
     }
 
-
     @Override
     public HashMap<Integer, User> getAllUsers() {
-        User user = null;
+        User user;
         ResultSet rs = null;
         HashMap<Integer, User> users = new HashMap<>();
 
@@ -375,10 +356,4 @@ public class ImplementsBD implements UserDAO {
 
         return users;
     }
-
-   /* @Override
-    public boolean modifyAdmin(Admin admin) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }*/
-
 }

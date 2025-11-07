@@ -7,14 +7,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
 public class DeleteAccountPopUpController implements Initializable {
 
     private User user;
+    private Controller cont = new Controller();
 
     @FXML
     private Button comfirm;
@@ -46,7 +46,6 @@ public class DeleteAccountPopUpController implements Initializable {
 
     @FXML
     private void confirmed(ActionEvent event) {
-        Controller cont = new Controller();
         if (!cont.deleteUser(user)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
@@ -80,5 +79,4 @@ public class DeleteAccountPopUpController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }

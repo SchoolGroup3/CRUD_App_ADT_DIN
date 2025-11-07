@@ -6,15 +6,9 @@ import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -63,7 +57,6 @@ public class AdminModifyAdminController implements Initializable {
         String surname;
         String email;
         String username;
-        String password;
         int phoneNumber;
         String account_no;
 
@@ -104,9 +97,7 @@ public class AdminModifyAdminController implements Initializable {
 
             //passing the admin as a parameterS
             ChangePasswdPopupController controller = loader.getController();
-            if (controller != null) {
-                //controller.setUser(admin);
-            }
+            controller.setUser(admin);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

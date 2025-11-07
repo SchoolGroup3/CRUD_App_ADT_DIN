@@ -1,15 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author 2dami
- */
 public abstract class Profile {
+
     private int profile_code;
     private String email;
     private String user_name;
@@ -29,8 +21,8 @@ public abstract class Profile {
         this.name = name;
         this.surname = surname;
     }
-    
-     public Profile(int profile_code, String email, String user_name, String pssw, int telephone, String name, String surname) {
+
+    public Profile(int profile_code, String email, String user_name, String pssw, int telephone, String name, String surname) {
         this.profile_code = profile_code;
         this.email = email;
         this.user_name = user_name;
@@ -39,13 +31,11 @@ public abstract class Profile {
         this.name = name;
         this.surname = surname;
     }
-    public Profile(String user_name, String pssw) {
 
+    public Profile(String user_name, String pssw) {
         this.user_name = user_name;
         this.pssw = pssw;
-
     }
-    
 
     public int getProfile_code() {
         return profile_code;
@@ -107,7 +97,6 @@ public abstract class Profile {
     public String toString() {
         return "profile_code=" + profile_code + ", email=" + email + ", user_name=" + user_name + ", pssw=" + pssw + ", telephone=" + telephone + ", name=" + name + ", surname=" + surname + '}';
     }
-    
+
     public abstract void mostrar();
-    
 }
