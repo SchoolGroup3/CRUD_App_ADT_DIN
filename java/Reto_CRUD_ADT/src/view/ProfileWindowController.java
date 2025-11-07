@@ -77,9 +77,10 @@ public class ProfileWindowController implements Initializable {
             user.setCard_no(card_no);
             user.setGender(gender);
 
-            cont.modifyUser(user);
-            lblSavedMessage.setText("Correctly modified");
-            lblSavedMessage.setStyle("-fx-text-fill: green;");
+            if(cont.modifyUser(user)){
+                lblSavedMessage.setText("Correctly modified");
+                lblSavedMessage.setStyle("-fx-text-fill: green;");
+            }
 
         } else if (isAnyFieldEmpty()) {
             lblSavedMessage.setText("You have to complete all the fields");

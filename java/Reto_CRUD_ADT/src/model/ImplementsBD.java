@@ -39,10 +39,13 @@ public class ImplementsBD implements UserDAO {
             stmt.setString(2, passwd);
             ResultSet result = stmt.executeQuery();
             if (!result.next()) {
-                stm = con.prepareStatement(SQLLOGINADMIN);
-                stm.setString(1, username);
-                stm.setString(2, passwd);
-                ResultSet result1 = stm.executeQuery();
+                result.close();
+                stmt.close();
+                
+                stmt = con.prepareStatement(SQLLOGINADMIN);
+                stmt.setString(1, username);
+                stmt.setString(2, passwd);
+                ResultSet result1 = stmt.executeQuery();
                 if (result1.next()) {
                     int profile_code = result1.getInt("PROFILE_CODE");
                     String username1 = result1.getString("USER_NAME");
@@ -64,6 +67,8 @@ public class ImplementsBD implements UserDAO {
                 foundProfile = new User(profile_code, null, username1, password, 000000000, null, null, null, null);
                 stmt.close();
                 con.close();
+                
+                System.out.println(foundProfile);
                 return foundProfile;
             }
         } catch (SQLException e) {
@@ -89,7 +94,8 @@ public class ImplementsBD implements UserDAO {
 
     @Override
     public boolean modifyUser(User user) {
-        boolean valid = false;
+        new Thread(()-> {
+            
         Connection con = null;
         PreparedStatement stmt = null;
 
@@ -105,11 +111,14 @@ public class ImplementsBD implements UserDAO {
             stmt.setString(7, user.getCard_no());
             stmt.setInt(8, user.getProfile_code());
 
-            if (stmt.executeUpdate() > 0) {
-                valid = true;
-            }
+            stmt.executeUpdate();
+                
+
         } catch (SQLException e) {
             System.out.println("An error occurred.");
+            if(Thread.interrupted()){
+                System.out.println("muchas conexiones");
+            }
         } finally {
             try {
                 if (stmt != null) {
@@ -126,15 +135,17 @@ public class ImplementsBD implements UserDAO {
                 System.out.println("Error closing connection: " + e.getMessage());
             }
         }
-        return valid;
+        }).start();
+        return true;
     }
 
     @Override
     public boolean modifyAdmin(Admin user) {
-        boolean valid = false;
+        new Thread(()-> {
         Connection con = null;
         PreparedStatement stmt = null;
         try {
+            con = dataSource.getConnection();
             stmt = con.prepareStatement(SQLMODIFYADMIN);
             stmt.setString(1, user.getEmail());
             stmt.setString(2, user.getUser_name());
@@ -142,16 +153,14 @@ public class ImplementsBD implements UserDAO {
             stmt.setString(4, user.getName());
             stmt.setString(5, user.getSurname());
             stmt.setString(6, user.getCurrent_account());
-            stmt.setInt(7, user.getProfile_code());
-
-            if (stmt.executeUpdate() > 0) {
-                valid = true;
-            }
-            stmt.close();
-            con.close();
+            stmt.setInt(7, user.getProfile_code());            
+            stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("An error occurred." + e);
-        } finally {
+            if(Thread.interrupted()){
+                System.out.println("muchas conexiones");
+            }
+        }finally {
             try {
                 if (stmt != null) {
                     stmt.close();
@@ -167,26 +176,29 @@ public class ImplementsBD implements UserDAO {
                 System.out.println("Error closing connection: " + e.getMessage());
             }
         }
-        return valid;
+         }).start();
+        return true;
     }
 
     @Override
     public boolean modifyPassword(Profile user, String newPassword) {
-        boolean valid = false;
+        new Thread(()-> {
         Connection con = null;
         PreparedStatement stmt = null;
         try {
+            con = dataSource.getConnection();
             stmt = con.prepareStatement(SQLMODIFYPASSWD);
             stmt.setString(1, newPassword);
             stmt.setInt(2, user.getProfile_code());
-            if (stmt.executeUpdate() > 0) {
-                valid = true;
-            }
-            stmt.close();
-            con.close();
+            
+            stmt.executeUpdate();
+ 
         } catch (SQLException e) {
             System.out.println("An error occurred.");
-        } finally {
+            if(Thread.interrupted()){
+                System.out.println("muchas conexiones");
+            }
+        }finally {
             try {
                 if (stmt != null) {
                     stmt.close();
@@ -202,25 +214,28 @@ public class ImplementsBD implements UserDAO {
                 System.out.println("Error closing connection: " + e.getMessage());
             }
         }
-        return valid;
+        }).start();
+        return true;
     }
 
     @Override
     public boolean deleteUser(User user) {
-        boolean valid = false;
+        new Thread(()-> {
+        
         Connection con = null;
         PreparedStatement stmt = null;
         try {
+            con = dataSource.getConnection();
             stmt = con.prepareStatement(SQLDELETEUSER);
             stmt.setInt(1, user.getProfile_code());
-            if (stmt.executeUpdate() > 0) {
-                valid = true;
-            }
-            stmt.close();
-            con.close();
+            stmt.executeUpdate();
+
         } catch (SQLException e) {
             System.out.println("An error occurred.");
-        } finally {
+            if(Thread.interrupted()){
+                System.out.println("muchas conexiones");
+            }
+        }finally {
             try {
                 if (stmt != null) {
                     stmt.close();
@@ -236,7 +251,8 @@ public class ImplementsBD implements UserDAO {
                 System.out.println("Error closing connection: " + e.getMessage());
             }
         }
-        return valid;
+        }).start();
+        return true;
     }
 
     @Override
@@ -290,6 +306,7 @@ public class ImplementsBD implements UserDAO {
         PreparedStatement stmt = null;
 
         try {
+            con = dataSource.getConnection();
             stmt = con.prepareStatement(SQLGETUSERS);
             rs = stmt.executeQuery();
 
