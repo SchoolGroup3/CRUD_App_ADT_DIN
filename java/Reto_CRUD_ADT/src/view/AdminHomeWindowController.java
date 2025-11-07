@@ -33,7 +33,7 @@ public class AdminHomeWindowController implements Initializable {
 
     private HashMap<Integer, User> users = cont.getAllUsers();
 
-    private Profile admin;
+    private Admin admin;
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
@@ -65,8 +65,8 @@ public class AdminHomeWindowController implements Initializable {
     private void logOutPopup(ActionEvent event) {
         Parent root;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LogOutPopUp.fxml"));
-            LogOutPopUpController controller = new LogOutPopUpController();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LogOutPopUp.fxml"));
+            LogOutPopUpController controller = loader.getController();
             controller.getStage((Stage) logOut.getScene().getWindow());
             root = loader.load();
             Stage stage = new Stage();
@@ -121,7 +121,7 @@ public class AdminHomeWindowController implements Initializable {
 
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
-                        DeleteAccountPopUpController controller = new DeleteAccountPopUpController();
+                        DeleteAccountPopUpController controller = loader.getController();
                         controller.setUser(user);
                         controller.fromAdminWindow(true);
                         Parent root = loader.load();

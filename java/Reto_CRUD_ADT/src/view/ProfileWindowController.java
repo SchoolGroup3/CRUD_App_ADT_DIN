@@ -11,7 +11,6 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.Profile;
 import model.User;
 
 public class ProfileWindowController implements Initializable {
@@ -111,8 +110,8 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
-    public void setUser(Profile user) {
-        this.user = (User) user;
+    public void setUser(User user) {
+        this.user = user;
         if (txtFieldName != null) {
             loadData();
         }
@@ -161,10 +160,10 @@ public class ProfileWindowController implements Initializable {
         iconTrash.setOnMouseClicked(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
-                DeleteAccountPopUpController controller = new DeleteAccountPopUpController();
+                Parent root = loader.load();
+                DeleteAccountPopUpController controller = loader.getController();
                 controller.setUser(user);
                 controller.fromAdminWindow(false);
-                Parent root = loader.load();
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
@@ -177,11 +176,10 @@ public class ProfileWindowController implements Initializable {
         iconHome.setOnMouseClicked(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-                HomeWindowController controller = new HomeWindowController();
-                controller.setUser(user);
                 Parent root = loader.load();
 
                 Stage stage = new Stage();
+                stage.setUserData(user);
                 stage.setScene(new Scene(root));
                 stage.show();
 

@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,8 +12,7 @@ import model.*;
 
 public class SignUpWindowController implements Initializable {
 
-    ImplementsBD im = new ImplementsBD();
-    private User user;
+    Controller cont = new Controller();
 
     @FXML
     private TextField username;
@@ -42,7 +42,7 @@ public class SignUpWindowController implements Initializable {
             showAlert("Passwords do not match", "Passwords must be the same.");
             return;
         }
-        Profile creado = im.insertUser(user_name, password1);
+        Profile creado = cont.insertUser(user_name, password1);
 
         if (creado != null) {
             showAlert("Successful registration", "User created successfully.");
@@ -73,11 +73,11 @@ public class SignUpWindowController implements Initializable {
     private void redirectToMain(Profile user) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+            Parent root = loader.load();
             HomeWindowController controller = loader.getController();
             controller.setUser((User) user);
-            Parent root = loader.load();
-
             Stage stage = new Stage();
+
             stage.setScene(new Scene(root));
             stage.show();
 

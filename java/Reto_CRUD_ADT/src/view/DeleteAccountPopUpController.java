@@ -14,6 +14,7 @@ import model.User;
 public class DeleteAccountPopUpController implements Initializable {
 
     private User user;
+    private Controller cont = new Controller();
 
     @FXML
     private Button comfirm;
@@ -45,7 +46,6 @@ public class DeleteAccountPopUpController implements Initializable {
 
     @FXML
     private void confirmed(ActionEvent event) {
-        Controller cont = new Controller();
         if (!cont.deleteUser(user)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");

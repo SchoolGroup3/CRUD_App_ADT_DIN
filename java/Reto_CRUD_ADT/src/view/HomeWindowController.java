@@ -9,8 +9,9 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.User;
+import model.*;
 
 public class HomeWindowController implements Initializable {
 
@@ -21,30 +22,30 @@ public class HomeWindowController implements Initializable {
 
     @FXML
     private Label settings;
-    
+
     @FXML
     private ImageView settingsIcon;
-    
+
     @FXML
     private ImageView logOut;
 
+    @FXML
+    private AnchorPane pane;
+
     public void setUser(User user) {
-        Stage stage = (Stage) logOut.getScene().getWindow();
-        user = (User)stage.getUserData();
+        this.user = user;
     }
 
-    private String timeCheck() {
-        String message;
+    public void timeCheck() {
         LocalTime curTime = LocalTime.now();
 
         if (curTime.isAfter(LocalTime.parse("07:00")) && curTime.isBefore(LocalTime.NOON)) {
-            message = "Good morning " + user.getUser_name() + "!";
+            time.setText("Good morning " + user.getUser_name() + "!");
         } else if (curTime.isAfter(LocalTime.NOON) && curTime.isBefore(LocalTime.parse("20:00"))) {
-            message = "Good afternoon " + user.getUser_name() + "!";
+            time.setText("Good afternoon " + user.getUser_name() + "!");
         } else {
-            message = "Good night " + user.getUser_name() + "!";
+            time.setText("Good night " + user.getUser_name() + "!");
         }
-        return message;
     }
 
     @FXML
@@ -52,9 +53,9 @@ public class HomeWindowController implements Initializable {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LogOutPopUp.fxml"));
-            LogOutPopUpController controller = new LogOutPopUpController();
-            controller.getStage((Stage) settings.getScene().getWindow());
             root = loader.load();
+            LogOutPopUpController controller = loader.getController();
+            controller.getStage((Stage) settings.getScene().getWindow());
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -71,6 +72,8 @@ public class HomeWindowController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileWindow.fxml"));
             root = loader.load();
+            ProfileWindowController controller = loader.getController();
+            controller.setUser(user);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -85,6 +88,6 @@ public class HomeWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        time.setText(timeCheck());
+
     }
 }

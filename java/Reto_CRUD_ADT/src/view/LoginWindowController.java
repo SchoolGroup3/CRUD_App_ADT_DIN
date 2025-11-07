@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,7 +15,7 @@ import model.*;
 
 public class LoginWindowController implements Initializable {
 
-    ImplementsBD im = new ImplementsBD();
+    Controller cont = new Controller();
     ActionEvent event;
 
     @FXML
@@ -32,16 +33,16 @@ public class LoginWindowController implements Initializable {
     private void handleLogin() {
         String username = usernameTextField.getText().trim();
         String password = passwordTextField.getText().trim();
-        Profile y = im.checkUser(username, password);
+        Profile y = cont.checkUser(username, password);
 
         if (y != null) {
             showAlert("Login successful", "Welcome, " + username);
             if (y instanceof Admin) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeAdminWindow.fxml"));
-                    AdminHomeWindowController controller = new AdminHomeWindowController();
-                    controller.setAdmin(((Admin) y));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
                     Parent root = loader.load();
+                    AdminHomeWindowController controller = loader.getController();
+                    controller.setAdmin((Admin) y);
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
@@ -52,16 +53,17 @@ public class LoginWindowController implements Initializable {
                 }
             } else if (y instanceof User) {
                 try {
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-                    HomeWindowController controller = new HomeWindowController();
-                    controller.setUser(((User) y));
                     Parent root = loader.load();
+                    HomeWindowController controller = loader.getController();
+                    controller.setUser((User) y);
+                    controller.timeCheck();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
                     Stage currentStage = (Stage) loginButton.getScene().getWindow();
                     currentStage.close();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -90,7 +92,6 @@ public class LoginWindowController implements Initializable {
 
         Stage actualStage = (Stage) usernameTextField.getScene().getWindow();
         actualStage.close();
-
     }
 
     @Override

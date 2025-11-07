@@ -9,9 +9,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Profile;
 
-/**
- * FXML Controller class
- */
 public class ChangePasswdPopupController implements Initializable {
 
     @FXML
@@ -84,9 +81,6 @@ public class ChangePasswdPopupController implements Initializable {
         }
     }
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
