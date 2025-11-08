@@ -22,10 +22,14 @@ public class DatabaseConnection {
 
             // Configuración del pool
             dataSource.setInitialSize(1);
-            dataSource.setMaxTotal(4);       // Máximo de conexiones
-            dataSource.setMaxIdle(4);        // Máximo de conexiones inactivas
+            dataSource.setMaxTotal(1);       // Máximo de conexiones
+            dataSource.setMaxIdle(1);        // Máximo de conexiones inactivas
             dataSource.setMinIdle(1);        // Mínimo de conexiones inactivas
-            // 30 segundos de espera
+            
+            dataSource.setValidationQuery("SELECT 1");
+            dataSource.setTestOnBorrow(true);
+            dataSource.setTestWhileIdle(true);
+            dataSource.setMaxWaitMillis(5000); 
             dataSource.setRemoveAbandonedOnBorrow(true);
             dataSource.setLogAbandoned(true);
         } catch (Exception e) {

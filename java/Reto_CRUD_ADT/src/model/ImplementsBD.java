@@ -1,7 +1,10 @@
 package model;
 
+import exception.CustomException;
 import java.sql.*;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class ImplementsBD implements UserDAO {
@@ -41,7 +44,7 @@ public class ImplementsBD implements UserDAO {
             if (!result.next()) {
                 result.close();
                 stmt.close();
-                
+
                 stmt = con.prepareStatement(SQLLOGINADMIN);
                 stmt.setString(1, username);
                 stmt.setString(2, passwd);
@@ -50,7 +53,7 @@ public class ImplementsBD implements UserDAO {
                     int profile_code = result1.getInt("PROFILE_CODE");
                     String username1 = result1.getString("USER_NAME");
                     String password = result1.getString("PSWD");
-                    String email= result1.getString("EMAIL");
+                    String email = result1.getString("EMAIL");
                     int telephone = result1.getInt("TELEPHONE");
                     String name = result1.getString("NAME_");
                     String surname = result1.getString("SURNAME");
@@ -69,7 +72,7 @@ public class ImplementsBD implements UserDAO {
                 int profile_code = result.getInt("PROFILE_CODE");
                 String username1 = result.getString("USER_NAME");
                 String password = result.getString("PSWD");
-                String email1= result.getString("EMAIL");
+                String email1 = result.getString("EMAIL");
                 int telephone1 = result.getInt("TELEPHONE");
                 String name1 = result.getString("NAME_");
                 String surname1 = result.getString("SURNAME");
@@ -78,7 +81,7 @@ public class ImplementsBD implements UserDAO {
                 foundProfile = new User(profile_code, email1, username1, password, telephone1, name1, surname1, gender1, card_no1);
                 stmt.close();
                 con.close();
-                
+
                 System.out.println(foundProfile);
                 return foundProfile;
             }
@@ -105,163 +108,180 @@ public class ImplementsBD implements UserDAO {
 
     @Override
     public boolean modifyUser(User user) {
-        new Thread(()-> {
-            
-        Connection con = null;
-        PreparedStatement stmt = null;
+        new Thread(() -> {
 
-        try {
-            con = dataSource.getConnection();
-            stmt = con.prepareStatement(SQLMODIFYUSER);
-            stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getUser_name());
-            stmt.setInt(3, user.getTelephone());
-            stmt.setString(4, user.getName());
-            stmt.setString(5, user.getSurname());
-            stmt.setString(6, user.getGender());
-            stmt.setString(7, user.getCard_no());
-            stmt.setInt(8, user.getProfile_code());
+            Connection con = null;
+            PreparedStatement stmt = null;
 
-            stmt.executeUpdate();
-                
-
-        } catch (SQLException e) {
-            System.out.println("An error occurred.");
-            if(Thread.interrupted()){
-                System.out.println("muchas conexiones");
-            }
-        } finally {
             try {
-                if (stmt != null) {
-                    stmt.close();
+                con = dataSource.getConnection();
+                stmt = con.prepareStatement(SQLMODIFYUSER);
+                stmt.setString(1, user.getEmail());
+                stmt.setString(2, user.getUser_name());
+                stmt.setInt(3, user.getTelephone());
+                stmt.setString(4, user.getName());
+                stmt.setString(5, user.getSurname());
+                stmt.setString(6, user.getGender());
+                stmt.setString(7, user.getCard_no());
+                stmt.setInt(8, user.getProfile_code());
+
+                stmt.executeUpdate();
+                try {
+                    System.out.println("Manteniendo la conexión ocupada - " + System.currentTimeMillis());
+                    Thread.sleep(30000);
+                    System.out.println("Liberando conexión - " + System.currentTimeMillis());
+
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (SQLException e) {
-                System.out.println("Error closing statement: " + e.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close(); // To always return de connection to the pool
+                if (e.getMessage().toLowerCase().contains("timeout")) {
+                    throw new CustomException("Max connections reached! Wait a moment...");
+                } else {
+                    System.out.println("An error occurred.");
                 }
-            } catch (SQLException e) {
-                System.out.println("Error closing connection: " + e.getMessage());
+
+            } finally {
+                try {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing statement: " + e.getMessage());
+                }
+                try {
+                    if (con != null) {
+                        con.close(); // To allways return the connection to the pool
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing connection: " + e.getMessage());
+                }
             }
-        }
         }).start();
         return true;
     }
 
     @Override
     public boolean modifyAdmin(Admin user) {
-        new Thread(()-> {
-        Connection con = null;
-        PreparedStatement stmt = null;
-        try {
-            con = dataSource.getConnection();
-            stmt = con.prepareStatement(SQLMODIFYADMIN);
-            stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getUser_name());
-            stmt.setInt(3, user.getTelephone());
-            stmt.setString(4, user.getName());
-            stmt.setString(5, user.getSurname());
-            stmt.setString(6, user.getCurrent_account());
-            stmt.setInt(7, user.getProfile_code());            
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("An error occurred." + e);
-            if(Thread.interrupted()){
-                System.out.println("muchas conexiones");
-            }
-        }finally {
+        new Thread(() -> {
+            Connection con = null;
+            PreparedStatement stmt = null;
             try {
-                if (stmt != null) {
-                    stmt.close();
-                }
+                con = dataSource.getConnection();
+                stmt = con.prepareStatement(SQLMODIFYADMIN);
+                stmt.setString(1, user.getEmail());
+                stmt.setString(2, user.getUser_name());
+                stmt.setInt(3, user.getTelephone());
+                stmt.setString(4, user.getName());
+                stmt.setString(5, user.getSurname());
+                stmt.setString(6, user.getCurrent_account());
+                stmt.setInt(7, user.getProfile_code());
+                stmt.executeUpdate();
             } catch (SQLException e) {
-                System.out.println("Error closing statement: " + e.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close(); // To always return de connection to the pool
+                if (e.getMessage().toLowerCase().contains("timeout")) {
+                    throw new CustomException("Max connections reached! Wait a moment...");
+                } else {
+                    System.out.println("An error occurred.");
                 }
-            } catch (SQLException e) {
-                System.out.println("Error closing connection: " + e.getMessage());
+            } finally {
+                try {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing statement: " + e.getMessage());
+                }
+                try {
+                    if (con != null) {
+                        con.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing connection: " + e.getMessage());
+                }
             }
-        }
-         }).start();
+        }).start();
         return true;
     }
 
     @Override
     public boolean modifyPassword(Profile user, String newPassword) {
-        new Thread(()-> {
-        Connection con = null;
-        PreparedStatement stmt = null;
-        try {
-            con = dataSource.getConnection();
-            stmt = con.prepareStatement(SQLMODIFYPASSWD);
-            stmt.setString(1, newPassword);
-            stmt.setInt(2, user.getProfile_code());
-            
-            stmt.executeUpdate();
- 
-        } catch (SQLException e) {
-            System.out.println("An error occurred.");
-            if(Thread.interrupted()){
-                System.out.println("muchas conexiones");
-            }
-        }finally {
+        new Thread(() -> {
+            Connection con = null;
+            PreparedStatement stmt = null;
             try {
-                if (stmt != null) {
-                    stmt.close();
+                con = dataSource.getConnection();
+                stmt = con.prepareStatement(SQLMODIFYPASSWD);
+                stmt.setString(1, newPassword);
+                stmt.setInt(2, user.getProfile_code());
+
+                stmt.executeUpdate();
+                try {
+                    System.out.println("Manteniendo la conexión ocupada - " + System.currentTimeMillis());
+                    Thread.sleep(30000);
+                    System.out.println("Liberando conexión - " + System.currentTimeMillis());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } catch (SQLException e) {
-                System.out.println("Error closing statement: " + e.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close(); // To always return de connection to the pool
+                if (e.getMessage().toLowerCase().contains("timeout")) {
+                    throw new CustomException("Max connections reached! Wait a moment...");
+                } else {
+                    System.out.println("An error occurred.");
                 }
-            } catch (SQLException e) {
-                System.out.println("Error closing connection: " + e.getMessage());
+            } finally {
+                try {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing statement: " + e.getMessage());
+                }
+                try {
+                    if (con != null) {
+                        con.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing connection: " + e.getMessage());
+                }
             }
-        }
         }).start();
         return true;
     }
 
     @Override
     public boolean deleteUser(User user) {
-        new Thread(()-> {
-        
-        Connection con = null;
-        PreparedStatement stmt = null;
-        try {
-            con = dataSource.getConnection();
-            stmt = con.prepareStatement(SQLDELETEUSER);
-            stmt.setInt(1, user.getProfile_code());
-            stmt.executeUpdate();
+        new Thread(() -> {
 
-        } catch (SQLException e) {
-            System.out.println("An error occurred.");
-            if(Thread.interrupted()){
-                System.out.println("muchas conexiones");
-            }
-        }finally {
+            Connection con = null;
+            PreparedStatement stmt = null;
             try {
-                if (stmt != null) {
-                    stmt.close();
-                }
+                con = dataSource.getConnection();
+                stmt = con.prepareStatement(SQLDELETEUSER);
+                stmt.setInt(1, user.getProfile_code());
+                stmt.executeUpdate();
+
             } catch (SQLException e) {
-                System.out.println("Error closing statement: " + e.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close(); // To always return de connection to the pool
+                if (e.getMessage().toLowerCase().contains("timeout")) {
+                    throw new CustomException("Max connections reached! Wait a moment...");
+                } else {
+                    System.out.println("An error occurred.");
                 }
-            } catch (SQLException e) {
-                System.out.println("Error closing connection: " + e.getMessage());
+            } finally {
+                try {
+                    if (stmt != null) {
+                        stmt.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing statement: " + e.getMessage());
+                }
+                try {
+                    if (con != null) {
+                        con.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error closing connection: " + e.getMessage());
+                }
             }
-        }
         }).start();
         return true;
     }
@@ -298,7 +318,7 @@ public class ImplementsBD implements UserDAO {
             }
             try {
                 if (con != null) {
-                    con.close(); // To always return de connection to the pool
+                    con.close();
                 }
             } catch (SQLException e) {
                 System.out.println("Error closing connection: " + e.getMessage());

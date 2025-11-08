@@ -52,7 +52,7 @@ public class HomeWindowController implements Initializable {
     private void logOutPopup(ActionEvent event) {
         Parent root;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LogOutPopUp.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LogOutPopUp.fxml"));
             root = loader.load();
             LogOutPopUpController controller = loader.getController();
             controller.getStage((Stage) settings.getScene().getWindow());
@@ -64,30 +64,33 @@ public class HomeWindowController implements Initializable {
             ex.printStackTrace();
         }
     }
-
-    @FXML
+ @FXML
     private void settingsWindow(ActionEvent event) {
-        Stage stage = new Stage();
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileWindow.fxml"));
-            root = loader.load();
-            ProfileWindowController controller = loader.getController();
-            controller.setUser(user);
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        settingsIcon.setOnMouseClicked(event -> {
+            Stage stage = new Stage();
+            Parent root;
+            try {
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-    }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileWindow.fxml"));
+                root = loader.load();
+                ProfileWindowController controller = loader.getController();
+                controller.setUser(user);
+
+                Stage newStage = new Stage();
+                newStage.setScene(new Scene(root));
+                newStage.show();
+
+                currentStage.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            });
+        }
+    
 }

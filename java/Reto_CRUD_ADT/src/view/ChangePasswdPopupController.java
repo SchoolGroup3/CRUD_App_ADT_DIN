@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -72,9 +73,6 @@ public class ChangePasswdPopupController implements Initializable {
             if (cont.modifyPassword(user, newPasswd)) {
                 lblNewPasswdMessage.setText("Password mofified correctly");
                 lblNewPasswdMessage.setStyle("-fx-text-fill: green;");
-                Stage stage = (Stage) btnConfirm.getScene().getWindow();
-                stage.close();
-
             } else {
                 lblNewPasswdMessage.setText("Error mofifiying the password");
             }
