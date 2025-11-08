@@ -10,7 +10,7 @@ public class ImplementsBD implements UserDAO {
     private BasicDataSource dataSource;
 
     // Queries
-    final String SQLLOGINGUSER = "SELECT p.PROFILE_CODE, USER_NAME, PSWD, GENDER, CARD_NO FROM PROFILE_ p JOIN USER_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
+    final String SQLLOGINGUSER = "SELECT p.PROFILE_CODE, USER_NAME, PSWD,EMAIL, TELEPHONE, NAME_, SURNAME, GENDER, CARD_NO FROM PROFILE_ p JOIN USER_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
     final String SQLLOGINADMIN = "SELECT p.PROFILE_CODE, USER_NAME, PSWD,CURRENT_ACCOUNT FROM PROFILE_ p JOIN ADMIN_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
     final String SQLMODIFYUSER = "UPDATE USER_ U JOIN PROFILE_ P ON U.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, U.GENDER = ?, U.CARD_NO = ? WHERE P.PROFILE_CODE = ?";
     final String SQLMODIFYADMIN = "UPDATE ADMIN_ A JOIN PROFILE_ P ON A.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, A.CURRENT_ACCOUNT = ? WHERE P.PROFILE_CODE = ?";
@@ -50,8 +50,13 @@ public class ImplementsBD implements UserDAO {
                     int profile_code = result1.getInt("PROFILE_CODE");
                     String username1 = result1.getString("USER_NAME");
                     String password = result1.getString("PSWD");
-                    foundProfile = new Admin(profile_code, null, username1, password, 000000000, null, null, null);
-                    stm.close();
+                    String email= result1.getString("EMAIL");
+                    int telephone = result1.getInt("TELEPHONE");
+                    String name = result1.getString("NAME_");
+                    String surname = result1.getString("SURNAME");
+                    String current_account = result1.getString("CURRENT_ACCOUNT");
+                    foundProfile = new Admin(profile_code, email, username1, password, telephone, name, surname, current_account);
+                    stmt.close();
                     con.close();
                     return foundProfile;
                 } else {
@@ -64,7 +69,13 @@ public class ImplementsBD implements UserDAO {
                 int profile_code = result.getInt("PROFILE_CODE");
                 String username1 = result.getString("USER_NAME");
                 String password = result.getString("PSWD");
-                foundProfile = new User(profile_code, null, username1, password, 000000000, null, null, null, null);
+                String email1= result.getString("EMAIL");
+                int telephone1 = result.getInt("TELEPHONE");
+                String name1 = result.getString("NAME_");
+                String surname1 = result.getString("SURNAME");
+                String gender1 = result.getString("GENDER");
+                String card_no1 = result.getString("CARD_NO");
+                foundProfile = new User(profile_code, email1, username1, password, telephone1, name1, surname1, gender1, card_no1);
                 stmt.close();
                 con.close();
                 
