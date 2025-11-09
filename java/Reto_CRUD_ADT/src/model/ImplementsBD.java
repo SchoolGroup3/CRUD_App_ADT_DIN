@@ -11,10 +11,11 @@ public class ImplementsBD implements UserDAO {
 
     // El pool
     private BasicDataSource dataSource;
+    private ConnectionThread threadCon;
 
     // Queries
     final String SQLLOGINGUSER = "SELECT p.PROFILE_CODE, USER_NAME, PSWD,EMAIL, TELEPHONE, NAME_, SURNAME, GENDER, CARD_NO FROM PROFILE_ p JOIN USER_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
-    final String SQLLOGINADMIN = "SELECT p.PROFILE_CODE, USER_NAME, PSWD,CURRENT_ACCOUNT FROM PROFILE_ p JOIN ADMIN_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
+    final String SQLLOGINADMIN = "SELECT p.PROFILE_CODE, USER_NAME, PSWD, EMAIL, TELEPHONE, NAME_, SURNAME, CURRENT_ACCOUNT FROM PROFILE_ p JOIN ADMIN_ u ON p.PROFILE_CODE = u.PROFILE_CODE WHERE USER_NAME = ? AND PSWD = ?";
     final String SQLMODIFYUSER = "UPDATE USER_ U JOIN PROFILE_ P ON U.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, U.GENDER = ?, U.CARD_NO = ? WHERE P.PROFILE_CODE = ?";
     final String SQLMODIFYADMIN = "UPDATE ADMIN_ A JOIN PROFILE_ P ON A.PROFILE_CODE = P.PROFILE_CODE SET P.EMAIL = ?, P.USER_NAME = ?, P.TELEPHONE = ?, P.NAME_ = ?, P.SURNAME = ?, A.CURRENT_ACCOUNT = ? WHERE P.PROFILE_CODE = ?";
     final String SQLMODIFYPASSWD = "UPDATE PROFILE_ SET PSWD = ? WHERE PROFILE_CODE  = ?";
@@ -108,182 +109,177 @@ public class ImplementsBD implements UserDAO {
 
     @Override
     public boolean modifyUser(User user) {
-        new Thread(() -> {
+        boolean valid = false;
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ConnectionThread threadCon;
 
-            Connection con = null;
-            PreparedStatement stmt = null;
+        try {
+            con = dataSource.getConnection();
+            threadCon = new ConnectionThread(con);
+            threadCon.start();
+            stmt = con.prepareStatement(SQLMODIFYUSER);
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getUser_name());
+            stmt.setInt(3, user.getTelephone());
+            stmt.setString(4, user.getName());
+            stmt.setString(5, user.getSurname());
+            stmt.setString(6, user.getGender());
+            stmt.setString(7, user.getCard_no());
+            stmt.setInt(8, user.getProfile_code());
 
+            if (stmt.executeUpdate() > 0) {
+                valid = true;
+            }
+        } catch (SQLException e) {
+            if (e.getMessage().toLowerCase().contains("timeout")) {
+                throw new CustomException("Max connections reached! Wait a moment...");
+            } else {
+                System.out.println("An error occurred.");
+            }
+        } finally {
             try {
-                con = dataSource.getConnection();
-                stmt = con.prepareStatement(SQLMODIFYUSER);
-                stmt.setString(1, user.getEmail());
-                stmt.setString(2, user.getUser_name());
-                stmt.setInt(3, user.getTelephone());
-                stmt.setString(4, user.getName());
-                stmt.setString(5, user.getSurname());
-                stmt.setString(6, user.getGender());
-                stmt.setString(7, user.getCard_no());
-                stmt.setInt(8, user.getProfile_code());
-
-                stmt.executeUpdate();
-                try {
-                    System.out.println("Manteniendo la conexión ocupada - " + System.currentTimeMillis());
-                    Thread.sleep(30000);
-                    System.out.println("Liberando conexión - " + System.currentTimeMillis());
-
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
+                if (stmt != null) {
+                    stmt.close();
                 }
             } catch (SQLException e) {
-                if (e.getMessage().toLowerCase().contains("timeout")) {
-                    throw new CustomException("Max connections reached! Wait a moment...");
-                } else {
-                    System.out.println("An error occurred.");
-                }
-
-            } finally {
-                try {
-                    if (stmt != null) {
-                        stmt.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing statement: " + e.getMessage());
-                }
-                try {
-                    if (con != null) {
-                        con.close(); // To allways return the connection to the pool
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing connection: " + e.getMessage());
-                }
+                System.out.println("Error closing statement: " + e.getMessage());
             }
-        }).start();
-        return true;
+
+        }
+        return valid;
     }
 
     @Override
     public boolean modifyAdmin(Admin user) {
-        new Thread(() -> {
-            Connection con = null;
-            PreparedStatement stmt = null;
-            try {
-                con = dataSource.getConnection();
-                stmt = con.prepareStatement(SQLMODIFYADMIN);
-                stmt.setString(1, user.getEmail());
-                stmt.setString(2, user.getUser_name());
-                stmt.setInt(3, user.getTelephone());
-                stmt.setString(4, user.getName());
-                stmt.setString(5, user.getSurname());
-                stmt.setString(6, user.getCurrent_account());
-                stmt.setInt(7, user.getProfile_code());
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                if (e.getMessage().toLowerCase().contains("timeout")) {
-                    throw new CustomException("Max connections reached! Wait a moment...");
-                } else {
-                    System.out.println("An error occurred.");
-                }
-            } finally {
-                try {
-                    if (stmt != null) {
-                        stmt.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing statement: " + e.getMessage());
-                }
-                try {
-                    if (con != null) {
-                        con.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing connection: " + e.getMessage());
-                }
+        Connection con = null;
+        PreparedStatement stmt = null;
+        boolean valid = false;
+        ConnectionThread threadCon;
+
+        try {
+            con = dataSource.getConnection();
+            threadCon = new ConnectionThread(con);
+            threadCon.start();
+
+            stmt = con.prepareStatement(SQLMODIFYADMIN);
+            stmt.setString(1, user.getEmail());
+            stmt.setString(2, user.getUser_name());
+            stmt.setInt(3, user.getTelephone());
+            stmt.setString(4, user.getName());
+            stmt.setString(5, user.getSurname());
+            stmt.setString(6, user.getCurrent_account());
+            stmt.setInt(7, user.getProfile_code());
+            
+            if (stmt.executeUpdate() > 0) {
+                valid = true;
             }
-        }).start();
-        return true;
+        } catch (SQLException e) {
+            if (e.getMessage().toLowerCase().contains("timeout")) {
+                throw new CustomException("Max connections reached! Wait a moment...");
+            } else {
+                System.out.println("An error occurred.");
+            }
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
+        }
+
+        return valid;
     }
 
     @Override
     public boolean modifyPassword(Profile user, String newPassword) {
-        new Thread(() -> {
-            Connection con = null;
-            PreparedStatement stmt = null;
-            try {
-                con = dataSource.getConnection();
-                stmt = con.prepareStatement(SQLMODIFYPASSWD);
-                stmt.setString(1, newPassword);
-                stmt.setInt(2, user.getProfile_code());
+        Connection con = null;
+        PreparedStatement stmt = null;
+        boolean valid = false;
+        ConnectionThread threadCon;
 
-                stmt.executeUpdate();
-                try {
-                    System.out.println("Manteniendo la conexión ocupada - " + System.currentTimeMillis());
-                    Thread.sleep(30000);
-                    System.out.println("Liberando conexión - " + System.currentTimeMillis());
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            con = dataSource.getConnection();
+            threadCon = new ConnectionThread(con);
+            threadCon.start();
+
+            stmt = con.prepareStatement(SQLMODIFYPASSWD);
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, user.getProfile_code());
+
+            if (stmt.executeUpdate() > 0) {
+                valid = true;
+            }
+        } catch (SQLException e) {
+            if (e.getMessage().toLowerCase().contains("timeout")) {
+                throw new CustomException("Max connections reached! Wait a moment...");
+            } else {
+                System.out.println("An error occurred.");
+            }
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
                 }
             } catch (SQLException e) {
-                if (e.getMessage().toLowerCase().contains("timeout")) {
-                    throw new CustomException("Max connections reached! Wait a moment...");
-                } else {
-                    System.out.println("An error occurred.");
-                }
-            } finally {
-                try {
-                    if (stmt != null) {
-                        stmt.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing statement: " + e.getMessage());
-                }
-                try {
-                    if (con != null) {
-                        con.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing connection: " + e.getMessage());
-                }
+                System.out.println("Error closing statement: " + e.getMessage());
             }
-        }).start();
-        return true;
+        }
+
+        return valid;
     }
 
     @Override
     public boolean deleteUser(User user) {
-        new Thread(() -> {
+        Connection con = null;
+        PreparedStatement stmt = null;
+        boolean valid = false;
+        ConnectionThread threadCon;
 
-            Connection con = null;
-            PreparedStatement stmt = null;
-            try {
-                con = dataSource.getConnection();
-                stmt = con.prepareStatement(SQLDELETEUSER);
-                stmt.setInt(1, user.getProfile_code());
-                stmt.executeUpdate();
+        try {
+            con = dataSource.getConnection();
+            threadCon = new ConnectionThread(con);
+            threadCon.start();
+            stmt = con.prepareStatement(SQLDELETEUSER);
+            stmt.setInt(1, user.getProfile_code());
 
-            } catch (SQLException e) {
-                if (e.getMessage().toLowerCase().contains("timeout")) {
-                    throw new CustomException("Max connections reached! Wait a moment...");
-                } else {
-                    System.out.println("An error occurred.");
-                }
-            } finally {
-                try {
-                    if (stmt != null) {
-                        stmt.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing statement: " + e.getMessage());
-                }
-                try {
-                    if (con != null) {
-                        con.close();
-                    }
-                } catch (SQLException e) {
-                    System.out.println("Error closing connection: " + e.getMessage());
-                }
+            if (stmt.executeUpdate() > 0) {
+                valid = true;
             }
-        }).start();
-        return true;
+
+        } catch (SQLException e) {
+            if (e.getMessage().toLowerCase().contains("timeout")) {
+                throw new CustomException("Max connections reached! Wait a moment...");
+            } else {
+                System.out.println("An error occurred.");
+            }
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing statement: " + e.getMessage());
+            }
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Error closing connection: " + e.getMessage());
+            }
+        }
+
+        return valid;
     }
 
     @Override

@@ -64,10 +64,6 @@ public class HomeWindowController implements Initializable {
             ex.printStackTrace();
         }
     }
- @FXML
-    private void settingsWindow(ActionEvent event) {
-        
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -10,6 +10,7 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.*;
@@ -27,7 +28,7 @@ public class AdminHomeWindowController implements Initializable {
     @FXML
     private TableColumn buttons;
     @FXML
-    private Button logOut;
+    private ImageView logOut;
 
     private Controller cont = new Controller();
 
@@ -121,10 +122,12 @@ public class AdminHomeWindowController implements Initializable {
 
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+                        Parent root = loader.load();
+                        
                         DeleteAccountPopUpController controller = loader.getController();
                         controller.setUser(user);
                         controller.fromAdminWindow(true);
-                        Parent root = loader.load();
+
                         Stage stage = new Stage();
                         stage.setScene(new Scene(root));
                         stage.show();
