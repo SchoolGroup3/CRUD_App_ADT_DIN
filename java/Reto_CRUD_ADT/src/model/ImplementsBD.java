@@ -7,6 +7,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * Implementation of the UserDAO interface that provides database operations
+ * for user management using connection pooling and prepared statements.
+ * Handles both regular users and administrators with proper connection management.
+ */
 public class ImplementsBD implements UserDAO {
 
     // El pool
@@ -25,10 +30,22 @@ public class ImplementsBD implements UserDAO {
     final String SQLMODIFY = "UPDATE ADMIN SET CURRENT_ACCOUNT = ? WHERE PROFILE_CODE = ?";
     final String SQLSIGNUP = "call RegistrarUsuario(?,?)";
 
+    /**
+     * Constructs a new ImplementsBD instance and initializes the data source
+     * from the DatabaseConnection pool.
+     */
     public ImplementsBD() {
         this.dataSource = DatabaseConnection.getDataSource();
     }
 
+    /**
+     * Verifies user credentials and returns the corresponding profile.
+     * Checks both regular users and administrators in the database.
+     *
+     * @param username the username to verify
+     * @param passwd the password to verify
+     * @return the Profile object if credentials are valid, null otherwise
+     */
     @Override
     public Profile checkUser(String username, String passwd) {
         Profile foundProfile = null; // Inicializamos como null
@@ -107,6 +124,13 @@ public class ImplementsBD implements UserDAO {
         return foundProfile;
     }
 
+    /**
+     * Modifies an existing user's information in the database.
+     *
+     * @param user the User object containing updated information
+     * @return true if the modification was successful, false otherwise
+     * @throws CustomException if maximum connections are reached
+     */
     @Override
     public boolean modifyUser(User user) {
         boolean valid = false;
@@ -150,6 +174,13 @@ public class ImplementsBD implements UserDAO {
         return valid;
     }
 
+    /**
+     * Modifies an existing administrator's information in the database.
+     *
+     * @param user the Admin object containing updated information
+     * @return true if the modification was successful, false otherwise
+     * @throws CustomException if maximum connections are reached
+     */
     @Override
     public boolean modifyAdmin(Admin user) {
         Connection con = null;
@@ -200,6 +231,14 @@ public class ImplementsBD implements UserDAO {
         return valid;
     }
 
+    /**
+     * Modifies a user's password in the database.
+     *
+     * @param user the Profile whose password will be changed
+     * @param newPassword the new password to set
+     * @return true if the password was successfully modified, false otherwise
+     * @throws CustomException if maximum connections are reached
+     */
     @Override
     public boolean modifyPassword(Profile user, String newPassword) {
         Connection con = null;
@@ -238,6 +277,13 @@ public class ImplementsBD implements UserDAO {
         return valid;
     }
 
+    /**
+     * Deletes a user from the database.
+     *
+     * @param user the User object to be deleted
+     * @return true if the user was successfully deleted, false otherwise
+     * @throws CustomException if maximum connections are reached
+     */
     @Override
     public boolean deleteUser(User user) {
         Connection con = null;
@@ -282,6 +328,13 @@ public class ImplementsBD implements UserDAO {
         return valid;
     }
 
+    /**
+     * Inserts a new user into the database using a stored procedure.
+     *
+     * @param username the username for the new user
+     * @param password the password for the new user
+     * @return the created User profile if successful, null otherwise
+     */
     @Override
     public Profile insertUser(String username, String password) {
         User foundProfile = null;
@@ -323,6 +376,11 @@ public class ImplementsBD implements UserDAO {
         return foundProfile;
     }
 
+    /**
+     * Retrieves all users from the database.
+     *
+     * @return a HashMap containing all users with their profile codes as keys
+     */
     @Override
     public HashMap<Integer, User> getAllUsers() {
         User user;
