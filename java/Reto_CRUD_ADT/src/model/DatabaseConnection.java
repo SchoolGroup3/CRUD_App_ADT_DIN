@@ -3,6 +3,11 @@ package model;
 import java.util.ResourceBundle;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * Provides database connection pooling functionality using Apache DBCP2.
+ * This class manages a static connection pool that is initialized once
+ * when the class is loaded, reading configuration from a properties file.
+ */
 public class DatabaseConnection {
 
     private static BasicDataSource dataSource;
@@ -37,6 +42,11 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Returns the configured data source for database connections.
+     * 
+     * @return the BasicDataSource instance with the connection pool configuration
+     */
     public static BasicDataSource getDataSource() {
         return dataSource;
     }
