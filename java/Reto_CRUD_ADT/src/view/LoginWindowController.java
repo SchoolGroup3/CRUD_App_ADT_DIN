@@ -4,6 +4,8 @@ import controller.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -27,7 +29,7 @@ public class LoginWindowController implements Initializable {
     private Button loginButton;
 
     @FXML
-    private Button signupButton;
+    private Button signUp;
 
     @FXML
     private void handleLogin() {
@@ -82,16 +84,20 @@ public class LoginWindowController implements Initializable {
     }
 
     @FXML
-    private void openSignup() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpWindow.fxml"));
-        Parent root;
-        root = loader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
-
-        Stage actualStage = (Stage) usernameTextField.getScene().getWindow();
-        actualStage.close();
+    private void openSignup() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpWindow.fxml"));
+            Parent root;
+            root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+            
+            Stage actualStage = (Stage) signUp.getScene().getWindow();
+            actualStage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
