@@ -91,6 +91,7 @@ public class LoginWindowController implements Initializable {
             root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.setTitle("Sign Up");
             stage.show();
             
             Stage actualStage = (Stage) signUp.getScene().getWindow();

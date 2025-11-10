@@ -4,6 +4,7 @@ import controller.Controller;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.text.Text;
@@ -101,5 +102,59 @@ public class LoginWindowControllerTest extends ApplicationTest {
             stage.toFront();
         });
         clickOn("#signUp");
+        verifyThat(window("Sign Up"), isShowing());
+    }
+
+    @Test
+    public void failedLoginTest() throws IOException {
+        Controller cont = new Controller();
+        Profile profile = cont.checkUser("e", "e");
+        if (profile != null) {
+            assertEquals("profile_code=1, email=juan.perez@email.com, user_name=juanP, pssw=1234, telephone=611223344, name=Juan, surname=Pérez", profile.toString());
+            if (profile instanceof Admin) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
+                Parent root = loader.load();
+                AdminHomeWindowController controller = loader.getController();
+                controller.setAdmin((Admin) profile);
+                interact(() -> {
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("HomeAdmin");
+                    stage.show();
+                    verifyThat(window("HomeAdmin"), isShowing());
+                    stage.close();
+                });
+            } else if (profile instanceof User) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+                Parent root = loader.load();
+                HomeWindowController controller = loader.getController();
+                controller.setUser((User) profile);
+                controller.timeCheck();
+                interact(() -> {
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Home");
+                    stage.show();
+                    verifyThat(window("Home"), isShowing());
+                    stage.close();
+                });
+
+            }
+        } else {
+            interact(() -> {
+                showAlert("Login failed", "Incorrect username or password");
+                Node dialogPane = lookup(".dialog-pane").query();
+                from(dialogPane).lookup((Text t) -> t.getText().startsWith("Incorrect"));
+                clickOn("Aceptar");
+            });
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 }
