@@ -7,8 +7,8 @@
 
 <AnchorPane id="AnchorPane" prefHeight="275.0" prefWidth="456.0" style="-fx-background-color: #212529;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DeleteAccountPopUpController">
    <children>
-      <Button fx:id="comfirm" layoutX="84.0" layoutY="179.0" mnemonicParsing="false" onMouseClicked="#confirmed" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: ff8f8f;" text="Delete account" />
-      <Button fx:id="cancel" layoutX="280.0" layoutY="179.0" mnemonicParsing="false" onMouseClicked="#canceled" prefHeight="18.0" prefWidth="96.0" style="-fx-background-color: adfaa0;" text="Cancel" />
+      <Button fx:id="confirm" layoutX="84.0" layoutY="179.0" mnemonicParsing="false" onAction="#confirmed" onMouseClicked="#confirmed" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: ff8f8f;" text="Delete account" />
+      <Button fx:id="cancel" layoutX="280.0" layoutY="179.0" mnemonicParsing="false" onAction="#canceled" onMouseClicked="#canceled" prefHeight="18.0" prefWidth="96.0" style="-fx-background-color: adfaa0;" text="Cancel" />
       <Label alignment="CENTER" layoutX="25.0" layoutY="20.0" prefHeight="124.0" prefWidth="406.0" text="Are you sure you want to delete your account?" textFill="WHITE" wrapText="true">
          <font>
             <Font size="38.0" />

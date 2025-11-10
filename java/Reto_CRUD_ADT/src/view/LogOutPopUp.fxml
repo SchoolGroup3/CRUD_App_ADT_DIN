@@ -7,8 +7,8 @@
 
 <AnchorPane id="AnchorPane" prefHeight="275.0" prefWidth="456.0" style="-fx-background-color: #212529;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LogOutPopUpController">
    <children>
-      <Button fx:id="comfirm" layoutX="75.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#confirmed" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: ff8f8f;" text="Log Out" />
-      <Button fx:id="cancel" layoutX="269.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#canceled" prefHeight="18.0" prefWidth="96.0" style="-fx-background-color: adfaa0;" text="Cancel" />
+      <Button fx:id="comfirm" layoutX="75.0" layoutY="182.0" mnemonicParsing="false" onAction="#confirmed" onMouseClicked="#confirmed" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: ff8f8f;" text="Log Out" />
+      <Button fx:id="cancel" layoutX="269.0" layoutY="182.0" mnemonicParsing="false" onAction="#canceled" onMouseClicked="#canceled" prefHeight="18.0" prefWidth="96.0" style="-fx-background-color: adfaa0;" text="Cancel" />
       <Label alignment="CENTER" layoutX="48.0" layoutY="21.0" prefHeight="142.0" prefWidth="378.0" text="Are you sure you want to log out?" textFill="WHITE" wrapText="true">
          <font>
             <Font size="48.0" />

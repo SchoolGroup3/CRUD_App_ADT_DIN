@@ -19,7 +19,7 @@ public class LogOutPopUpController implements Initializable {
     
     private Stage parent;
     
-    public void getStage(Stage parent) {
+    public void setParentStage(Stage parent) {
         this.parent = parent;
     }
 

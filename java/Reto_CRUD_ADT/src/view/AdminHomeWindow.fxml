@@ -15,7 +15,7 @@
         <Label fx:id="label" layoutX="47.0" layoutY="80.0" minHeight="16" minWidth="69" text="Home" textFill="WHITE" />
       <Button fx:id="button" layoutX="19.0" layoutY="14.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="78.0" text="LOGO" />
       <Label fx:id="label1" layoutX="50.0" layoutY="312.0" minHeight="16" minWidth="47.0" onMouseClicked="#settingsWindow" prefHeight="18.0" prefWidth="47.0" text="Settings" textFill="WHITE" />
-      <ImageView fitHeight="29.0" fitWidth="31.0" layoutX="13.0" layoutY="71.0">
+      <ImageView fx:id="iconHome" fitHeight="29.0" fitWidth="31.0" layoutX="13.0" layoutY="71.0">
          <image>
             <Image url="@assets/img/Home.png" />
          </image>

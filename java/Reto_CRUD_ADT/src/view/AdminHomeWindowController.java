@@ -63,13 +63,13 @@ public class AdminHomeWindowController implements Initializable {
     }
 
     @FXML
-    private void logOutPopup(ActionEvent event) {
+    private void logOutPopup(MouseEvent event) {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LogOutPopUp.fxml"));
-            LogOutPopUpController controller = loader.getController();
-            controller.getStage((Stage) logOut.getScene().getWindow());
             root = loader.load();
+            LogOutPopUpController controller = loader.getController();
+            controller.setParentStage((Stage) logOut.getScene().getWindow());
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -127,6 +127,7 @@ public class AdminHomeWindowController implements Initializable {
                         DeleteAccountPopUpController controller = loader.getController();
                         controller.setUser(user);
                         controller.fromAdminWindow(true);
+                        controller.setParentStage((Stage) deleteButton.getScene().getWindow());
 
                         Stage stage = new Stage();
                         stage.setScene(new Scene(root));

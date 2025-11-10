@@ -27,7 +27,7 @@ public class DatabaseConnection {
 
             // Configuración del pool
             dataSource.setInitialSize(1);
-            dataSource.setMaxTotal(3);       // max connections
+            dataSource.setMaxTotal(1);       // max connections
             dataSource.setMaxIdle(1);        // max innactive connections
             dataSource.setMinIdle(1);        // min innactive connections
             
