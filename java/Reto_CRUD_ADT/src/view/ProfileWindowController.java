@@ -77,7 +77,7 @@ public class ProfileWindowController implements Initializable {
             user.setCard_no(card_no);
             user.setGender(gender);
 
-            if(cont.modifyUser(user)){
+            if (cont.modifyUser(user)) {
                 lblSavedMessage.setText("Correctly modified");
                 lblSavedMessage.setStyle("-fx-text-fill: green;");
             }
@@ -179,15 +179,14 @@ public class ProfileWindowController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
                 Parent root = loader.load();
 
-                HomeWindowController cont = loader.getController();
-                    if(cont!=null){
-                    cont.setUser(user);
-                }
-                
+                HomeWindowController controller = loader.getController();
+                controller.setUser(user);
+                controller.timeCheck();
+
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
                 stage.show();
-                
+
                 Stage currentStage = (Stage) iconHome.getScene().getWindow();
                 currentStage.close();
 
