@@ -17,7 +17,7 @@ public class DeleteAccountPopUpController implements Initializable {
     private Controller cont = new Controller();
 
     @FXML
-    private Button comfirm;
+    private Button confirm;
 
     @FXML
     private Button cancel;
@@ -30,7 +30,7 @@ public class DeleteAccountPopUpController implements Initializable {
         this.admin = admin;
     }
 
-    public void getStage(Stage parent) {
+    public void setParentStage(Stage parent) {
         this.parent = parent;
     }
 
@@ -50,25 +50,28 @@ public class DeleteAccountPopUpController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText(null);
-            alert.setContentText("El usuario no se ha eliminado correctamente.");
+            alert.setContentText("The user has not been deleted correctly.");
             alert.showAndWait();
         } else {
-            Stage stage = new Stage();
-            Parent root;
             try {
+                // Cerrar el popup actual primero
+                Stage currentPopupStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentPopupStage.close();
+                
                 if (!admin) {
-                    parent.close();
+
+                    if (parent != null) {
+                        parent.close();
+                    }
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
+                    Parent root = loader.load();
+                    Stage profileStage = new Stage();
+                    profileStage.setScene(new Scene(root));
+                    profileStage.show();
                 }
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
-                root = loader.load();
-
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.close();
+                
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

@@ -9,6 +9,7 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.*;
@@ -49,13 +50,13 @@ public class HomeWindowController implements Initializable {
     }
 
     @FXML
-    private void logOutPopup(ActionEvent event) {
+    private void logOutPopup(MouseEvent event) {
         Parent root;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LogOutPopUp.fxml"));
             root = loader.load();
             LogOutPopUpController controller = loader.getController();
-            controller.getStage((Stage) settings.getScene().getWindow());
+            controller.setParentStage((Stage) settings.getScene().getWindow());
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();

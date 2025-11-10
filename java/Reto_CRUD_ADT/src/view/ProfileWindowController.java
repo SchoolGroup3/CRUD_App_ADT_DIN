@@ -162,9 +162,11 @@ public class ProfileWindowController implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
                 Parent root = loader.load();
+                
                 DeleteAccountPopUpController controller = loader.getController();
                 controller.setUser(user);
                 controller.fromAdminWindow(false);
+                controller.setParentStage((Stage) iconTrash.getScene().getWindow());
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
