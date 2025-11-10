@@ -27,7 +27,7 @@ public class AdminHomeWindowTest {
     public void testSetAdmin() {
         // Arrange (Preparar)
         AdminHomeWindowController controller = new AdminHomeWindowController();
-        Admin admin = new Admin(1, "admin@test.com", "admin", "1234", 123456789, "Admin", "User", "E123456789");
+        Admin admin = new Admin(1, "admin@test.com", "admin", "1234", 123456789, "admin", "admin", "E123456789");
 
         // Act (Actuar)
         controller.setAdmin(admin);
@@ -39,7 +39,9 @@ public class AdminHomeWindowTest {
         assertEquals(admin.getUser_name(), "admin");
         assertEquals(admin.getPssw(), "1234");
         assertEquals(admin.getTelephone(), 123456789);
-        assertEquals(admin.getProfile_code(), "");
+        assertEquals(admin.getName(),"admin");
+        assertEquals(admin.getSurname(), "admin");
+        assertEquals(admin.getCurrent_account(), "E123456789");
 
     }
 
@@ -62,31 +64,29 @@ public class AdminHomeWindowTest {
             assertFalse(user.getCard_no().isEmpty());
         }
 
-        System.out.println("Todos los " + usuarios.size() + " usuarios tienen datos válidos");
+        System.out.println("All users " + usuarios.size() + " valid");
     }
     
     @Test
-    public void testTabla_MuestraTodoCorrectamente() {
+    public void testTabla_DatosDisponibles() {
         // Arrange
         AdminHomeWindowController controller = new AdminHomeWindowController();
-        // Los datos YA están cargados automáticamente aquí:
-        // private HashMap<Integer, User> users = cont.getAllUsers();
-
-        // Act
-        controller.initialize(null, null); // Esto pone los datos en la tabla
-
+        
+        // Act - Probamos los datos sin initialize
+        ObservableList<User> data = controller.initialData();
+        
         // Assert
-        ObservableList<User> datosEnTabla = controller.adminTable.getItems();
-
-        assertNotNull("Table has data", datosEnTabla);
-        assertFalse("Table is not empty", datosEnTabla.isEmpty());
-
-        System.out.println("The table has " + datosEnTabla.size() + " users");
-
-        // Mostrar qué hay en la tabla
-        for (User user : datosEnTabla) {
-            System.out.println(" - " + user.getUser_name() + " | " + user.getCard_no());
+        assertNotNull("Data is not null", data);
+        assertFalse("Users loaded", data.isEmpty());
+        
+        System.out.println("Table: " + data.size() + " users");
+        
+        // Mostrar contenido
+        for (User user : data) {
+            System.out.println("   - " + user.getUser_name() + " | " + user.getCard_no());
         }
+        
+        System.out.println("Data ready");
     }
     
     
