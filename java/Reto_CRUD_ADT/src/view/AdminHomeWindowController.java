@@ -20,7 +20,7 @@ public class AdminHomeWindowController implements Initializable {
     @FXML
     private Label label;
     @FXML
-    private TableView<User> adminTable;
+    public TableView<User> adminTable;
     @FXML
     private TableColumn<User, String> user_name;
     @FXML
@@ -79,7 +79,7 @@ public class AdminHomeWindowController implements Initializable {
         }
     }
 
-    ObservableList<User> initialData() {
+    public ObservableList<User> initialData() {
         return FXCollections.observableArrayList(users.values());
     }
 
