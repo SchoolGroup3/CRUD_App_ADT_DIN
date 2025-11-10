@@ -179,10 +179,17 @@ public class ProfileWindowController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
                 Parent root = loader.load();
 
+                HomeWindowController cont = loader.getController();
+                    if(cont!=null){
+                    cont.setUser(user);
+                }
+                
                 Stage stage = new Stage();
-                stage.setUserData(user);
                 stage.setScene(new Scene(root));
                 stage.show();
+                
+                Stage currentStage = (Stage) iconHome.getScene().getWindow();
+                currentStage.close();
 
             } catch (IOException e) {
                 throw new RuntimeException("Error creating main window", e);
