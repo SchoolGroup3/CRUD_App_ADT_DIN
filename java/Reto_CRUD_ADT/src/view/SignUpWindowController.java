@@ -45,11 +45,12 @@ public class SignUpWindowController implements Initializable {
         Profile creado = cont.insertUser(user_name, password1);
 
         if (creado != null) {
-            showAlert("Successful registration", "User created successfully.");
+            showAlert("Registration", "User created successfully");
             redirectToMain(creado);
         } else {
-            showAlert("Error", "The user could not be created. Please try another name.");
+            showAlert("Registration failed", "The user could not be created. Please try another name.");
         }
+
     }
 
     @FXML
@@ -59,6 +60,7 @@ public class SignUpWindowController implements Initializable {
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.setTitle("Login");
             stage.show();
 
             Stage actualStage = (Stage) pswd1.getScene().getWindow();
