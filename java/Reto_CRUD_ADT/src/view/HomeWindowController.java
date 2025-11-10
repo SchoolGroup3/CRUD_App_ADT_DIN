@@ -86,7 +86,6 @@ public class HomeWindowController implements Initializable {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            });
-        }
-    
+        });
+    }
 }
