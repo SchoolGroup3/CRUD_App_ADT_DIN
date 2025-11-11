@@ -2,6 +2,8 @@ package Test;
 
 import controller.Controller;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 import javafx.scene.control.Label;
@@ -25,8 +27,7 @@ public class HomeWindowControllerTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
-        User testUser = new User(1, "user@test.com", "Pepe", "1234", 123456789, "pep", "jose","Male" ,"E123456789");
-        // Cargar la ventana Home
+        User testUser = new User(1, "user@test.com", "Pepe", "1234", 123456789, "pep", "jose", "Male", "E123456789");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
         Parent root = loader.load();
         HomeWindowController controller = loader.getController();
@@ -48,16 +49,30 @@ public class HomeWindowControllerTest extends ApplicationTest {
         release(new MouseButton[]{});
     }
 
-    @Test
-    public void testTimeCheckMethod() throws IOException {
-        HomeWindowController controller = getCurrentController();
-        assertNotNull(controller);
+   @Test
+public void testAllTimeMessages() throws IOException {
+    // Cargar el FXML y obtener el controlador
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+    Parent root = loader.load();
+    HomeWindowController controller = loader.getController();
+    User user = new User("mikel", "garay");
+    
+    controller.setUser(user); 
+    controller.time = new Label();
+    
+    LocalTime curtime = LocalTime.now();
 
-        Label timeLabel = lookup("#time").query();
-        assertNotNull(timeLabel.getText());
-        assertFalse(timeLabel.getText().isEmpty());
-        assertTrue(timeLabel.getText().contains("Pepe"));
+    if (curtime.isAfter(LocalTime.parse("08:00")) && curtime.isBefore(LocalTime.NOON)) {
+        controller.timeCheck();
+        assertEquals("Good morning mikel!", controller.time.getText());
+    } else if (curtime.isAfter(LocalTime.NOON) && curtime.isBefore(LocalTime.parse("20:00"))) {
+        controller.timeCheck();
+        assertEquals("Good afternoon mikel!", controller.time.getText());
+    } else {
+        controller.timeCheck();
+        assertEquals("Good night mikel!", controller.time.getText());
     }
+}
 
     @Test
     public void testSettingsIconClick() {
@@ -75,7 +90,7 @@ public class HomeWindowControllerTest extends ApplicationTest {
                 verifyThat("#profileName", Node::isVisible);
                 press(KeyCode.ESCAPE);
             } catch (Exception ex) {
-                  // Continuar en caso de error
+                // Continuar en caso de error
             }
         }
     }
@@ -92,7 +107,6 @@ public class HomeWindowControllerTest extends ApplicationTest {
             verifyThat(window("Log Out"), isShowing());
             clickOn("Cancel");
         } catch (Exception e) {
-            // Verificar elementos del popup
             try {
                 verifyThat("Are you sure you want to log out?", Node::isVisible);
                 clickOn("Cancel");
@@ -102,76 +116,11 @@ public class HomeWindowControllerTest extends ApplicationTest {
         }
     }
 
-  /*  @Test
-    public void testUserInformationDisplay() {
-        HomeWindowController controller = getCurrentController();
-        assertNotNull(controller.user);
-        assertEquals("Pepe", controller.user.getUser_name());
-        assertEquals("pep", controller.user.getName());
-        assertEquals("jose", controller.user.getSurname());
-
-
-        Label timeLabel = lookup("#time").query();
-        assertTrue(timeLabel.getText().contains("Pepe"));
-    }*/
-
     @Test
     public void testWindowTitle() {
         verifyThat(window("Home"), isShowing());
     }
-
-   /* @Test
-    public void testNavigationToProfile() throws IOException {
-        // Test de navegación a ventana de perfil
-        HomeWindowController controller = getCurrentController();
-
-        interact(() -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileWindow.fxml"));
-                Parent root = loader.load();
-                ProfileWindowController profileController = loader.getController();
-                profileController.setUser(testUser);
-
-                Stage profileStage = new Stage();
-                profileStage.setScene(new Scene(root));
-                profileStage.setTitle("Profile");
-                profileStage.show();
-
-                verifyThat(window("Profile"), isShowing());
-
-                // Verificar que el controlador de perfil recibió el usuario
-                assertNotNull(profileController.getUser()); // Asumiendo que existe este método
-                assertEquals("testUser", profileController.getUser().getUser_name());
-
-                profileStage.close();
-            } catch (IOException e) {
-                fail("Error loading Profile window: " + e.getMessage());
-            }
-        });
-    }*/
-
- /*   @Test
-    public void testLogOutPopupMethod() {
-        // Test del método logOutPopup
-        HomeWindowController controller = getCurrentController();
-
-        interact(() -> {
-            assertDoesNotThrow(() -> {
-                controller.logOutPopup(null);
-            });
-        });
-    }*/
-
-
-   /* @Test
-    public void testControllerInitialization() {
-        // Verificar que el controlador se inicializó correctamente
-        HomeWindowController controller = getCurrentController();
-        assertNotNull(controller);
-        assertNotNull(controller.user);
-        assertEquals("testUser", controller.user.getUser_name());
-    }*/
-
+    
     private HomeWindowController getCurrentController() {
         try {
             Node rootNode = stage.getScene().getRoot();
@@ -184,6 +133,5 @@ public class HomeWindowControllerTest extends ApplicationTest {
         }
         return null;
     }
-
 
 }
