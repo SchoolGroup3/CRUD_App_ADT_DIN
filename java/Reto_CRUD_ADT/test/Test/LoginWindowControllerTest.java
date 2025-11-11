@@ -1,26 +1,24 @@
 package Test;
 
-import controller.Controller;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-import javafx.scene.input.*;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.*;
 import org.junit.*;
 import org.testfx.framework.junit.ApplicationTest;
-import org.testfx.api.FxToolkit;
 import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.WindowMatchers.isShowing;
+
+import controller.Controller;
+import model.*;
 import view.*;
 
 public class LoginWindowControllerTest extends ApplicationTest {
 
-    Stage stage;
+    private Stage curStage;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -29,14 +27,11 @@ public class LoginWindowControllerTest extends ApplicationTest {
         stage.setScene(new Scene(root));
         stage.show();
         stage.toFront();
-        this.stage = stage;
+        this.curStage = stage;
     }
 
-    @After
-    public void tearDown() throws Exception {
-        FxToolkit.hideStage();
-        release(new KeyCode[]{});
-        release(new MouseButton[]{});
+    @Override
+    public void stop() {
     }
 
     @Test
@@ -99,7 +94,7 @@ public class LoginWindowControllerTest extends ApplicationTest {
     @Test
     public void signUpTest() {
         interact(() -> {
-            stage.toFront();
+            curStage.toFront();
         });
         clickOn("#signUp");
         verifyThat(window("Sign Up"), isShowing());
