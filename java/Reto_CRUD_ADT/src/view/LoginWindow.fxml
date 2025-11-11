@@ -23,7 +23,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-        <Button id="signupButton" layoutX="292.0" layoutY="291.0" mnemonicParsing="false" onAction="#openSignup" prefHeight="33.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 20px; -fx-underline: true; -fx-padding: 0; -fx-cursor: hand;" text="Sign Up">
+        <Button id="signUp" fx:id="signUp" layoutX="292.0" layoutY="291.0" mnemonicParsing="false" onAction="#openSignup" onMouseClicked="#openSignup" prefHeight="33.0" prefWidth="105.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: #007bff; -fx-font-size: 20px; -fx-underline: true; -fx-padding: 0; -fx-cursor: hand;" text="Sign Up">
          <font>
             <Font size="18.0" />
          </font></Button>

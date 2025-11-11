@@ -205,7 +205,7 @@ public abstract class Profile {
      */
     @Override
     public String toString() {
-        return "profile_code=" + profile_code + ", email=" + email + ", user_name=" + user_name + ", pssw=" + pssw + ", telephone=" + telephone + ", name=" + name + ", surname=" + surname + '}';
+        return "profile_code=" + profile_code + ", email=" + email + ", user_name=" + user_name + ", pssw=" + pssw + ", telephone=" + telephone + ", name=" + name + ", surname=" + surname;
     }
 
     /**
