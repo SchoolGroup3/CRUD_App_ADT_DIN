@@ -1,10 +1,15 @@
 package model;
 
-import java.time.Duration;
 import java.util.ResourceBundle;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * Provides database connection pooling functionality using Apache DBCP2.
+ * This class manages a static connection pool that is initialized once
+ * when the class is loaded, reading configuration from a properties file.
+ */
 public class DatabaseConnection {
+
     private static BasicDataSource dataSource;
 
     static {
@@ -19,20 +24,29 @@ public class DatabaseConnection {
             dataSource.setUrl(urlBD);
             dataSource.setUsername(userBD);
             dataSource.setPassword(passwordBD);
-            
+
             // Configuración del pool
             dataSource.setInitialSize(1);
-            dataSource.setMaxTotal(4);       // Máximo de conexiones
-            dataSource.setMaxIdle(4);        // Máximo de conexiones inactivas
-            dataSource.setMinIdle(1);        // Mínimo de conexiones inactivas
-                                        // 30 segundos de espera
+            dataSource.setMaxTotal(1);       // max connections
+            dataSource.setMaxIdle(1);        // max innactive connections
+            dataSource.setMinIdle(1);        // min innactive connections
+            
+            dataSource.setValidationQuery("SELECT 1");
+            dataSource.setTestOnBorrow(true);
+            dataSource.setTestWhileIdle(true);
+            dataSource.setMaxWaitMillis(5000); 
             dataSource.setRemoveAbandonedOnBorrow(true);
             dataSource.setLogAbandoned(true);
         } catch (Exception e) {
-            throw new RuntimeException("Error al configurar el pool de conexiones", e);
+            throw new RuntimeException("Error configurating connections pool", e);
         }
     }
 
+    /**
+     * Returns the configured data source for database connections.
+     * 
+     * @return the BasicDataSource instance with the connection pool configuration
+     */
     public static BasicDataSource getDataSource() {
         return dataSource;
     }

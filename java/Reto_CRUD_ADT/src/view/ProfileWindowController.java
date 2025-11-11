@@ -6,18 +6,11 @@ import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.Profile;
 import model.User;
 
 public class ProfileWindowController implements Initializable {
@@ -61,9 +54,7 @@ public class ProfileWindowController implements Initializable {
         String surname;
         String email;
         String username;
-        String password;
         int phoneNumber;
-        String cardNumber;
         String card_no;
         String gender;
 
@@ -86,9 +77,10 @@ public class ProfileWindowController implements Initializable {
             user.setCard_no(card_no);
             user.setGender(gender);
 
-            cont.modifyUser(user);
-            lblSavedMessage.setText("Correctly modified");
-            lblSavedMessage.setStyle("-fx-text-fill: green;");
+            if (cont.modifyUser(user)) {
+                lblSavedMessage.setText("Correctly modified");
+                lblSavedMessage.setStyle("-fx-text-fill: green;");
+            }
 
         } else if (isAnyFieldEmpty()) {
             lblSavedMessage.setText("You have to complete all the fields");
@@ -112,16 +104,15 @@ public class ProfileWindowController implements Initializable {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Change Password Window");
             stage.show();
 
         } catch (IOException e) {
-            throw new RuntimeException("Error creating main window", e);
+            throw new RuntimeException("Error creating password popup", e);
         }
     }
 
-    public void setUser(Profile user) {
-        this.user = (User)user;
+    public void setUser(User user) {
+        this.user = user;
         if (txtFieldName != null) {
             loadData();
         }
@@ -168,8 +159,21 @@ public class ProfileWindowController implements Initializable {
         comboGender.setEditable(false);
 
         iconTrash.setOnMouseClicked(event -> {
-            //abrir pop up delete account
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+                Parent root = loader.load();
+                
+                DeleteAccountPopUpController controller = loader.getController();
+                controller.setUser(user);
+                controller.fromAdminWindow(false);
+                controller.setParentStage((Stage) iconTrash.getScene().getWindow());
 
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException("Error creating delete account popup", e);
+            }
         });
 
         iconHome.setOnMouseClicked(event -> {
@@ -177,21 +181,20 @@ public class ProfileWindowController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
                 Parent root = loader.load();
 
-                /*
-            ChangePasswdPopupController controller = loader.getController();
-            if (controller != null) {
-                controller.setUser(user); 
-            }*/
+                HomeWindowController controller = loader.getController();
+                controller.setUser(user);
+                controller.timeCheck();
+
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
-                stage.setTitle("Home Window");
                 stage.show();
+
+                Stage currentStage = (Stage) iconHome.getScene().getWindow();
+                currentStage.close();
 
             } catch (IOException e) {
                 throw new RuntimeException("Error creating main window", e);
             }
         });
-
     }
-
 }

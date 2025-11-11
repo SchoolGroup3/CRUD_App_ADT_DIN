@@ -1,46 +1,80 @@
 package view;
 
+import controller.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.User;
 
 public class DeleteAccountPopUpController implements Initializable {
 
+    private User user;
+    private Controller cont = new Controller();
+
     @FXML
-    private Button comfirm;
+    private Button confirm;
 
     @FXML
     private Button cancel;
 
+    private Stage parent;
+
+    private boolean admin;
+
+    public void fromAdminWindow(boolean admin) {
+        this.admin = admin;
+    }
+
+    public void setParentStage(Stage parent) {
+        this.parent = parent;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @FXML
     private void canceled(ActionEvent event) {
-        cancel.getScene().getWindow().hide();
+        Stage actualStage = (Stage) cancel.getScene().getWindow();
+        actualStage.close();
     }
 
     @FXML
     private void confirmed(ActionEvent event) {
-        //Delete stuff here
+        if (!cont.deleteUser(user)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText("The user has not been deleted correctly.");
+            alert.showAndWait();
+        } else {
+            try {
+                // Cerrar el popup actual primero
+                Stage currentPopupStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                currentPopupStage.close();
+                
+                if (!admin) {
 
-        Stage stage = new Stage();
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
-            root = loader.load();
+                    if (parent != null) {
+                        parent.close();
+                    }
 
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
+                    Parent root = loader.load();
+                    Stage profileStage = new Stage();
+                    profileStage.setScene(new Scene(root));
+                    profileStage.show();
+                }
 
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+                
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -48,5 +82,4 @@ public class DeleteAccountPopUpController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }

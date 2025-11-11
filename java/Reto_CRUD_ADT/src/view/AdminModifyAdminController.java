@@ -6,21 +6,13 @@ import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Admin;
-import model.User;
 
 public class AdminModifyAdminController implements Initializable {
 
@@ -55,7 +47,7 @@ public class AdminModifyAdminController implements Initializable {
     @FXML
     private Label lblHome;
 
-    private Admin user;
+    private Admin admin;
 
     private Controller cont = new Controller();
 
@@ -65,7 +57,6 @@ public class AdminModifyAdminController implements Initializable {
         String surname;
         String email;
         String username;
-        String password;
         int phoneNumber;
         String account_no;
 
@@ -79,14 +70,14 @@ public class AdminModifyAdminController implements Initializable {
             phoneNumber = parseInt(txtFieldPhoneNumber.getText());
             account_no = txtFieldAccountNumber.getText();
 
-            user.setName(name);
-            user.setSurname(surname);
-            user.setEmail(email);
-            user.setUser_name(username);
-            user.setTelephone(phoneNumber);
-            user.setCurrent_account(account_no);
+            admin.setName(name);
+            admin.setSurname(surname);
+            admin.setEmail(email);
+            admin.setUser_name(username);
+            admin.setTelephone(phoneNumber);
+            admin.setCurrent_account(account_no);
 
-            cont.modifyAdmin(user);
+            cont.modifyAdmin(admin);
             lblSavedMessage.setText("Correctly modified");
             lblSavedMessage.setStyle("-fx-text-fill: green;");
 
@@ -104,11 +95,9 @@ public class AdminModifyAdminController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ChangePasswdPopup.fxml"));
             Parent root = loader.load();
 
-            //passing the user as a parameterS
+            //passing the admin as a parameterS
             ChangePasswdPopupController controller = loader.getController();
-            if (controller != null) {
-                //controller.setUser(user);
-            }
+            controller.setUser(admin);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -120,8 +109,8 @@ public class AdminModifyAdminController implements Initializable {
         }
     }
 
-    public void setUser(Admin user) {
-        this.user = user;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
         if (txtFieldName != null) {
             loadData();
         }
@@ -147,13 +136,13 @@ public class AdminModifyAdminController implements Initializable {
 
     public void loadData() {
         //loads the texfields
-        txtFieldName.setText(user.getName());
-        txtFieldSurname.setText(user.getSurname());
-        txtFieldEmail.setText(user.getEmail());
-        txtFieldUsername.setText(user.getUser_name());
-        txtFieldPhoneNumber.setText(String.valueOf(user.getTelephone()));
-        txtFieldProfileCode.setText(String.valueOf(user.getProfile_code()));
-        txtFieldAccountNumber.setText(user.getCurrent_account());
+        txtFieldName.setText(admin.getName());
+        txtFieldSurname.setText(admin.getSurname());
+        txtFieldEmail.setText(admin.getEmail());
+        txtFieldUsername.setText(admin.getUser_name());
+        txtFieldPhoneNumber.setText(String.valueOf(admin.getTelephone()));
+        txtFieldProfileCode.setText(String.valueOf(admin.getProfile_code()));
+        txtFieldAccountNumber.setText(admin.getCurrent_account());
     }
 
     private boolean isAnyFieldEmpty() {
@@ -166,12 +155,12 @@ public class AdminModifyAdminController implements Initializable {
     }
 
     private boolean hasUserDataChanged() {
-        return !txtFieldName.getText().equals(user.getName())
-                || !txtFieldSurname.getText().equals(user.getSurname())
-                || !txtFieldEmail.getText().equals(user.getEmail())
-                || !txtFieldUsername.getText().equals(user.getUser_name())
-                || !txtFieldPhoneNumber.getText().equals(String.valueOf(user.getTelephone()))
-                || !txtFieldAccountNumber.getText().equals(user.getCurrent_account());
+        return !txtFieldName.getText().equals(admin.getName())
+                || !txtFieldSurname.getText().equals(admin.getSurname())
+                || !txtFieldEmail.getText().equals(admin.getEmail())
+                || !txtFieldUsername.getText().equals(admin.getUser_name())
+                || !txtFieldPhoneNumber.getText().equals(String.valueOf(admin.getTelephone()))
+                || !txtFieldAccountNumber.getText().equals(admin.getCurrent_account());
     }
 
     @Override

@@ -8,65 +8,59 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.User;
+import model.*;
 
 public class HomeWindowController implements Initializable {
 
     private User user;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @FXML
     private Label time;
 
     @FXML
-    private Button settings;
+    private Label settings;
 
     @FXML
-    private Button logOut;
+    private ImageView settingsIcon;
 
-    private String timeCheck() {
-        String message;
+    @FXML
+    private ImageView logOut;
+
+    @FXML
+    private AnchorPane pane;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void timeCheck() {
         LocalTime curTime = LocalTime.now();
 
         if (curTime.isAfter(LocalTime.parse("07:00")) && curTime.isBefore(LocalTime.NOON)) {
-            message = "Good morning " + user.getUser_name() + "!";
+            time.setText("Good morning " + user.getUser_name() + "!");
         } else if (curTime.isAfter(LocalTime.NOON) && curTime.isBefore(LocalTime.parse("20:00"))) {
-            message = "Good afternoon " + user.getUser_name() + "!";
+            time.setText("Good afternoon " + user.getUser_name() + "!");
         } else {
-            message = "Good night " + user.getUser_name() + "!";
-        }
-        return message;
-    }
-
-    @FXML
-    private void logOutPopup(ActionEvent event) {
-        Parent root;
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LogOutPopUp.fxml"));
-            root = loader.load();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            time.setText("Good night " + user.getUser_name() + "!");
         }
     }
 
     @FXML
-    private void settingsWindow(ActionEvent event) {
-        Stage stage = new Stage();
+    private void logOutPopup(MouseEvent event) {
         Parent root;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LogOutPopUp.fxml"));
             root = loader.load();
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            LogOutPopUpController controller = loader.getController();
+            controller.setParentStage((Stage) settings.getScene().getWindow());
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
             stage.show();
 
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -74,7 +68,25 @@ public class HomeWindowController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        settingsIcon.setOnMouseClicked(event -> {
+            Stage stage = new Stage();
+            Parent root;
+            try {
+                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        time.setText(timeCheck());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ProfileWindow.fxml"));
+                root = loader.load();
+                ProfileWindowController controller = loader.getController();
+                controller.setUser(user);
+
+                Stage newStage = new Stage();
+                newStage.setScene(new Scene(root));
+                newStage.show();
+
+                currentStage.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 }

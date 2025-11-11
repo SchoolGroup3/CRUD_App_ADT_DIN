@@ -3,45 +3,42 @@ package view;
 import controller.Controller;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.*;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import model.Admin;
-import model.Profile;
-import model.User;
+import model.*;
 
 public class AdminHomeWindowController implements Initializable {
 
     @FXML
     private Label label;
     @FXML
-    private TableView<User> adminTable;
+    public TableView<User> adminTable;
     @FXML
     private TableColumn<User, String> user_name;
     @FXML
     private TableColumn<User, String> card_no;
     @FXML
     private TableColumn buttons;
+    @FXML
+    private ImageView logOut;
 
     private Controller cont = new Controller();
-    private Profile admin = new Admin(4, "ana.martinez@email.com", "anam", "1234", 644556677, "Ana", "Martínez", "ES12-3456-7890-1234-5678");
+
     private HashMap<Integer, User> users = cont.getAllUsers();
+
+    private Admin admin;
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
 
     @FXML
     private void settingsWindow(MouseEvent event) {
@@ -50,9 +47,9 @@ public class AdminHomeWindowController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminModifyAdmin.fxml"));
             root = loader.load();
-            
+
             AdminModifyAdminController controller = loader.getController();
-            controller.setUser((Admin) admin);
+            controller.setAdmin((Admin) admin);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -65,7 +62,24 @@ public class AdminHomeWindowController implements Initializable {
         }
     }
 
-    ObservableList<User> initialData() {
+    @FXML
+    private void logOutPopup(MouseEvent event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LogOutPopUp.fxml"));
+            root = loader.load();
+            LogOutPopUpController controller = loader.getController();
+            controller.setParentStage((Stage) logOut.getScene().getWindow());
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public ObservableList<User> initialData() {
         return FXCollections.observableArrayList(users.values());
     }
 
@@ -98,7 +112,7 @@ public class AdminHomeWindowController implements Initializable {
                         stage.show();
 
                     } catch (IOException ex) {
-                        throw new RuntimeException("Error creating main window", ex);
+                        throw new RuntimeException("Error creating modify user window", ex);
                     }
                 });
 
@@ -109,12 +123,18 @@ public class AdminHomeWindowController implements Initializable {
                     try {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
                         Parent root = loader.load();
+                        
+                        DeleteAccountPopUpController controller = loader.getController();
+                        controller.setUser(user);
+                        controller.fromAdminWindow(true);
+                        controller.setParentStage((Stage) deleteButton.getScene().getWindow());
+
                         Stage stage = new Stage();
                         stage.setScene(new Scene(root));
                         stage.show();
 
                     } catch (IOException ex) {
-                        throw new RuntimeException("Error creating main window", ex);
+                        throw new RuntimeException("Error creating delete popup", ex);
                     }
                 });
             }

@@ -3,7 +3,6 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -17,10 +16,17 @@ public class LogOutPopUpController implements Initializable {
 
     @FXML
     private Button cancel;
+    
+    private Stage parent;
+    
+    public void setParentStage(Stage parent) {
+        this.parent = parent;
+    }
 
     @FXML
     private void canceled(ActionEvent event) {
-        cancel.getScene().getWindow().hide();
+        Stage actualStage = (Stage) cancel.getScene().getWindow();
+        actualStage.close();
     }
 
     @FXML
@@ -28,6 +34,8 @@ public class LogOutPopUpController implements Initializable {
         Stage stage = new Stage();
         Parent root;
         try {
+            parent.close();
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
             root = loader.load();
 
@@ -37,7 +45,7 @@ public class LogOutPopUpController implements Initializable {
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
-            
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }

@@ -1,27 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import controller.Controller;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
+import javafx.fxml.*;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import model.Profile;
-import model.User;
 
-/**
- * FXML Controller class
- *
- * @author 2dami
- */
 public class ChangePasswdPopupController implements Initializable {
 
     @FXML
@@ -37,16 +25,12 @@ public class ChangePasswdPopupController implements Initializable {
     @FXML
     private Label lblIncorrectPassword;
 
-    private Profile user;
-
     private Controller cont = new Controller();
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    private Profile user;
+
+    public void setUser(Profile user) {
+        this.user = user;
     }
 
     @FXML
@@ -56,11 +40,11 @@ public class ChangePasswdPopupController implements Initializable {
         String newPasswd;
         String newPasswdConfirm;
         boolean hasErrors = false;
-        
+
         lblIncorrectPassword.setText("");
         lblNewPasswdMessage.setText("");
         lblNewPasswdMessage.setText("");
-        
+
         currentPasswd = txtFieldCurrentPsswd.getText();
         newPasswd = txtFieldNewPsswd.getText();
         newPasswdConfirm = txtFieldNewPsswdConfirm.getText();
@@ -95,7 +79,8 @@ public class ChangePasswdPopupController implements Initializable {
         }
     }
 
-    public void setUser(Profile user) {
-        this.user = user;
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
     }
 }

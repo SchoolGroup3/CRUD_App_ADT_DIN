@@ -1,30 +1,21 @@
 package view;
 
+import controller.Controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import model.Admin;
-import model.ImplementsBD;
-import model.Profile;
-import javafx.stage.Stage;
-import model.User;
+import javafx.scene.control.*;
+import model.*;
 
 public class LoginWindowController implements Initializable {
 
-    ImplementsBD im = new ImplementsBD();
+    Controller cont = new Controller();
     ActionEvent event;
 
     @FXML
@@ -40,22 +31,18 @@ public class LoginWindowController implements Initializable {
 
     @FXML
     private void handleLogin() {
-
-        /*if (usernameTextField.isEmpty || passwordTextField.isEmpty()) {
-            showAlert("Campos vacíos", "Por favor, completa todos los campos.");
-            return;
-        }*/
         String username = usernameTextField.getText().trim();
         String password = passwordTextField.getText().trim();
-        Profile y = im.checkUser(username, password);
-        System.out.println(y); //debug
+        Profile y = cont.checkUser(username, password);
 
         if (y != null) {
             showAlert("Login successful", "Welcome, " + username);
             if (y instanceof Admin) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeAdminWindow.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
                     Parent root = loader.load();
+                    AdminHomeWindowController controller = loader.getController();
+                    controller.setAdmin((Admin) y);
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
@@ -66,18 +53,17 @@ public class LoginWindowController implements Initializable {
                 }
             } else if (y instanceof User) {
                 try {
+
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-                    // Change to Singleton pattern
-                    HomeWindowController controller = new HomeWindowController();
-                    controller.setUser((User)y);
-                    loader.setController(controller);
                     Parent root = loader.load();
+                    HomeWindowController controller = loader.getController();
+                    controller.setUser((User) y);
+                    controller.timeCheck();
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
                     Stage currentStage = (Stage) loginButton.getScene().getWindow();
                     currentStage.close();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -98,7 +84,7 @@ public class LoginWindowController implements Initializable {
     @FXML
     private void openSignup() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SignUpWindow.fxml"));
-        Parent root = null;
+        Parent root;
         root = loader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -106,12 +92,10 @@ public class LoginWindowController implements Initializable {
 
         Stage actualStage = (Stage) usernameTextField.getScene().getWindow();
         actualStage.close();
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
     }
-
 }
