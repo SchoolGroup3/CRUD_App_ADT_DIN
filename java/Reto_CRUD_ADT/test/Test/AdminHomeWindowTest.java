@@ -5,7 +5,15 @@ package Test;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import controller.Controller;
+import java.io.IOException;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 import model.Admin;
 import model.User;
 import org.junit.After;
@@ -14,14 +22,21 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.testfx.api.FxAssert;
+import static org.testfx.api.FxAssert.verifyThat;
+import org.testfx.framework.junit.ApplicationTest;
+import static org.testfx.matcher.base.WindowMatchers.isShowing;
+import org.testfx.matcher.control.TableViewMatchers;
 import view.AdminHomeWindowController;
 import view.AdminModifyAdminController;
+import view.AdminModifyUserController;
+import view.DeleteAccountPopUpController;
 
 /**
  *
  * @author 2dami
  */
-public class AdminHomeWindowTest {
+public class AdminHomeWindowTest extends ApplicationTest {
 
     @Test
     public void testSetAdmin() {
@@ -39,57 +54,69 @@ public class AdminHomeWindowTest {
         assertEquals(admin.getUser_name(), "admin");
         assertEquals(admin.getPssw(), "1234");
         assertEquals(admin.getTelephone(), 123456789);
-        assertEquals(admin.getName(),"admin");
+        assertEquals(admin.getName(), "admin");
         assertEquals(admin.getSurname(), "admin");
         assertEquals(admin.getCurrent_account(), "E123456789");
 
     }
 
-    @Test
-    public void testInitialData_UsuariosValidos() {
+  @Test
+    public void testTableContent() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
+        Parent root = loader.load();
+        AdminHomeWindowController controller = loader.getController();
+        TableView adminTable = new TableView<>();
 
-        AdminHomeWindowController controller = new AdminHomeWindowController();
-
-        ObservableList<User> usuarios = controller.initialData();
         
-        assertNotNull(usuarios);
+        ObservableList<User> usersData = controller.initialData();
 
-        for (User user : usuarios) {
+        
+        interact(() -> {
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("AdminHomeWindow");
+            stage.show();
+            FxAssert.verifyThat("adminTable", TableViewMatchers.containsRow("[carlosl, 3456-7890-1234-5678]"));
+            stage.close();
+        });
+        
 
-            assertNotNull(user.getUser_name());
-            assertNotNull(user.getCard_no());
-            assertNotNull(user.getEmail());
+    }
 
-            assertFalse(user.getUser_name().isEmpty());
-            assertFalse(user.getCard_no().isEmpty());
-        }
+    @Test
+    public void buttonModifyUser() throws IOException {
+        //button delete tested because you can click it
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminModifyUser.fxml"));
+        Parent root = loader.load();
+        AdminModifyUserController controller = loader.getController();
 
-        System.out.println("All users " + usuarios.size() + " valid");
+        interact(() -> {
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("AdminModifyUser");
+            stage.show();
+            verifyThat(window("AdminModifyUser"), isShowing());
+            stage.close();
+        });
+
     }
     
     @Test
-    public void testTabla_DatosDisponibles() {
-        // Arrange
-        AdminHomeWindowController controller = new AdminHomeWindowController();
-        
-        // Act - Probamos los datos sin initialize
-        ObservableList<User> data = controller.initialData();
-        
-        // Assert
-        assertNotNull("Data is not null", data);
-        assertFalse("Users loaded", data.isEmpty());
-        
-        System.out.println("Table: " + data.size() + " users");
-        
-        // Mostrar contenido
-        for (User user : data) {
-            System.out.println("   - " + user.getUser_name() + " | " + user.getCard_no());
-        }
-        
-        System.out.println("Data ready");
+    public void buttonDeleteUser() throws IOException {
+        //button delete tested because you can click it
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+        Parent root = loader.load();
+        DeleteAccountPopUpController controller = loader.getController();
+
+        interact(() -> {
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("AdminModifyUser");
+            stage.show();
+            verifyThat(window("AdminModifyUser"), isShowing());
+            stage.close();
+        });
+
     }
-    
-    
-    
 
 }

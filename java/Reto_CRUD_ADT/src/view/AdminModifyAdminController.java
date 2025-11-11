@@ -122,6 +122,8 @@ public class AdminModifyAdminController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
             root = loader.load();
+            AdminHomeWindowController controller = loader.getController();
+            controller.setAdmin(admin);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -179,6 +181,9 @@ public class AdminModifyAdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if (admin != null ) {
+            loadData();
+        }
 
     }
 }
