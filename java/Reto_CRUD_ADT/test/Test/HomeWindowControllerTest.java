@@ -2,7 +2,6 @@ package Test;
 
 import controller.Controller;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
@@ -51,7 +50,6 @@ public class HomeWindowControllerTest extends ApplicationTest {
 
    @Test
 public void testAllTimeMessages() throws IOException {
-    // Cargar el FXML y obtener el controlador
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
     Parent root = loader.load();
     HomeWindowController controller = loader.getController();

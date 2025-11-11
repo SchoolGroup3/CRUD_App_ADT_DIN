@@ -7,7 +7,6 @@ import javafx.scene.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Button;
 import javafx.scene.input.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -17,8 +16,8 @@ import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.api.FxToolkit;
 import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;
+import org.testfx.matcher.base.NodeMatchers;
 import static org.testfx.matcher.base.WindowMatchers.isShowing;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import view.*;
 
 public class SignUpWindowControllerTest extends ApplicationTest {
@@ -49,36 +48,39 @@ public class SignUpWindowControllerTest extends ApplicationTest {
         clickOn("#username").write("newuser");
         clickOn("#pswd1").write("pswd123");
         clickOn("#pswd2").write("pswd123");
-        
+
         TextField username = lookup("#username").query();
         assertEquals("newuser", username.getText());
-        
+
         PasswordField pswd1 = lookup("#pswd1").query();
         assertEquals("pswd123", pswd1.getText());
-        
-        PasswordField pswd2 = lookup("#pswd2").query();
+
+        PasswordField pswd2 = lookup("#pswd2").query(); //lookup sirve para mirar dentro de la ventana y la query devuelve.
         assertEquals("pswd123", pswd2.getText());
-        
+
         clickOn("#SignUpButton");
-        
+
         Node dialogPane = lookup(".dialog-pane").query();
         from(dialogPane).lookup((Text t) -> t.getText().startsWith("User created successfully"));
         clickOn("Aceptar");
+        //verifyThat("User created successfully", NodeMatchers.isVisible());
+        //clickOn("Aceptar");
+
     }
 
     @Test
     public void signUpMethodTest() throws IOException {
         Profile newuser = cont.insertUser("testUser", "testPswd");
-        
+
         if (newuser != null) {
             assertTrue(newuser instanceof User);
             assertEquals("testUser", newuser.getUser_name());
-            
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
             Parent root = loader.load();
             HomeWindowController controller = loader.getController();
             controller.setUser((User) newuser);
-            
+
             interact(() -> {
                 Stage homeStage = new Stage();
                 homeStage.setScene(new Scene(root));
@@ -87,19 +89,20 @@ public class SignUpWindowControllerTest extends ApplicationTest {
                 verifyThat(window("Home"), isShowing());
                 homeStage.close();
             });
+            // creas metodo sin nombre, el parametro que pasas se autoguarda, para crear algo rapido para ese momento
         }
     }
-    
+
     @Test
     public void signUpWithExistingUserTest() {
         clickOn("#username").write("juanP");
         clickOn("#pswd1").write("1234");
         clickOn("#pswd2").write("1234");
         clickOn("#SignUpButton");
-        
-        Node dialogPane = lookup(".dialog-pane").query();
-        from(dialogPane).lookup((Text t) -> t.getText().startsWith("The user could not be created"));
-        clickOn("Aceptar");
+
+        Node dialogPane = lookup(".dialog-pane").query(); //busca dentro de los dialogpanel el stylo dialogpane
+        from(dialogPane).lookup((Text t) -> t.getText().startsWith("The user could not be created")); //tras aberlo encontrado mira si empieza por el texto puesto
+        clickOn("Aceptar"); //clicka en aceptar para cerrar
     }
 
     @Test
@@ -108,7 +111,7 @@ public class SignUpWindowControllerTest extends ApplicationTest {
         clickOn("#pswd1").write("password1");
         clickOn("#pswd2").write("password2");
         clickOn("#SignUpButton");
-        
+
         Node dialogPane = lookup(".dialog-pane").query();
         from(dialogPane).lookup((Text t) -> t.getText().startsWith("Passwords must be the same"));
         clickOn("Aceptar");
@@ -117,7 +120,7 @@ public class SignUpWindowControllerTest extends ApplicationTest {
     @Test
     public void signUpWithEmptyFieldsTest() {
         clickOn("#SignUpButton");
-        
+
         Node dialogPane = lookup(".dialog-pane").query();
         from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please complete all fields"));
         clickOn("Aceptar");
