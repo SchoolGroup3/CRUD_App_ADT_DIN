@@ -6,7 +6,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.junit.*;
+import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;

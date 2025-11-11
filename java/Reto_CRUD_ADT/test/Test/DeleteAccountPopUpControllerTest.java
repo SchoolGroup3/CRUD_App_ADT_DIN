@@ -1,82 +1,102 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Test;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.*;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import model.User;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import view.DeleteAccountPopUpController;
-import static org.junit.Assert.*;
+import org.testfx.framework.junit.ApplicationTest;
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.base.WindowMatchers.isShowing;
 
-public class DeleteAccountPopUpControllerTest {
-    
-    public DeleteAccountPopUpControllerTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+import controller.Controller;
+import javafx.scene.text.Text;
+import model.User;
+
+public class DeleteAccountPopUpControllerTest extends ApplicationTest {
+
+    private Stage curStage;
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
+        stage.toFront();
+        curStage = stage;
     }
 
-    @Test
-    public void testFromAdminWindow() {
-        System.out.println("fromAdminWindow");
-        boolean admin = false;
-        DeleteAccountPopUpController instance = new DeleteAccountPopUpController();
-        instance.fromAdminWindow(admin);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    @Override
+    public void stop() {
     }
 
     @Test
-    public void testGetStage() {
-        System.out.println("getStage");
-        Stage parent = null;
-        DeleteAccountPopUpController instance = new DeleteAccountPopUpController();
-        instance.getStage(parent);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void deleteAccTest() {
+        User user = new User(1, "", "", "", 0, "", "", "", "");;
+        Controller cont = new Controller();
+        if (!cont.deleteUser(user)) {
+            interact(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText(null);
+                alert.setContentText("El usuario no se ha eliminado correctamente.");
+                alert.show();
+                Node dialogPane = lookup(".dialog-pane").query();
+                from(dialogPane).lookup((Text t) -> t.getText().startsWith("El usuario"));
+                clickOn("Aceptar");
+            });
+        } else {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
+                Parent root = loader.load();
+                interact(() -> {
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Login");
+                    stage.show();
+                    verifyThat(window("Login"), isShowing());
+                    curStage.close();
+                });
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Test
-    public void testSetUser() {
-        System.out.println("setUser");
-        User user = null;
-        DeleteAccountPopUpController instance = new DeleteAccountPopUpController();
-        instance.setUser(user);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    public void failedDeleteAccTest() {
+        Controller cont = new Controller();
+        User user = new User(0, "", "", "", 0, "", "", "", "");
+        if (!cont.deleteUser(user)) {
+            interact(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText(null);
+                alert.setContentText("El usuario no se ha eliminado correctamente.");
+                alert.show();
+                Node dialogPane = lookup(".dialog-pane").query();
+                from(dialogPane).lookup((Text t) -> t.getText().startsWith("El usuario"));
+                clickOn("Aceptar");
+            });
+        } else {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
+                Parent root = loader.load();
+                interact(() -> {
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Login");
+                    stage.show();
+                    verifyThat(window("Login"), isShowing());
+                    curStage.close();
+                });
 
-    @Test
-    public void testInitialize() {
-        System.out.println("initialize");
-        URL url = null;
-        ResourceBundle rb = null;
-        DeleteAccountPopUpController instance = new DeleteAccountPopUpController();
-        instance.initialize(url, rb);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
-    
 }
