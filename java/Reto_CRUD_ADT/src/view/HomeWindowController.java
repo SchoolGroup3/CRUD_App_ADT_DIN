@@ -19,7 +19,7 @@ public class HomeWindowController implements Initializable {
     private User user;
 
     @FXML
-    private Label time;
+    public Label time;
 
     @FXML
     private Label settings;
