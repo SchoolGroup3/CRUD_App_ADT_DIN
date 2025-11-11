@@ -21,7 +21,7 @@ public class LogOutPopUpControllerTest extends ApplicationTest {
         stage.setScene(new Scene(root));
         stage.show();
         stage.toFront();
-        this.curStage = stage;
+        curStage = stage;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class LogOutPopUpControllerTest extends ApplicationTest {
                 stage.setTitle("Login");
                 stage.show();
                 verifyThat(window("Login"), isShowing());
-                this.curStage.close();
+                curStage.close();
             });
 
         } catch (IOException ex) {
