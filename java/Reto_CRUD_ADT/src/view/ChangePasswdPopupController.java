@@ -3,11 +3,9 @@ package view;
 import controller.Controller;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import model.Profile;
 
 public class ChangePasswdPopupController implements Initializable {
@@ -71,10 +69,10 @@ public class ChangePasswdPopupController implements Initializable {
 
         if (!hasErrors) {
             if (cont.modifyPassword(user, newPasswd)) {
-                lblNewPasswdMessage.setText("Password mofified correctly");
+                lblNewPasswdMessage.setText("Password modified correctly");
                 lblNewPasswdMessage.setStyle("-fx-text-fill: green;");
             } else {
-                lblNewPasswdMessage.setText("Error mofifiying the password");
+                lblNewPasswdMessage.setText("Error modifiying the password");
             }
         }
     }
