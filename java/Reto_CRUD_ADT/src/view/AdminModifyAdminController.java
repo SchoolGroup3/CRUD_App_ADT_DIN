@@ -179,13 +179,6 @@ public class AdminModifyAdminController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        iconHome.setOnMouseClicked(event -> {
-            openHomeWindow(event);
-        });
 
-        lblHome.setOnMouseClicked(event -> {
-            openHomeWindow(event);
-        });
     }
-
 }
