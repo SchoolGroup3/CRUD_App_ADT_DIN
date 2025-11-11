@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.*;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -91,52 +92,59 @@ public class AdminHomeWindowController implements Initializable {
             private final Button editButton = new Button("Edit");
             private final Button deleteButton = new Button("Delete");
 
-            {
+            {   
+                System.out.println(col);
                 // Style buttons
                 editButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
                 deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
 
                 //Button onClick methods
-                editButton.setOnAction(e -> {
-                    try {
+                editButton.setOnAction((new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        try {
+                            User user = getTableView().getItems().get(getIndex());
+
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminModifyUser.fxml"));
+                            Parent root = loader.load();
+
+                            AdminModifyUserController controller = loader.getController();
+                            controller.setUser(user);
+
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(root));
+                            stage.show();
+
+                        } catch (IOException ex) {
+                            throw new RuntimeException("Error creating modify user window", ex);
+                        }
+                    }
+                }));
+
+                deleteButton.setOnAction((new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
                         User user = getTableView().getItems().get(getIndex());
+                        System.out.println("Delete clicked for: " + user.getUser_name());
 
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminModifyUser.fxml"));
-                        Parent root = loader.load();
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+                            Parent root = loader.load();
 
-                        AdminModifyUserController controller = loader.getController();
-                        controller.setUser(user);
+                            DeleteAccountPopUpController controller = loader.getController();
+                            controller.setUser(user);
+                            controller.fromAdminWindow(true);
+                            controller.setParentStage((Stage) deleteButton.getScene().getWindow());
 
-                        Stage stage = new Stage();
-                        stage.setScene(new Scene(root));
-                        stage.show();
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(root));
+                            stage.show();
 
-                    } catch (IOException ex) {
-                        throw new RuntimeException("Error creating modify user window", ex);
+                        } catch (IOException ex) {
+                            throw new RuntimeException("Error creating delete popup", ex);
+                        }
                     }
-                });
-
-                deleteButton.setOnAction(e -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    System.out.println("Delete clicked for: " + user.getUser_name());
-
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
-                        Parent root = loader.load();
-                        
-                        DeleteAccountPopUpController controller = loader.getController();
-                        controller.setUser(user);
-                        controller.fromAdminWindow(true);
-                        controller.setParentStage((Stage) deleteButton.getScene().getWindow());
-
-                        Stage stage = new Stage();
-                        stage.setScene(new Scene(root));
-                        stage.show();
-
-                    } catch (IOException ex) {
-                        throw new RuntimeException("Error creating delete popup", ex);
-                    }
-                });
+                }));
             }
 
             @Override
