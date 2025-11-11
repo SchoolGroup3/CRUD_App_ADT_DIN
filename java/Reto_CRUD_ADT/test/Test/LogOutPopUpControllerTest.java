@@ -1,4 +1,4 @@
-package view;
+package Test;
 
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
