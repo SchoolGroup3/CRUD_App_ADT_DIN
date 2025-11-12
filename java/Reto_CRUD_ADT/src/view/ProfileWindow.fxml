@@ -41,7 +41,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtFieldName" layoutX="404.0" layoutY="84.0" prefHeight="34.0" prefWidth="150.0" promptText="Jhon" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <TextField id="txtFieldName" fx:id="txtFieldName" layoutX="404.0" layoutY="84.0" prefHeight="34.0" prefWidth="150.0" promptText="Jhon" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
       <TextField fx:id="txtFieldSurname" layoutX="580.0" layoutY="84.0" prefHeight="34.0" prefWidth="150.0" promptText="Example" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
       <Label layoutX="419.0" layoutY="124.0" text="Email" textFill="#212529">
          <font>
@@ -55,7 +55,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtFieldPhoneNumber" layoutX="223.0" layoutY="321.0" prefHeight="34.0" prefWidth="333.0" promptText="000-000-000" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <TextField id="txtFieldPhoneNumber" fx:id="txtFieldPhoneNumber" layoutX="223.0" layoutY="321.0" prefHeight="34.0" prefWidth="333.0" promptText="000-000-000" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
       <Label layoutX="231.0" layoutY="372.0" text="Card Number" textFill="#212529">
          <font>
             <Font size="18.0" />
@@ -68,7 +68,7 @@
          </font>
       </Label>
       <ComboBox fx:id="comboGender" layoutX="593.0" layoutY="323.0" prefHeight="34.0" prefWidth="150.0" promptText="Other" style="-fx-background-radius: 50; -fx-border-radius: 50;" />
-      <Button fx:id="btnSave" layoutX="224.0" layoutY="458.0" mnemonicParsing="false" onAction="#handleButtonActionSave" prefHeight="34.0" prefWidth="534.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #212529;" text="Save" textFill="#f2f0ef" />
+      <Button id="btnSave" fx:id="btnSave" layoutX="224.0" layoutY="458.0" mnemonicParsing="false" onAction="#handleButtonActionSave" prefHeight="34.0" prefWidth="534.0" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-background-color: #212529;" text="Save" textFill="#f2f0ef" />
       <Label fx:id="lblPasswordMessage" layoutX="600.0" layoutY="267.0" prefHeight="6.0" prefWidth="150.0" textFill="RED">
          <font>
             <Font size="11.0" />
