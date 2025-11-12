@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -65,11 +64,10 @@ public class HomeWindowController implements Initializable {
             ex.printStackTrace();
         }
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        settingsIcon.setOnMouseClicked(event -> {
-            Stage stage = new Stage();
+    
+    @FXML
+    private void settingsIcon(MouseEvent event) {
+        Stage stage = new Stage();
             Parent root;
             try {
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -87,6 +85,10 @@ public class HomeWindowController implements Initializable {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        });
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
     }
 }

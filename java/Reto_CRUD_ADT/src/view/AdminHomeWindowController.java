@@ -50,7 +50,7 @@ public class AdminHomeWindowController implements Initializable {
             root = loader.load();
 
             AdminModifyAdminController controller = loader.getController();
-            controller.setAdmin((Admin) admin);
+            controller.setAdmin((Admin) this.admin);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);

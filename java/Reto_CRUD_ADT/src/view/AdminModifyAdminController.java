@@ -122,6 +122,8 @@ public class AdminModifyAdminController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
             root = loader.load();
+            AdminHomeWindowController controller = loader.getController();
+            controller.setAdmin(admin);
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -163,28 +165,25 @@ public class AdminModifyAdminController implements Initializable {
                 || !txtFieldAccountNumber.getText().equals(admin.getCurrent_account());
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        iconTrash.setOnMouseClicked(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
-                Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
+    @FXML
+    private void deleteAccount(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
 
-            } catch (IOException ex) {
-                throw new RuntimeException("Error creating main window", ex);
-            }
-        });
-
-        iconHome.setOnMouseClicked(event -> {
-            openHomeWindow(event);
-        });
-
-        lblHome.setOnMouseClicked(event -> {
-            openHomeWindow(event);
-        });
+        } catch (IOException ex) {
+            throw new RuntimeException("Error creating main window", ex);
+        }
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        if (admin != null ) {
+            loadData();
+        }
+
+    }
 }

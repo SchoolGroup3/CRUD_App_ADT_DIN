@@ -24,7 +24,7 @@
             <Image url="@assets/img/Home.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="settingsIcon" fitHeight="29.0" fitWidth="31.0" layoutX="11.0" layoutY="305.0">
+      <ImageView fx:id="settingsIcon" fitHeight="29.0" fitWidth="31.0" layoutX="11.0" layoutY="305.0" onMouseClicked="#settingsIcon">
          <image>
             <Image url="@assets/img/Settings.png" />
          </image>

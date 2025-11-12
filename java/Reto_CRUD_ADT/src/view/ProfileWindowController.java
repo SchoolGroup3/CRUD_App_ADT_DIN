@@ -5,11 +5,11 @@ import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.User;
 
@@ -49,7 +49,7 @@ public class ProfileWindowController implements Initializable {
     private Controller cont = new Controller();
 
     @FXML
-    private void handleButtonActionSave(ActionEvent event) {
+    private void handleButtonActionSave(MouseEvent event) {
         String name;
         String surname;
         String email;
@@ -91,7 +91,7 @@ public class ProfileWindowController implements Initializable {
     }
 
     @FXML
-    private void handleButtonActionChangePassword(ActionEvent event) {
+    private void handleButtonActionChangePassword(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ChangePasswdPopup.fxml"));
             Parent root = loader.load();
@@ -119,8 +119,7 @@ public class ProfileWindowController implements Initializable {
     }
 
     public void loadData() {
-
-        //loads the texfields
+        //loads the textfields
         txtFieldName.setText(user.getName());
         txtFieldSurname.setText(user.getSurname());
         txtFieldEmail.setText(user.getEmail());
@@ -152,49 +151,51 @@ public class ProfileWindowController implements Initializable {
                 || !comboGender.getSelectionModel().getSelectedItem().equals(user.getGender());
     }
 
+    @FXML
+    private void deleteAccount(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
+            Parent root = loader.load();
+
+            DeleteAccountPopUpController controller = loader.getController();
+            controller.setUser(user);
+            controller.fromAdminWindow(false);
+            controller.setParentStage((Stage) iconTrash.getScene().getWindow());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException("Error creating delete account popup", e);
+        }
+    }
+
+    @FXML
+    private void homeWindow(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+            Parent root = loader.load();
+
+            HomeWindowController controller = loader.getController();
+            controller.setUser(user);
+            controller.timeCheck();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            Stage currentStage = (Stage) iconHome.getScene().getWindow();
+            currentStage.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error creating main window", e);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //fill the combobox
         comboGender.getItems().addAll("Man", "Female", "Other");
         comboGender.setEditable(false);
-
-        iconTrash.setOnMouseClicked(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
-                Parent root = loader.load();
-                
-                DeleteAccountPopUpController controller = loader.getController();
-                controller.setUser(user);
-                controller.fromAdminWindow(false);
-                controller.setParentStage((Stage) iconTrash.getScene().getWindow());
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                throw new RuntimeException("Error creating delete account popup", e);
-            }
-        });
-
-        iconHome.setOnMouseClicked(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-                Parent root = loader.load();
-
-                HomeWindowController controller = loader.getController();
-                controller.setUser(user);
-                controller.timeCheck();
-
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-
-                Stage currentStage = (Stage) iconHome.getScene().getWindow();
-                currentStage.close();
-
-            } catch (IOException e) {
-                throw new RuntimeException("Error creating main window", e);
-            }
-        });
     }
 }
