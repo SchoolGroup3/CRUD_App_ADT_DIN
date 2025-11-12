@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class LogOutPopUpController implements Initializable {
 
     @FXML
-    private Button comfirm;
+    private Button confirm;
 
     @FXML
     private Button cancel;
