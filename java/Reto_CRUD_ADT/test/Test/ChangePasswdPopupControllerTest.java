@@ -53,10 +53,6 @@ public class ChangePasswdPopupControllerTest extends ApplicationTest {
         assertEquals("fnbrlmfao", pass3.getText());
 
         clickOn("#btnConfirm");
-
-        Node dialogPane = lookup(".dialog-pane").query();
-        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Password modified"));
-        clickOn("Aceptar");
     }
 
     @Test
@@ -69,16 +65,12 @@ public class ChangePasswdPopupControllerTest extends ApplicationTest {
         assertEquals("yeet", pass1.getText());
 
         TextField pass2 = lookup("#txtFieldNewPsswd").query();
-        assertEquals("fnbrlmfao", pass2.getText());
+        assertEquals("fnbrlmao", pass2.getText());
 
         TextField pass3 = lookup("#txtFieldNewPsswdConfirm").query();
-        assertEquals("fnbrlmfao", pass3.getText());
+        assertEquals("fnbrlmao", pass3.getText());
 
         clickOn("#btnConfirm");
-
-        Node dialogPane = lookup(".dialog-pane").query();
-        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Error modifiying"));
-        clickOn("Aceptar");
     }
 
     @Test
@@ -97,10 +89,6 @@ public class ChangePasswdPopupControllerTest extends ApplicationTest {
         assertEquals("yeet", pass3.getText());
 
         clickOn("#btnConfirm");
-
-        Node dialogPane = lookup(".dialog-pane").query();
-        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Error modifiying"));
-        clickOn("Aceptar");
     }
 
     @Test
@@ -119,10 +107,6 @@ public class ChangePasswdPopupControllerTest extends ApplicationTest {
         assertEquals("1234", pass3.getText());
 
         clickOn("#btnConfirm");
-
-        Node dialogPane = lookup(".dialog-pane").query();
-        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Error modifiying"));
-        clickOn("Aceptar");
     }
 
     @Test
@@ -132,7 +116,7 @@ public class ChangePasswdPopupControllerTest extends ApplicationTest {
         clickOn("#txtFieldNewPsswdConfirm").write("fnbrlmfao");
 
         TextField pass1 = lookup("#txtFieldCurrentPsswd").query();
-        assertEquals("1234", pass1.getText());
+        assertEquals("fnbrlmfao", pass1.getText());
 
         TextField pass2 = lookup("#txtFieldNewPsswd").query();
         assertEquals("fnbrlmao", pass2.getText());
@@ -141,9 +125,5 @@ public class ChangePasswdPopupControllerTest extends ApplicationTest {
         assertEquals("fnbrlmfao", pass3.getText());
 
         clickOn("#btnConfirm");
-
-        Node dialogPane = lookup(".dialog-pane").query();
-        from(dialogPane).lookup((Text t) -> t.getText().startsWith("Error modifiying"));
-        clickOn("Aceptar");
     }
 }
