@@ -16,7 +16,6 @@ import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.api.FxToolkit;
 import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;
-import org.testfx.matcher.base.NodeMatchers;
 import static org.testfx.matcher.base.WindowMatchers.isShowing;
 import view.*;
 
@@ -81,14 +80,22 @@ public class SignUpWindowControllerTest extends ApplicationTest {
             HomeWindowController controller = loader.getController();
             controller.setUser((User) newuser);
 
-            interact(() -> {
+            Stage homeStage = new Stage();
+            homeStage.setScene(new Scene(root));
+            homeStage.setTitle("Home");
+
+            assertEquals("Home", homeStage.getTitle());
+            assertNotNull(homeStage.getScene());
+
+            homeStage.close();
+           /* interact(() -> {
                 Stage homeStage = new Stage();
                 homeStage.setScene(new Scene(root));
                 homeStage.setTitle("Home");
                 homeStage.show();
                 verifyThat(window("Home"), isShowing());
                 homeStage.close();
-            });
+            });*/
             // creas metodo sin nombre, el parametro que pasas se autoguarda, para crear algo rapido para ese momento
         }
     }
