@@ -4,10 +4,7 @@ import controller.Controller;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -18,7 +15,6 @@ import org.testfx.api.FxToolkit;
 import static org.junit.Assert.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.WindowMatchers.isShowing;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import view.*;
 
 public class SignUpWindowControllerTest extends ApplicationTest {
