@@ -36,7 +36,7 @@ Mosi:
 Mikel:
 -Windows (Design): Login, Signup
 -Windows (Functionality): Login, Signup
--Tests: Signup test, delete account test
+-Tests: Signup test, home window test
 -Other: Design fixes
 Jagoba:
 -Windows (Design): Home, all popups except change password
