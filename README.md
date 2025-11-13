@@ -23,23 +23,23 @@ Repository Link: ([CRUD_App_ADT_DIN](https://github.com/SchoolGroup3/CRUD_App_AD
 
 ## Project Division
 
-Kevin:
--Windows (Design): User modification, change password
--Windows (Functionality): User modification, change password, linking user home together, functionality to most popups
--Tests: Admin home test, user modify test
--Other: Pool management, bug fixes
-Mosi:
--Windows (Design): Admin home, admin modification
--Windows (Functionality): Admin home, admin modification, user modification/deletion from admin table (Almost same as Kevins part but without the home bar)
--Tests: Admin modify test
--Other: bug fixes
-Mikel:
--Windows (Design): Login, Signup
--Windows (Functionality): Login, Signup
--Tests: Signup test, home window test
--Other: Design fixes
-Jagoba:
--Windows (Design): Home, all popups except change password
--Windows (Functionality): Home
--Tests: Delete user test, logout test, change password test, login test
--Other: Class diagram fixes
+Kevin:<br>
+-Windows (Design): User modification, change password <br>
+-Windows (Functionality): User modification, change password, linking user home together, functionality to most popups<br>
+-Tests: Admin home test, user modify test<br>
+-Other: Pool management, bug fixes<br>
+Mosi:<br>
+-Windows (Design): Admin home, admin modification<br>
+-Windows (Functionality): Admin home, admin modification, user modification/deletion from admin table (Almost same as Kevins part but without the home bar)<br>
+-Tests: Admin modify test<br>
+-Other: bug fixes<br>
+Mikel:<br>
+-Windows (Design): Login, Signup<br>
+-Windows (Functionality): Login, Signup<br>
+-Tests: Signup test, home window test<br>
+-Other: Design fixes<br>
+Jagoba:<br>
+-Windows (Design): Home, all popups except change password<br>
+-Windows (Functionality): Home<br>
+-Tests: Delete user test, logout test, change password test, login test<br>
+-Other: Class diagram fixes<br>
