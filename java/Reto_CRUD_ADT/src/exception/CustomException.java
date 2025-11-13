@@ -5,6 +5,8 @@
  */
 package exception;
 
+import javafx.scene.control.Alert;
+
 /**
  * Custom runtime exception class for handling application-specific exceptions.
  * Extends RuntimeException to create unchecked exceptions that don't require
@@ -12,14 +14,18 @@ package exception;
  * 
  * @author kevin
  */
-public class CustomException extends RuntimeException {
+public class CustomException extends Exception {
     
     /**
      * Constructs a new CustomException with the specified detail message.
      * 
      * @param message the detail message that describes the reason for the exception
      */
-    public CustomException (String message){
-        super(message);
+    public CustomException (String description, String title){
+        super(description);
+        Alert alert = new Alert(Alert.AlertType.ERROR); 
+        alert.setTitle(title);
+        alert.setContentText(description);
+        alert.showAndWait();
     }
 }

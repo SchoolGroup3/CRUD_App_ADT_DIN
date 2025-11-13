@@ -3,6 +3,8 @@ package model;
 import exception.CustomException;
 import java.sql.*;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -154,8 +156,14 @@ public class ImplementsBD implements UserDAO {
                 valid = true;
             }
         } catch (SQLException e) {
-            if (e.getMessage().toLowerCase().contains("timeout")) {
-                throw new CustomException("Max connections reached! Wait a moment...");
+            if (e.getMessage().toLowerCase().contains("timeout")) {              
+
+                try {
+                    throw new CustomException("Max connections reached! Wait a moment...", "SERVER BUSY");
+                } catch (CustomException ex) {
+                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             } else {
                 System.out.println("An error occurred.");
             }
@@ -205,7 +213,11 @@ public class ImplementsBD implements UserDAO {
             }
         } catch (SQLException e) {
             if (e.getMessage().toLowerCase().contains("timeout")) {
-                throw new CustomException("Max connections reached! Wait a moment...");
+               try {
+                    throw new CustomException("Max connections reached! Wait a moment...", "SERVER BUSY");
+                } catch (CustomException ex) {
+                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 System.out.println("An error occurred.");
             }
@@ -258,7 +270,11 @@ public class ImplementsBD implements UserDAO {
             }
         } catch (SQLException e) {
             if (e.getMessage().toLowerCase().contains("timeout")) {
-                throw new CustomException("Max connections reached! Wait a moment...");
+                try {
+                    throw new CustomException("Max connections reached! Wait a moment...", "SERVER BUSY");
+                } catch (CustomException ex) {
+                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 System.out.println("An error occurred.");
             }
@@ -302,7 +318,11 @@ public class ImplementsBD implements UserDAO {
 
         } catch (SQLException e) {
             if (e.getMessage().toLowerCase().contains("timeout")) {
-                throw new CustomException("Max connections reached! Wait a moment...");
+                try {
+                    throw new CustomException("Max connections reached! Wait a moment...", "SERVER BUSY");
+                } catch (CustomException ex) {
+                    Logger.getLogger(ImplementsBD.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 System.out.println("An error occurred.");
             }

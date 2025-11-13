@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import exception.CustomException;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import java.net.URL;
@@ -49,7 +50,7 @@ public class ProfileWindowController implements Initializable {
     private Controller cont = new Controller();
 
     @FXML
-    private void handleButtonActionSave(MouseEvent event) {
+    private void handleButtonActionSave(MouseEvent event) throws CustomException {
         String name;
         String surname;
         String email;
@@ -64,8 +65,15 @@ public class ProfileWindowController implements Initializable {
             name = txtFieldName.getText();
             surname = txtFieldSurname.getText();
             email = txtFieldEmail.getText();
+            if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
+                throw new CustomException("Incorret format for the email example@example.com", "FORMAT ERROR");
+            }
             username = txtFieldUsername.getText();
             phoneNumber = parseInt(txtFieldPhoneNumber.getText());
+
+            if (phoneNumber < 100000000) { // at least 9 dígits
+                throw new CustomException("The phone must be at least 9 digits", "FORMAT ERROR");
+            }
             card_no = txtFieldCardNumber.getText();
             gender = comboGender.getSelectionModel().getSelectedItem().toString();
 
@@ -86,6 +94,7 @@ public class ProfileWindowController implements Initializable {
             lblSavedMessage.setText("You have to complete all the fields");
         } else {
             lblSavedMessage.setText("No changes detected");
+            lblSavedMessage.setStyle("-fx-text-fill: red;");
         }
 
     }
