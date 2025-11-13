@@ -44,8 +44,6 @@ public class AdminModifyAdminController implements Initializable {
     @FXML
     private TextField txtFieldProfileCode;
     @FXML
-    private ImageView iconTrash;
-    @FXML
     private ImageView iconHome;
     @FXML
     private Label lblHome;
