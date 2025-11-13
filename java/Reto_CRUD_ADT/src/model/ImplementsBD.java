@@ -183,12 +183,12 @@ public class ImplementsBD implements UserDAO {
     /**
      * Modifies an existing administrator's information in the database.
      *
-     * @param user the Admin object containing updated information
+     * @param admin the Admin object containing updated information
      * @return true if the modification was successful, false otherwise
      * @throws CustomException if maximum connections are reached
      */
     @Override
-    public boolean modifyAdmin(Admin user) {
+    public boolean modifyAdmin(Admin admin) {
         Connection con = null;
         PreparedStatement stmt = null;
         boolean valid = false;
@@ -200,13 +200,13 @@ public class ImplementsBD implements UserDAO {
             threadCon.start();
 
             stmt = con.prepareStatement(SQLMODIFYADMIN);
-            stmt.setString(1, user.getEmail());
-            stmt.setString(2, user.getUser_name());
-            stmt.setInt(3, user.getTelephone());
-            stmt.setString(4, user.getName());
-            stmt.setString(5, user.getSurname());
-            stmt.setString(6, user.getCurrent_account());
-            stmt.setInt(7, user.getProfile_code());
+            stmt.setString(1, admin.getEmail());
+            stmt.setString(2, admin.getUser_name());
+            stmt.setInt(3, admin.getTelephone());
+            stmt.setString(4, admin.getName());
+            stmt.setString(5, admin.getSurname());
+            stmt.setString(6, admin.getCurrent_account());
+            stmt.setInt(7, admin.getProfile_code());
             
             if (stmt.executeUpdate() > 0) {
                 valid = true;
@@ -456,7 +456,6 @@ public class ImplementsBD implements UserDAO {
                 System.out.println("Error closing Connection: " + e.getMessage());
             }
         }
-
         return users;
     }
 }
