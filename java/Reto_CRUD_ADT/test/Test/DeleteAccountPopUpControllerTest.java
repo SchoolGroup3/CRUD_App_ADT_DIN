@@ -37,27 +37,33 @@ public class DeleteAccountPopUpControllerTest extends ApplicationTest {
         User user = new User(1, "", "", "", 0, "", "", "", "");;
         Controller cont = new Controller();
         if (!cont.deleteUser(user)) {
-            interact(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR");
-                alert.setHeaderText(null);
-                alert.setContentText("El usuario no se ha eliminado correctamente.");
-                alert.show();
-                Node dialogPane = lookup(".dialog-pane").query();
-                from(dialogPane).lookup((Text t) -> t.getText().startsWith("El usuario"));
-                clickOn("Aceptar");
+            interact(new Runnable() {
+                @Override
+                public void run() {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("El usuario no se ha eliminado correctamente.");
+                    alert.show();
+                    Node dialogPane = lookup(".dialog-pane").query();
+                    from(dialogPane).lookup((Text t) -> t.getText().startsWith("El usuario"));
+                    clickOn("Aceptar");
+                }
             });
         } else {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
                 Parent root = loader.load();
-                interact(() -> {
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Login");
-                    stage.show();
-                    verifyThat(window("Login"), isShowing());
-                    curStage.close();
+                interact(new Runnable() {
+                    @Override
+                    public void run() {
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Login");
+                        stage.show();
+                        verifyThat(window("Login"), isShowing());
+                        curStage.close();
+                    }
                 });
 
             } catch (IOException ex) {
@@ -71,27 +77,33 @@ public class DeleteAccountPopUpControllerTest extends ApplicationTest {
         Controller cont = new Controller();
         User user = new User(0, "", "", "", 0, "", "", "", "");
         if (!cont.deleteUser(user)) {
-            interact(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR");
-                alert.setHeaderText(null);
-                alert.setContentText("El usuario no se ha eliminado correctamente.");
-                alert.show();
-                Node dialogPane = lookup(".dialog-pane").query();
-                from(dialogPane).lookup((Text t) -> t.getText().startsWith("El usuario"));
-                clickOn("Aceptar");
+            interact(new Runnable() {
+                @Override
+                public void run() {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("ERROR");
+                    alert.setHeaderText(null);
+                    alert.setContentText("El usuario no se ha eliminado correctamente.");
+                    alert.show();
+                    Node dialogPane = lookup(".dialog-pane").query();
+                    from(dialogPane).lookup((Text t) -> t.getText().startsWith("El usuario"));
+                    clickOn("Aceptar");
+                }
             });
         } else {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
                 Parent root = loader.load();
-                interact(() -> {
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Login");
-                    stage.show();
-                    verifyThat(window("Login"), isShowing());
-                    curStage.close();
+                interact(new Runnable() {
+                    @Override
+                    public void run() {
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Login");
+                        stage.show();
+                        verifyThat(window("Login"), isShowing());
+                        curStage.close();
+                    }
                 });
 
             } catch (IOException ex) {

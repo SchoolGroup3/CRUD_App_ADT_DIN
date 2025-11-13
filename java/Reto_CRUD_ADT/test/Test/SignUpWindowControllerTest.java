@@ -73,28 +73,31 @@ public class SignUpWindowControllerTest extends ApplicationTest {
             assertTrue(newuser instanceof User);
             assertEquals("testUser", newuser.getUser_name());
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
-            Parent root = loader.load();
-            HomeWindowController controller = loader.getController();
-            controller.setUser((User) newuser);
+            //This was previously in a lambda, it is an anonymous class and without it any JavaFX operations that require a thread
+            //cant be made, such as querying a text field or opening a new window
+            interact(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/HomeWindow.fxml"));
+                        Parent root = loader.load();
+                        HomeWindowController controller = loader.getController();
+                        controller.setUser((User) newuser);
 
-            Stage homeStage = new Stage();
-            homeStage.setScene(new Scene(root));
-            homeStage.setTitle("Home");
+                        Stage homeStage = new Stage();
+                        homeStage.setScene(new Scene(root));
+                        homeStage.setTitle("Home");
+                        homeStage.show();
 
-            assertEquals("Home", homeStage.getTitle());
-            assertNotNull(homeStage.getScene());
+                        assertEquals("Home", homeStage.getTitle());
+                        assertNotNull(homeStage.getScene());
 
-            homeStage.close();
-           /* interact(() -> {
-                Stage homeStage = new Stage();
-                homeStage.setScene(new Scene(root));
-                homeStage.setTitle("Home");
-                homeStage.show();
-                verifyThat(window("Home"), isShowing());
-                homeStage.close();
-            });*/
-            // creas metodo sin nombre, el parametro que pasas se autoguarda, para crear algo rapido para ese momento
+                        homeStage.close();
+                    } catch (IOException e) {
+                        fail("FXML loading failed: " + e.getMessage());
+                    }
+                }
+            });
         }
     }
 

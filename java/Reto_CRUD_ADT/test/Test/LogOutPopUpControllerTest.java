@@ -33,14 +33,17 @@ public class LogOutPopUpControllerTest extends ApplicationTest {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
             Parent root = loader.load();
-            
-            interact(() -> {
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Login");
-                stage.show();
-                verifyThat(window("Login"), isShowing());
-                curStage.close();
+
+            interact(new Runnable() {
+                @Override
+                public void run() {
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Login");
+                    stage.show();
+                    verifyThat(window("Login"), isShowing());
+                    curStage.close();
+                }
             });
 
         } catch (IOException ex) {

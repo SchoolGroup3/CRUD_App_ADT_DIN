@@ -57,7 +57,6 @@ public class AdminHomeWindowTest extends ApplicationTest {
         // Verificar DIRECTAMENTE en los datos del controller
         ObservableList<User> tableData = controller.adminTable.getItems();
 
-        
         for (User user : tableData) {
             if ("carlosl".equals(user.getUser_name())
                     && "3456-7890-1234-5678".equals(user.getCard_no())) {
@@ -76,31 +75,40 @@ public class AdminHomeWindowTest extends ApplicationTest {
         Parent root = loader.load();
         AdminModifyUserController controller = loader.getController();
 
-        interact(() -> {
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("AdminModifyUser");
-            stage.show();
-            verifyThat(window("AdminModifyUser"), isShowing());
-            stage.close();
+        //This was previously in a lambda, it is an anonymous class and without it any JavaFX operations that require a thread
+        //cant be made, such as querying a text field or opening a new window
+        interact(new Runnable() {
+            @Override
+            public void run() {
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("AdminModifyUser");
+                stage.show();
+                verifyThat(window("AdminModifyUser"), isShowing());
+                stage.close();
+            }
         });
 
     }
 
     @Test
+
     public void buttonDeleteUser() throws IOException {
         //button delete tested because you can click it
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DeleteAccountPopUp.fxml"));
         Parent root = loader.load();
         DeleteAccountPopUpController controller = loader.getController();
 
-        interact(() -> {
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("AdminModifyUser");
-            stage.show();
-            verifyThat(window("AdminModifyUser"), isShowing());
-            stage.close();
+        interact(new Runnable() {
+            @Override
+            public void run() {
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("AdminModifyUser");
+                stage.show();
+                verifyThat(window("AdminModifyUser"), isShowing());
+                stage.close();
+            }
         });
 
     }
