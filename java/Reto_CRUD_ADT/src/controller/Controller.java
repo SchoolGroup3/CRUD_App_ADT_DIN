@@ -21,11 +21,11 @@ public class Controller {
     /**
      * Modifies an existing admin user in the system.
      * 
-     * @param user the admin object to be modified
+     * @param admin the admin object to be modified
      * @return true if the admin was successfully modified, false otherwise
      */
-    public boolean modifyAdmin(Admin user) {
-        return dao.modifyAdmin(user);
+    public boolean modifyAdmin(Admin admin) {
+        return dao.modifyAdmin(admin);
     }
 
     /**
