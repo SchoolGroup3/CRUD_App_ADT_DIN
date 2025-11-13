@@ -45,9 +45,11 @@ public class LoginWindowControllerTest extends ApplicationTest {
         String pass = password.getText();
         assertEquals("1234", pass);
         clickOn("#loginButton");
+        /*
+        Clicks on login dialog if shown
         Node dialogPane = lookup(".dialog-pane").query();
         from(dialogPane).lookup((Text t) -> t.getText().startsWith("Login successful"));
-        clickOn("Aceptar");
+        clickOn("Aceptar");*/
     }
 
     @Test

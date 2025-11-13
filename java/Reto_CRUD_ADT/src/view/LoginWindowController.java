@@ -36,7 +36,7 @@ public class LoginWindowController implements Initializable {
         Profile profile = cont.checkUser(username, password);
 
         if (profile != null) {
-            showAlert("Login successful", "Welcome, " + username);
+            //Shows a login dialog showAlert("Login successful", "Welcome, " + username);
             if (profile instanceof Admin) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminHomeWindow.fxml"));
