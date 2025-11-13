@@ -14,6 +14,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.User;
 
+/**
+ * Controller for the user profile window that allows users to view and modify their personal information.
+ */
 public class ProfileWindowController implements Initializable {
 
     @FXML
@@ -49,6 +52,13 @@ public class ProfileWindowController implements Initializable {
 
     private Controller cont = new Controller();
 
+    /**
+     * Handles the save button action to update user profile information.
+     * Validates fields, checks for changes, and saves modifications to the database.
+     * 
+     * @param event the mouse event that triggered this action
+     * @throws CustomException if email format is invalid or phone number is too short
+     */
     @FXML
     private void handleButtonActionSave(MouseEvent event) throws CustomException {
         String name;
@@ -99,6 +109,11 @@ public class ProfileWindowController implements Initializable {
 
     }
 
+    /**
+     * Handles the change password button action by opening the password change popup.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void handleButtonActionChangePassword(MouseEvent event) {
         try {
@@ -120,6 +135,11 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
+    /**
+     * Sets the user for this controller and loads their data into the form.
+     * 
+     * @param user the user object to set
+     */
     public void setUser(User user) {
         this.user = user;
         if (txtFieldName != null) {
@@ -127,6 +147,9 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
+    /**
+     * Loads the user's current data into the text fields and combo box for editing.
+     */
     public void loadData() {
         //loads the textfields
         txtFieldName.setText(user.getName());
@@ -140,6 +163,11 @@ public class ProfileWindowController implements Initializable {
 
     }
 
+    /**
+     * Checks if any of the required form fields are empty.
+     * 
+     * @return true if any field is empty, false otherwise
+     */
     private boolean isAnyFieldEmpty() {
         return txtFieldName.getText().isEmpty()
                 || txtFieldSurname.getText().isEmpty()
@@ -150,6 +178,11 @@ public class ProfileWindowController implements Initializable {
                 || comboGender.getSelectionModel().getSelectedItem() == null;
     }
 
+    /**
+     * Checks if the user has made any changes to the form data compared to the original user data.
+     * 
+     * @return true if any field has been modified, false otherwise
+     */
     private boolean hasUserDataChanged() {
         return !txtFieldName.getText().equals(user.getName())
                 || !txtFieldSurname.getText().equals(user.getSurname())
@@ -160,6 +193,11 @@ public class ProfileWindowController implements Initializable {
                 || !comboGender.getSelectionModel().getSelectedItem().equals(user.getGender());
     }
 
+    /**
+     * Opens the delete account confirmation popup window.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void deleteAccount(MouseEvent event) {
         try {
@@ -179,6 +217,11 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
+    /**
+     * Navigates back to the home window and closes the current profile window.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void homeWindow(MouseEvent event) {
         try {
@@ -201,6 +244,12 @@ public class ProfileWindowController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the controller class. Sets up the gender combo box with available options.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //fill the combobox

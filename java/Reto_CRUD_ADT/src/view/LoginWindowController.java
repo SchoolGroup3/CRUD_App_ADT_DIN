@@ -13,6 +13,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.*;
 import model.*;
 
+/**
+ * Controller for the login window that handles user authentication and navigation to appropriate home screens.
+ */
 public class LoginWindowController implements Initializable {
 
     Controller cont = new Controller();
@@ -29,6 +32,10 @@ public class LoginWindowController implements Initializable {
     @FXML
     private Button signUp;
 
+    /**
+     * Handles the login button action by authenticating user credentials and navigating to the appropriate home screen.
+     * Validates username and password, then redirects to admin or user home window based on profile type.
+     */
     @FXML
     private void handleLogin() {
         String username = usernameTextField.getText().trim();
@@ -73,6 +80,12 @@ public class LoginWindowController implements Initializable {
         }
     }
 
+    /**
+     * Displays an alert dialog with the specified title and message.
+     * 
+     * @param title the title of the alert dialog
+     * @param message the message content of the alert dialog
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
@@ -81,6 +94,9 @@ public class LoginWindowController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * Opens the signup window and closes the current login window.
+     */
     @FXML
     private void openSignup() {
         try {
@@ -99,6 +115,12 @@ public class LoginWindowController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the controller class.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

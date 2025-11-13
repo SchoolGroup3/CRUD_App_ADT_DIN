@@ -13,6 +13,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.*;
 
+/**
+ * Controller for the user home window that displays personalized greetings and provides navigation to settings and logout.
+ */
 public class HomeWindowController implements Initializable {
 
     private User user;
@@ -32,10 +35,19 @@ public class HomeWindowController implements Initializable {
     @FXML
     private AnchorPane pane;
 
+    /**
+     * Sets the current user for this controller and personalizes the interface.
+     * 
+     * @param user the user object to set
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Checks the current time and displays an appropriate greeting message based on the time of day.
+     * Displays "Good morning", "Good afternoon", or "Good night" with the user's name.
+     */
     public void timeCheck() {
         LocalTime curTime = LocalTime.now();
 
@@ -48,6 +60,11 @@ public class HomeWindowController implements Initializable {
         }
     }
 
+    /**
+     * Opens the logout confirmation popup window.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void logOutPopup(MouseEvent event) {
         Parent root;
@@ -65,6 +82,11 @@ public class HomeWindowController implements Initializable {
         }
     }
     
+    /**
+     * Handles the settings icon click by opening the profile window and closing the current home window.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void settingsIcon(MouseEvent event) {
         Stage stage = new Stage();
@@ -87,6 +109,12 @@ public class HomeWindowController implements Initializable {
             }
     }
 
+    /**
+     * Initializes the controller class.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

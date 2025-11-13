@@ -11,6 +11,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
+/**
+ * Controller for the delete account confirmation popup window that handles user account deletion.
+ */
 public class DeleteAccountPopUpController implements Initializable {
 
     private User user;
@@ -27,28 +30,59 @@ public class DeleteAccountPopUpController implements Initializable {
     private boolean admin;
     private AdminHomeWindowController parentController;
 
+    /**
+     * Sets whether this popup was opened from an admin window.
+     * 
+     * @param admin true if opened from admin window, false otherwise
+     */
     public void fromAdminWindow(boolean admin) {
         this.admin = admin;
     }
 
+    /**
+     * Sets the parent stage for this popup window.
+     * 
+     * @param parent the parent stage to set
+     */
     public void setParentStage(Stage parent) {
         this.parent = parent;
     }
 
+    /**
+     * Sets the parent controller to allow communication with the admin home window.
+     * 
+     * @param controller the AdminHomeWindowController to set as parent
+     */
     public void setController(AdminHomeWindowController controller) {
         this.parentController = controller;
     }
 
+    /**
+     * Sets the user to be deleted by this controller.
+     * 
+     * @param user the user object to be deleted
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Handles the cancel button action by closing the popup window without deleting the account.
+     * 
+     * @param event the action event triggered by the cancel button
+     */
     @FXML
     private void canceled(ActionEvent event) {
         Stage actualStage = (Stage) cancel.getScene().getWindow();
         actualStage.close();
     }
 
+    /**
+     * Handles the confirm button action by deleting the user account and handling post-deletion navigation.
+     * If successful, refreshes the parent table and navigates to login window for non-admin deletions.
+     * 
+     * @param event the action event triggered by the confirm button
+     */
     @FXML
     private void confirmed(ActionEvent event) {
         if (!cont.deleteUser(user)) {
@@ -86,6 +120,12 @@ public class DeleteAccountPopUpController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the controller class.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

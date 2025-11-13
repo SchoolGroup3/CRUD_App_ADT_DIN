@@ -14,6 +14,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Admin;
 
+/**
+ * Controller for the admin modification window that allows administrators to edit their own profile information.
+ */
 public class AdminModifyAdminController implements Initializable {
 
     @FXML
@@ -51,6 +54,12 @@ public class AdminModifyAdminController implements Initializable {
 
     private Controller cont = new Controller();
 
+    /**
+     * Handles the save button action to update admin profile information.
+     * Validates fields and saves changes to the database if modifications are detected.
+     * 
+     * @param event the action event triggered by the save button
+     */
     @FXML
     private void handleButtonActionSave(ActionEvent event) {
         String name;
@@ -89,6 +98,11 @@ public class AdminModifyAdminController implements Initializable {
 
     }
 
+    /**
+     * Handles the change password button action by opening the password change popup.
+     * 
+     * @param event the action event triggered by the change password button
+     */
     @FXML
     private void handleButtonActionChangePassword(ActionEvent event) {
         try {
@@ -109,6 +123,11 @@ public class AdminModifyAdminController implements Initializable {
         }
     }
 
+    /**
+     * Sets the admin user for this controller and loads their data into the form.
+     * 
+     * @param admin the admin user to set
+     */
     public void setAdmin(Admin admin) {
         this.admin = admin;
         if (txtFieldName != null) {
@@ -116,6 +135,11 @@ public class AdminModifyAdminController implements Initializable {
         }
     }
 
+    /**
+     * Opens the admin home window and closes the current modification window.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     public void openHomeWindow(MouseEvent event) {
         Stage stage = new Stage();
         Parent root;
@@ -136,6 +160,9 @@ public class AdminModifyAdminController implements Initializable {
         }
     }
 
+    /**
+     * Loads the admin's current data into the text fields for editing.
+     */
     public void loadData() {
         //loads the texfields
         txtFieldName.setText(admin.getName());
@@ -147,6 +174,11 @@ public class AdminModifyAdminController implements Initializable {
         txtFieldAccountNumber.setText(admin.getCurrent_account());
     }
 
+    /**
+     * Checks if any of the required form fields are empty.
+     * 
+     * @return true if any field is empty, false otherwise
+     */
     private boolean isAnyFieldEmpty() {
         return txtFieldName.getText().isEmpty()
                 || txtFieldSurname.getText().isEmpty()
@@ -156,6 +188,11 @@ public class AdminModifyAdminController implements Initializable {
                 || txtFieldAccountNumber.getText().isEmpty();
     }
 
+    /**
+     * Checks if the user has made any changes to the form data compared to the original admin data.
+     * 
+     * @return true if any field has been modified, false otherwise
+     */
     private boolean hasUserDataChanged() {
         return !txtFieldName.getText().equals(admin.getName())
                 || !txtFieldSurname.getText().equals(admin.getSurname())
@@ -165,6 +202,11 @@ public class AdminModifyAdminController implements Initializable {
                 || !txtFieldAccountNumber.getText().equals(admin.getCurrent_account());
     }
 
+    /**
+     * Opens the delete account confirmation popup window.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void deleteAccount(MouseEvent event) {
         try {
@@ -179,6 +221,12 @@ public class AdminModifyAdminController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the controller class. Loads admin data if available.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if (admin != null ) {

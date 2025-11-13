@@ -8,6 +8,9 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import model.Profile;
 
+/**
+ * Controller for the change password popup window that handles password modification for user profiles.
+ */
 public class ChangePasswdPopupController implements Initializable {
 
     @FXML
@@ -27,10 +30,21 @@ public class ChangePasswdPopupController implements Initializable {
 
     private Profile user;
 
+    /**
+     * Sets the user profile for which the password will be changed.
+     * 
+     * @param user the profile object representing the user whose password will be modified
+     */
     public void setUser(Profile user) {
         this.user = user;
     }
 
+    /**
+     * Handles the password change confirmation button action.
+     * Validates current password, new password requirements, and confirms password match before updating.
+     * 
+     * @param event the action event triggered by the confirm button
+     */
     @FXML
     private void passwordButton(ActionEvent event) {
         String userPassword = user.getPssw();
@@ -77,6 +91,12 @@ public class ChangePasswdPopupController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the controller class.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 

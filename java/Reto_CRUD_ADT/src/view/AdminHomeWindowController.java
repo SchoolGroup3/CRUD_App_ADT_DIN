@@ -16,6 +16,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.*;
 
+/**
+ * Controller for the admin home window that manages user administration operations.
+ * Handles displaying users in a table, editing user accounts, and administrative functions.
+ */
 public class AdminHomeWindowController implements Initializable {
 
     @FXML
@@ -37,25 +41,46 @@ public class AdminHomeWindowController implements Initializable {
 
     private Admin admin;
 
+    /**
+     * Sets the admin user for this controller.
+     * 
+     * @param admin the admin user to set
+     */
     public void setAdmin(Admin admin) {
         this.admin = admin;
     }
     
+    /**
+     * Refreshes the table data by reloading all users from the database.
+     */
     public void refreshTableData() {
         this.users = cont.getAllUsers();
         adminTable.refresh();
     }
     
-    //Since the place this method is used is inside a lambda, this doesnt count as AdminWindowController but as an event handler
+    /**
+     * Applies the controller reference to the user modification controller.
+     * 
+     * @param controller the AdminModifyUserController to configure
+     */
     private void applyControllerUserModify(AdminModifyUserController controller){
         controller.setController(this);
     }
     
-    //Since the place this method is used is inside a lambda, this doesnt count as AdminWindowController but as an event handler
+    /**
+     * Applies the controller reference to the delete account popup controller.
+     * 
+     * @param controller the DeleteAccountPopUpController to configure
+     */
     private void applyControllerDeletePopup(DeleteAccountPopUpController controller){
         controller.setController(this);
     }
 
+    /**
+     * Opens the admin settings window for modifying admin account details.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void settingsWindow(MouseEvent event) {
         Stage stage = new Stage();
@@ -78,6 +103,11 @@ public class AdminHomeWindowController implements Initializable {
         }
     }
 
+    /**
+     * Opens the logout confirmation popup window.
+     * 
+     * @param event the mouse event that triggered this action
+     */
     @FXML
     private void logOutPopup(MouseEvent event) {
         Parent root;
@@ -95,10 +125,22 @@ public class AdminHomeWindowController implements Initializable {
         }
     }
 
+    /**
+     * Initializes the observable list with user data for the table view.
+     * 
+     * @return an ObservableList containing all users from the database
+     */
     public ObservableList<User> initialData() {
         return FXCollections.observableArrayList(users.values());
     }
 
+    /**
+     * Initializes the controller class. Sets up table columns, cell factories,
+     * and button actions for the user administration table.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         user_name.setCellValueFactory(new PropertyValueFactory<User, String>("user_name"));

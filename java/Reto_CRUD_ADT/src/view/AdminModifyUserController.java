@@ -12,6 +12,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
+/**
+ * Controller for the admin user modification window that allows administrators to edit user profiles.
+ */
 public class AdminModifyUserController implements Initializable {
 
     @FXML
@@ -42,6 +45,12 @@ public class AdminModifyUserController implements Initializable {
     @FXML
     private Label lblPasswordMessage;
 
+    /**
+     * Handles the save button action to update user profile information.
+     * Validates fields and saves changes to the database if modifications are detected.
+     * 
+     * @param event the action event triggered by the save button
+     */
     @FXML
     private void handleButtonActionSave(ActionEvent event) {
         String name;
@@ -85,6 +94,11 @@ public class AdminModifyUserController implements Initializable {
 
     }
 
+    /**
+     * Handles the change password button action by opening the password change popup for the user.
+     * 
+     * @param event the action event triggered by the change password button
+     */
     @FXML
     private void handleButtonActionChangePassword(ActionEvent event) {
         try {
@@ -107,6 +121,11 @@ public class AdminModifyUserController implements Initializable {
         }
     }
 
+    /**
+     * Sets the user to be modified by this controller and loads their data into the form.
+     * 
+     * @param user the user object to set for modification
+     */
     public void setUser(User user) {
         this.user = user;
         if (txtFieldName != null) {
@@ -114,10 +133,18 @@ public class AdminModifyUserController implements Initializable {
         }
     }
     
+    /**
+     * Sets the parent controller to allow communication with the admin home window.
+     * 
+     * @param controller the AdminHomeWindowController to set as parent
+     */
     public void setController(AdminHomeWindowController controller) {
         this.parentController = controller;
     }
 
+    /**
+     * Loads the user's current data into the text fields and combo box for editing.
+     */
     public void loadData() {
 
         //loads the texfields
@@ -132,6 +159,11 @@ public class AdminModifyUserController implements Initializable {
 
     }
 
+    /**
+     * Checks if any of the required form fields are empty.
+     * 
+     * @return true if any field is empty, false otherwise
+     */
     private boolean isAnyFieldEmpty() {
         return txtFieldName.getText().isEmpty()
                 || txtFieldSurname.getText().isEmpty()
@@ -142,6 +174,11 @@ public class AdminModifyUserController implements Initializable {
                 || comboGender.getSelectionModel().getSelectedItem() == null;
     }
 
+    /**
+     * Checks if the user has made any changes to the form data compared to the original user data.
+     * 
+     * @return true if any field has been modified, false otherwise
+     */
     private boolean hasUserDataChanged() {
         return !txtFieldName.getText().equals(user.getName())
                 || !txtFieldSurname.getText().equals(user.getSurname())
@@ -152,6 +189,12 @@ public class AdminModifyUserController implements Initializable {
                 || !comboGender.getSelectionModel().getSelectedItem().equals(user.getGender());
     }
 
+    /**
+     * Initializes the controller class. Sets up the gender combo box with available options.
+     * 
+     * @param url the location used to resolve relative paths for the root object, or null if unknown
+     * @param rb the resources used to localize the root object, or null if not localized
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //fill the combobox
