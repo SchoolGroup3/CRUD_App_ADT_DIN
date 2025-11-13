@@ -32,6 +32,7 @@ public class AdminModifyUserController implements Initializable {
     private ComboBox comboGender;
 
     private User user;
+    private AdminHomeWindowController parentController;
 
     private Controller cont = new Controller();
     @FXML
@@ -75,7 +76,7 @@ public class AdminModifyUserController implements Initializable {
             cont.modifyUser(user);
             lblSavedMessage.setText("Correctly modified");
             lblSavedMessage.setStyle("-fx-text-fill: green;");
-
+            parentController.refreshTableData();
         } else if (isAnyFieldEmpty()) {
             lblSavedMessage.setText("You have to complete all the fields");
         } else {
@@ -111,6 +112,10 @@ public class AdminModifyUserController implements Initializable {
         if (txtFieldName != null) {
             loadData();
         }
+    }
+    
+    public void setController(AdminHomeWindowController controller) {
+        this.parentController = controller;
     }
 
     public void loadData() {

@@ -25,6 +25,7 @@ public class DeleteAccountPopUpController implements Initializable {
     private Stage parent;
 
     private boolean admin;
+    private AdminHomeWindowController parentController;
 
     public void fromAdminWindow(boolean admin) {
         this.admin = admin;
@@ -32,6 +33,10 @@ public class DeleteAccountPopUpController implements Initializable {
 
     public void setParentStage(Stage parent) {
         this.parent = parent;
+    }
+
+    public void setController(AdminHomeWindowController controller) {
+        this.parentController = controller;
     }
 
     public void setUser(User user) {
@@ -54,10 +59,14 @@ public class DeleteAccountPopUpController implements Initializable {
             alert.showAndWait();
         } else {
             try {
+                if (parentController != null) {
+                    parentController.refreshTableData();
+                    System.out.println("Table data refreshed?");
+                }
                 // Cerrar el popup actual primero
                 Stage currentPopupStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentPopupStage.close();
-                
+
                 if (!admin) {
 
                     if (parent != null) {
@@ -71,7 +80,6 @@ public class DeleteAccountPopUpController implements Initializable {
                     profileStage.show();
                 }
 
-                
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

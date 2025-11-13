@@ -30,15 +30,30 @@ public class AdminHomeWindowController implements Initializable {
     private TableColumn buttons;
     @FXML
     private ImageView logOut;
-
+    
     private Controller cont = new Controller();
-
     private HashMap<Integer, User> users = cont.getAllUsers();
+    private ObservableList<User> observableUsers;
 
     private Admin admin;
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
+    }
+    
+    public void refreshTableData() {
+        this.users = cont.getAllUsers();
+        adminTable.refresh();
+    }
+    
+    //Since the place this method is used is inside a lambda, this doesnt count as AdminWindowController but as an event handler
+    private void applyControllerUserModify(AdminModifyUserController controller){
+        controller.setController(this);
+    }
+    
+    //Since the place this method is used is inside a lambda, this doesnt count as AdminWindowController but as an event handler
+    private void applyControllerDeletePopup(DeleteAccountPopUpController controller){
+        controller.setController(this);
     }
 
     @FXML
@@ -110,11 +125,11 @@ public class AdminHomeWindowController implements Initializable {
 
                             AdminModifyUserController controller = loader.getController();
                             controller.setUser(user);
+                            applyControllerUserModify(controller);
 
                             Stage stage = new Stage();
                             stage.setScene(new Scene(root));
                             stage.show();
-
                         } catch (IOException ex) {
                             throw new RuntimeException("Error creating modify user window", ex);
                         }
@@ -135,6 +150,7 @@ public class AdminHomeWindowController implements Initializable {
                             controller.setUser(user);
                             controller.fromAdminWindow(true);
                             controller.setParentStage((Stage) deleteButton.getScene().getWindow());
+                            applyControllerDeletePopup(controller);
 
                             Stage stage = new Stage();
                             stage.setScene(new Scene(root));
@@ -158,7 +174,7 @@ public class AdminHomeWindowController implements Initializable {
                 }
             }
         });
-
+        
         adminTable.setItems(initialData());
     }
 }
