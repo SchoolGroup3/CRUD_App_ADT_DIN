@@ -31,8 +31,9 @@ public class LogOutPopUpControllerTest extends ApplicationTest {
     @Test
     public void logOutTest() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginWindow.fxml"));
             Parent root = loader.load();
+            
             interact(() -> {
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));

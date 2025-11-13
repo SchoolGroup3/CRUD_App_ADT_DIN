@@ -5,35 +5,20 @@ package Test;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import controller.Controller;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Admin;
 import model.User;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.testfx.api.FxAssert;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.WindowMatchers.isShowing;
-import org.testfx.matcher.control.TableViewMatchers;
 import view.AdminHomeWindowController;
-import view.AdminModifyAdminController;
 import view.AdminModifyUserController;
 import view.DeleteAccountPopUpController;
 
