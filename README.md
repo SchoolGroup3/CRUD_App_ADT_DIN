@@ -41,5 +41,5 @@ Mikel:
 Jagoba:
 -Windows (Design): Home, all popups except change password
 -Windows (Functionality): Home
--Tests: Delete user test, logout test, change password test
+-Tests: Delete user test, logout test, change password test, login test
 -Other: Class diagram fixes
