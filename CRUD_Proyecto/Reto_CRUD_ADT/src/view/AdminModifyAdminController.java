@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import exception.CustomException;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import java.net.URL;
@@ -59,7 +60,7 @@ public class AdminModifyAdminController implements Initializable {
      * @param event the action event triggered by the save button
      */
     @FXML
-    private void handleButtonActionSave(ActionEvent event) {
+    private void handleButtonActionSave(ActionEvent event) throws CustomException {
         String name;
         String surname;
         String email;
@@ -73,8 +74,15 @@ public class AdminModifyAdminController implements Initializable {
             name = txtFieldName.getText();
             surname = txtFieldSurname.getText();
             email = txtFieldEmail.getText();
+            if (!email.matches("^[\\w.-]+@[\\w.-]+\\.\\w+$")) {
+                throw new CustomException("Incorret format for the email example@example.com", "FORMAT ERROR");
+            }
             username = txtFieldUsername.getText();
             phoneNumber = parseInt(txtFieldPhoneNumber.getText());
+
+            if (phoneNumber < 100000000) { // at least 9 dígits
+                throw new CustomException("The phone must be at least 9 digits", "FORMAT ERROR");
+            }
             account_no = txtFieldAccountNumber.getText();
 
             admin.setName(name);

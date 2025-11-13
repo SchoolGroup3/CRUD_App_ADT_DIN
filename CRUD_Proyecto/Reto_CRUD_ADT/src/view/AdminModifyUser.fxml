@@ -16,7 +16,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtFieldUsername" layoutX="14.0" layoutY="220.0" prefHeight="34.0" prefWidth="334.0" promptText="Example" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
+      <TextField fx:id="txtFieldUsername" editable="false" layoutX="14.0" layoutY="220.0" prefHeight="34.0" prefWidth="334.0" promptText="Example" style="-fx-background-radius: 50px; -fx-border-radius: 50px;" />
       <Label layoutX="210.0" layoutY="33.0" text="Name" textFill="#212529">
          <font>
             <Font size="18.0" />
