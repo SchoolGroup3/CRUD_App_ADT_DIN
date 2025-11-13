@@ -129,7 +129,6 @@ public class ImplementsBD implements UserDAO {
      *
      * @param user the User object containing updated information
      * @return true if the modification was successful, false otherwise
-     * @throws CustomException if maximum connections are reached
      */
     @Override
     public boolean modifyUser(User user) {
@@ -185,7 +184,6 @@ public class ImplementsBD implements UserDAO {
      *
      * @param admin the Admin object containing updated information
      * @return true if the modification was successful, false otherwise
-     * @throws CustomException if maximum connections are reached
      */
     @Override
     public boolean modifyAdmin(Admin admin) {
@@ -247,7 +245,6 @@ public class ImplementsBD implements UserDAO {
      * @param user the Profile whose password will be changed
      * @param newPassword the new password to set
      * @return true if the password was successfully modified, false otherwise
-     * @throws CustomException if maximum connections are reached
      */
     @Override
     public boolean modifyPassword(Profile user, String newPassword) {
@@ -296,7 +293,6 @@ public class ImplementsBD implements UserDAO {
      *
      * @param user the User object to be deleted
      * @return true if the user was successfully deleted, false otherwise
-     * @throws CustomException if maximum connections are reached
      */
     @Override
     public boolean deleteUser(User user) {

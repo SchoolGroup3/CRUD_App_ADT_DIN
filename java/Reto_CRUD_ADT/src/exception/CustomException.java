@@ -19,7 +19,8 @@ public class CustomException extends Exception {
     /**
      * Constructs a new CustomException with the specified detail message.
      * 
-     * @param message the detail message that describes the reason for the exception
+     * @param description the detail message that describes the reason for the exception
+     * @param title title of the exception
      */
     public CustomException (String description, String title){
         super(description);
